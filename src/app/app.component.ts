@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthStatus } from 'src/modules/auth/interfaces';
+import { AuthService } from 'src/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,33 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Berry Angular Free Version';
+  title = 'ReservAndo';
+
+  private authService = inject(AuthService);
+
+  private router = inject(Router);
+
+  public finishedAuthCheck = computed<boolean>(() => {
+    console.log(this.authService.authStatus());
+    if (this.authService.authStatus() === AuthStatus.checking) {
+      return false;
+    }
+
+    return true;
+  });
+
+  public authStatusChangedEffect = effect(() => {
+    switch (this.authService.authStatus()) {
+      case AuthStatus.checking:
+        return;
+
+      case AuthStatus.authenticated:
+        this.router.navigateByUrl('/admin/default');
+        return;
+
+      case AuthStatus.notAuthenticated:
+        this.router.navigateByUrl('/auth/login');
+        return;
+    }
+  });
 }

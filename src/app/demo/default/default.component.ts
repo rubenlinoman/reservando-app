@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // project import
-import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { SharedModule } from 'src/modules/shared/shared.module';
 
 // Bootstrap Import
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -44,7 +44,7 @@ export type ChartOptions = {
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })
-export default class DefaultComponent {
+export class DefaultComponent {
   // private props
   @ViewChild('growthChart') growthChart: ChartComponent;
   chartOptions: Partial<ChartOptions>;
