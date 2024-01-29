@@ -14,4 +14,28 @@ export const isNotAuthenticatedGuard: CanActivateFn = (route, state) => {
   }
 
   return true;
+
+  // const apiUrl = environment.apiUrl;
+  // const url = `${ apiUrl }/auth/check-token`;
+  // const token = localStorage.getItem('token');
+  // const router = inject( Router );
+  // const http = inject(HttpClient);
+
+  // if ( !token ) {
+  //   return true;
+  // };
+
+  // const headers = new HttpHeaders()
+  //   .set('Authorization', `Bearer ${ token }`);
+
+  // return http.get(url, { headers })
+  //   .pipe(
+  //     map( (resp: any) => {
+  //       return router.createUrlTree(['/admin/default']);
+  //     } ),
+  //     // Error
+  //     catchError( (error: any) => {
+  //       return of(true)
+  //     } )
+  //   )
 };

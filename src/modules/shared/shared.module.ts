@@ -21,22 +21,26 @@ import { NavItemComponent } from './components/navigation/nav-content/nav-item/n
 // bootstrap import
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { HomepageHeaderComponent } from './components/homepage-header/homepage-header.component';
+import { HomepageFooterComponent } from './components/homepage-footer/homepage-footer.component';
 
 @NgModule({
   declarations: [
-    SpinnerComponent,
-    CardComponent,
     BreadcrumbComponent,
+    CardComponent,
     ConfigurationComponent,
+    HomepageFooterComponent,
+    HomepageHeaderComponent,
     NavBarComponent,
+    NavCollapseComponent,
+    NavContentComponent,
+    NavGroupComponent,
+    NavigationComponent,
+    NavItemComponent,
     NavLeftComponent,
     NavLogoComponent,
     NavRightComponent,
-    NavigationComponent,
-    NavContentComponent,
-    NavCollapseComponent,
-    NavGroupComponent,
-    NavItemComponent
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -50,27 +54,29 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   exports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CardComponent,
     BreadcrumbComponent,
-    SpinnerComponent,
-    NgbModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    NgbCollapseModule,
-    NgScrollbarModule,
+    CardComponent,
+    CommonModule,
     ConfigurationComponent,
+    FormsModule,
+    HomepageFooterComponent,
+    HomepageHeaderComponent,
     NavBarComponent,
+    NavCollapseComponent,
+    NavContentComponent,
+    NavGroupComponent,
+    NavigationComponent,
+    NavItemComponent,
     NavLeftComponent,
     NavLogoComponent,
     NavRightComponent,
-    NavigationComponent,
-    NavContentComponent,
-    NavCollapseComponent,
-    NavGroupComponent,
-    NavItemComponent
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbModule,
+    NgbNavModule,
+    NgScrollbarModule,
+    ReactiveFormsModule,
+    SpinnerComponent,
   ],
 })
 export class SharedModule {}

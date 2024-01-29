@@ -1,0 +1,19 @@
+.login {
+  cursor: pointer;
+}
+
+.bg-purple {
+  background-color: #542ca7 !important; /* o cualquier otro estilo de Bootstrap */
+}
+
+.btn-outline-purple {
+  color: #542ca7;
+  border-color: #542ca7;
+}
+
+/* Estilos para el hover del botón */
+.btn-outline-purple:hover {
+  color: #fff; /* Cambia el color del texto en el hover */
+  background-color: #1c76da; /* Cambia el color de fondo en el hover */
+  border-color: #1c76da; /* Cambia el color del borde en el hover */
+}
