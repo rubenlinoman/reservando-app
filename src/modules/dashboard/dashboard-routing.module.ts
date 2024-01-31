@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminLayoutComponent } from './layouts/admin-layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard-layout.component';
 import { DefaultComponent } from 'src/app/demo/default/default.component';
 import { TypographyComponent } from 'src/app/demo/elements/typography/typography.component';
 import { ElementColorComponent } from 'src/app/demo/elements/element-color/element-color.component';
@@ -8,7 +8,7 @@ import { ElementColorComponent } from 'src/app/demo/elements/element-color/eleme
 const routes: Routes = [
   {
     path: '',
-    component: AdminLayoutComponent,
+    component: DashboardLayoutComponent,
     children: [
       { path: 'default', component: DefaultComponent} ,
       { path: 'typography', component: TypographyComponent },
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminRoutingModule { }
+export class DashboardRoutingModule { }

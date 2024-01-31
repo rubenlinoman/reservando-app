@@ -1,0 +1,51 @@
+.login {
+  cursor: pointer;
+}
+
+.bg-purple {
+  background-color: #542ca7 !important; /* o cualquier otro estilo de Bootstrap */
+}
+
+.bg-blue {
+  background-color: #1c76da !important;
+}
+
+.text-color {
+  color: purple;
+}
+
+.navbar-brand.text-color {
+  color: black;
+}
+
+.btn-purple {
+  background-color: #542ca7 !important;
+}
+
+.btn-purple:hover {
+  color: #fff; /* Cambia el color del texto en el hover */
+  background-color: #1c76da !important; /* Cambia el color de fondo en el hover */
+  border-color: #1c76da !important; /* Cambia el color del borde en el hover */
+}
+
+.btn-blue {
+  background-color: #1c76da !important;
+}
+
+.btn-blue:hover {
+  color: #fff; /* Cambia el color del texto en el hover */
+  background-color: #542ca7 !important; /* Cambia el color de fondo en el hover */
+  border-color: #542ca7 !important; /* Cambia el color del borde en el hover */
+}
+
+.btn-outline-purple {
+  color: #542ca7;
+  border-color: #542ca7;
+}
+
+/* Estilos para el hover del botón */
+.btn-outline-purple:hover {
+  color: #fff; /* Cambia el color del texto en el hover */
+  background-color: #1c76da; /* Cambia el color de fondo en el hover */
+  border-color: #1c76da; /* Cambia el color del borde en el hover */
+}

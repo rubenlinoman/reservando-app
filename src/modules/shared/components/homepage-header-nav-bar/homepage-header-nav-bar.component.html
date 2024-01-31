@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light" [ngClass]="extraClasses">
+  <div class="container px-4 px-lg-5">
+    <a [routerLink]="['']"class="d-flex justify-content-center">
+      <img src="assets/images/logo-dark.svg" />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      Probando
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mx-2 mb-2 mb-lg-0">
+        <li class="nav-item" *ngIf="showLoginLink">
+          <button class="btn btn-blue text-white" [routerLink]="['/auth/register']">
+            Hazte una cuenta
+          </button>
+        </li>
+        <li class="nav-item mx-2" *ngIf="showLoginLink">
+          <button class="btn btn-purple text-white" [routerLink]="['/auth/login']">
+            Login
+          </button>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <button class="btn btn-outline-purple" type="submit" *ngIf="showLoginLink">
+          <i class="bi-cart-fill me-1"></i>
+          Carro
+          <span class="badge bg-purple text-white ms-1 rounded-pill">0</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>

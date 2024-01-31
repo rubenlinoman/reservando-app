@@ -1,6 +1,6 @@
 // Angular import
 import { Component, EventEmitter, Output } from '@angular/core';
-import { BerryConfig } from '../../../admin/app-config';
+import { BerryConfig } from '../../../dashboard/app-config';
 
 @Component({
   selector: 'app-nav-bar',

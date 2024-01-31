@@ -4,6 +4,7 @@ import { Observable, catchError, map, tap, throwError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthStatus, CheckTokenResponse, LoginResponse } from '../interfaces';
 import { Usuario } from '../interfaces/user.interface';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class AuthService {
    * @param token  - Token (string)
    * @returns devuelve un boolean
    */
-  private setSuthentication(user: Usuario, token: string): boolean {
+  private setAuthentication(user: Usuario, token: string): boolean {
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
@@ -47,10 +48,24 @@ export class AuthService {
     const body = { email, password };
 
     return this.http.post<LoginResponse>(url, body).pipe(
-      map(({user, token}) => this.setSuthentication(user, token)),
+      map(({user, token}) => this.setAuthentication(user, token)),
       catchError(err => throwError(() => err.error.message))
     );
   }
+
+  registerUser(form: FormGroup): Observable<boolean> {
+    const { password2: _, email2: _a, tipoUsuario: tipoUsuarioStr, ...sendForm } = form.value;
+    const tipoUsuarioInt = Number(tipoUsuarioStr);
+
+    return this.http.post<CheckTokenResponse>(`${this.apiUrl}/auth/register`, {
+      idTipoUsuario: tipoUsuarioInt,
+      ...sendForm
+    }).pipe(
+      map(({ user, token }) => this.setAuthentication(user, token)),
+      catchError(err => throwError(() => err.error.message))
+    );
+  }
+
 
   /**
    * Método para comprobar el estado de la autenticación
@@ -70,7 +85,7 @@ export class AuthService {
 
     return this.http.get<CheckTokenResponse>(url, {headers})
       .pipe(
-        map(({user, token}) => this.setSuthentication(user, token)),
+        map(({user, token}) => this.setAuthentication(user, token)),
         catchError(() => {
           this._authStatus.set(AuthStatus.notAuthenticated);
           return of(false);

@@ -38,3 +38,16 @@ $pc-secondary: map-get($preset-colors, 'preset-1', 'secondary');
 // fonts
 @import url('scss/fonts/berry/berry-icons.css'); /** custom font icons - berry **/
 @import 'scss/fonts/tabler-icons.min.css';
+
+// ... Otras importaciones ...
+
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'scss/themes/generic';
+@import 'scss/themes/general';
+// ... Otras importaciones ...
+
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

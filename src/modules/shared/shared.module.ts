@@ -23,6 +23,8 @@ import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@
 import { RouterModule } from '@angular/router';
 import { HomepageHeaderComponent } from './components/homepage-header/homepage-header.component';
 import { HomepageFooterComponent } from './components/homepage-footer/homepage-footer.component';
+import { HomepageHeaderNavBarComponent } from './components/homepage-header-nav-bar/homepage-header-nav-bar.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { HomepageFooterComponent } from './components/homepage-footer/homepage-f
     ConfigurationComponent,
     HomepageFooterComponent,
     HomepageHeaderComponent,
+    HomepageHeaderNavBarComponent,
     NavBarComponent,
     NavCollapseComponent,
     NavContentComponent,
@@ -45,13 +48,15 @@ import { HomepageFooterComponent } from './components/homepage-footer/homepage-f
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    NgbModule,
+    MaterialModule,
     NgbCollapseModule,
+    NgbDropdownModule,
+    NgbModule,
+    NgbNavModule,
     NgScrollbarModule,
-    RouterModule
+    ReactiveFormsModule,
+    RouterModule,
+
   ],
   exports: [
     BreadcrumbComponent,
@@ -61,6 +66,8 @@ import { HomepageFooterComponent } from './components/homepage-footer/homepage-f
     FormsModule,
     HomepageFooterComponent,
     HomepageHeaderComponent,
+    HomepageHeaderNavBarComponent,
+    MaterialModule,
     NavBarComponent,
     NavCollapseComponent,
     NavContentComponent,

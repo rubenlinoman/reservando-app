@@ -7,11 +7,11 @@ import { AuthService } from '../../auth/services/auth.service';
 import { BerryConfig } from '../app-config';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss']
+  selector: 'dashboard-layout',
+  templateUrl: './dashboard-layout.component.html',
+  styleUrls: ['./dashboard-layout.component.scss']
 })
-export class AdminLayoutComponent {
+export class DashboardLayoutComponent {
 
   private authService = inject(AuthService);
 

@@ -2,55 +2,88 @@
   <div class="auth-wrapper v3">
     <div class="auth-form">
       <div class="card mt-5">
-        <div class="card-body">
-          <a href="javascript:" class="d-flex justify-content-center mt-3">
-            <img src="assets/images/logo-dark.svg" />
-          </a>
-          <div class="row">
-            <div class="d-flex justify-content-center">
-              <div class="auth-header">
-                <h2 class="text-secondary mt-5"><b>Sign up</b></h2>
-                <p class="fs-4 mt-2">Enter your credentials to continue</p>
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+          <div class="card-body">
+            <a href="javascript:" class="d-flex justify-content-center mt-3">
+              <img src="assets/images/logo-dark.svg" />
+            </a>
+            <div class="row">
+              <div class="d-flex justify-content-center">
+                <div class="auth-header">
+                  <h2 class="text-secondary mt-5"><b>Sign up</b></h2>
+                  <p class="fs-4 mt-2">Enter your credentials to continue</p>
+                </div>
               </div>
             </div>
-          </div>
-          <h5 class="my-4 d-flex justify-content-center"> Sign Up with Email address </h5>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                <label for="floatingInput">First Name</label>
+            <h5 class="my-4 d-flex justify-content-center"> Sign Up with Email address </h5>
+            <div class="form-floating mb-3">
+              <input type="text" formControlName="usuario" class="form-control" id="floatingInput" placeholder="Nombre..." />
+              <label for="floatingInput">Usuario</label>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" formControlName="nombre" class="form-control" id="floatingInput" placeholder="Nombre..." />
+                  <label for="floatingInput">Nombre</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" formControlName="apellidos" class="form-control" id="floatingInput" placeholder=">Apellidos..." />
+                  <label for="floatingInput">Apellidos</label>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                <label for="floatingInput">Last Name</label>
+            <div class="form-floating mb-3">
+              <input type="email" formControlName="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
+              <label for="floatingInput">Correo electrónico</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="email" formControlName="email2" class="form-control" id="floatingInput" placeholder="name@example.com" />
+              <label for="floatingInput">Confirmar correo electrónico</label>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="password" formControlName="password" class="form-control" id="floatingInput" placeholder="Contraseña..." />
+                  <label for="floatingInput">password</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    formControlName="password2"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="Confirmar contraseña..."
+                  />
+                  <label for="floatingInput">Confirmar contraseña</label>
+                </div>
               </div>
             </div>
+            <div class="form-floating mb-3">
+              <select class="form-control" formControlName="tipoUsuario" >
+                <option value="1" selected>Cliente</option>
+                <option value="2">Empresa</option>
+              </select>
+              <label for="floatingInput">Tipo de Usuario</label>
+            </div>
+            <div class="form-check mt-3s">
+              <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
+              <label class="form-check-label" for="customCheckc1">
+                <h5>Agree with <span>Terms & Condition.</span></h5>
+              </label>
+            </div>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-secondary p-2" [disabled]="registerForm.invalid">Sign Up</button>
+            </div>
+            <hr />
+            <h5 class="d-flex justify-content-center">
+              <a [routerLink]="['/auth/login']"> Already have an account? </a>
+            </h5>
           </div>
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-            <label for="floatingInput">Email Address / Username</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-            <label for="floatingInput">Password</label>
-          </div>
-          <div class="form-check mt-3s">
-            <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
-            <label class="form-check-label" for="customCheckc1">
-              <h5>Agree with <span>Terms & Condition.</span></h5>
-            </label>
-          </div>
-          <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary p-2">Sign Up</button>
-          </div>
-          <hr />
-          <h5 class="d-flex justify-content-center">
-            <a [routerLink]="['/auth/login']"> Already have an account? </a>
-          </h5>
-        </div>
+        </form>
       </div>
     </div>
   </div>
