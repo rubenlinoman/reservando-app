@@ -25,12 +25,14 @@ import { HomepageHeaderComponent } from './components/homepage-header/homepage-h
 import { HomepageFooterComponent } from './components/homepage-footer/homepage-footer.component';
 import { HomepageHeaderNavBarComponent } from './components/homepage-header-nav-bar/homepage-header-nav-bar.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { CustomLabelDirective } from './directives/custom-label.directive';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
     CardComponent,
     ConfigurationComponent,
+    CustomLabelDirective,
     HomepageFooterComponent,
     HomepageHeaderComponent,
     HomepageHeaderNavBarComponent,
@@ -63,6 +65,7 @@ import { MaterialModule } from 'src/app/material/material.module';
     CardComponent,
     CommonModule,
     ConfigurationComponent,
+    CustomLabelDirective,
     FormsModule,
     HomepageFooterComponent,
     HomepageHeaderComponent,

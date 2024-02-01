@@ -10,71 +10,59 @@
             <div class="row">
               <div class="d-flex justify-content-center">
                 <div class="auth-header">
-                  <h2 class="text-secondary mt-5"><b>Sign up</b></h2>
-                  <p class="fs-4 mt-2">Enter your credentials to continue</p>
+                  <h2 class="text-secondary mt-5"><b>Regístrate</b></h2>
+                  <p class="fs-4 mt-2">Introduce as túas credenciais</p>
                 </div>
               </div>
             </div>
-            <h5 class="my-4 d-flex justify-content-center"> Sign Up with Email address </h5>
-            <div class="form-floating mb-3">
-              <input type="text" formControlName="usuario" class="form-control" id="floatingInput" placeholder="Nombre..." />
-              <label for="floatingInput">Usuario</label>
-            </div>
+            <h5 class="my-4 d-flex justify-content-center"> Regístrate con tu correo electrónico o con tu usuario </h5>
+            <mat-form-field class="col-12 mb-3">
+              <mat-label>Usuario</mat-label>
+              <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
+              <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
+            </mat-form-field>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-floating mb-3">
-                  <input type="text" formControlName="nombre" class="form-control" id="floatingInput" placeholder="Nombre..." />
-                  <label for="floatingInput">Nombre</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-floating mb-3">
-                  <input type="text" formControlName="apellidos" class="form-control" id="floatingInput" placeholder=">Apellidos..." />
-                  <label for="floatingInput">Apellidos</label>
-                </div>
-              </div>
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>Nombre</mat-label>
+                <input type="text" matInput formControlName="nombre" placeholder="Nombre..." />
+                <mat-error customLabel *ngIf="isValidField('nombre')" [errors]="registerForm.get('nombre')?.errors"></mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>Apellidos</mat-label>
+                <input type="text" matInput formControlName="apellidos" placeholder="Apellidos..." />
+                <mat-error customLabel *ngIf="isValidField('apellidos')" [errors]="registerForm.get('apellidos')?.errors"></mat-error>
+              </mat-form-field>
             </div>
-            <div class="form-floating mb-3">
-              <input type="email" formControlName="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-              <label for="floatingInput">Correo electrónico</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="email" formControlName="email2" class="form-control" id="floatingInput" placeholder="name@example.com" />
-              <label for="floatingInput">Confirmar correo electrónico</label>
-            </div>
+            <mat-form-field class="col-12 mb-3">
+              <mat-label>Correo electrónico</mat-label>
+              <input type="email" matInput formControlName="email" placeholder="name@example.com" />
+              <mat-error customLabel *ngIf="isValidField('email')" [errors]="registerForm.get('email')?.errors"></mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-12 mb-3">
+              <mat-label>Confirmar correo electrónico</mat-label>
+              <input type="email" matInput formControlName="email2" placeholder="name@example.com" />
+              <mat-error customLabel *ngIf="isValidField('email2')" [errors]="registerForm.get('email2')?.errors"></mat-error>
+            </mat-form-field>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-floating mb-3">
-                  <input type="password" formControlName="password" class="form-control" id="floatingInput" placeholder="Contraseña..." />
-                  <label for="floatingInput">password</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-floating mb-3">
-                  <input
-                    type="password"
-                    formControlName="password2"
-                    class="form-control"
-                    id="floatingInput"
-                    placeholder="Confirmar contraseña..."
-                  />
-                  <label for="floatingInput">Confirmar contraseña</label>
-                </div>
-              </div>
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>password</mat-label>
+                <input type="password" matInput formControlName="password" placeholder="Contraseña..." />
+                <mat-error customLabel *ngIf="isValidField('password')" [errors]="registerForm.get('password')?.errors"> </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>Confirmar password</mat-label>
+                <input type="password" matInput formControlName="password2" placeholder="Contraseña..." />
+                <mat-error customLabel *ngIf="isValidField('password2')" [errors]="registerForm.get('password2')?.errors"> </mat-error>
+              </mat-form-field>
             </div>
-            <div class="form-floating mb-3">
-              <select class="form-control" formControlName="tipoUsuario" >
-                <option value="1" selected>Cliente</option>
-                <option value="2">Empresa</option>
-              </select>
-              <label for="floatingInput">Tipo de Usuario</label>
-            </div>
-            <div class="form-check mt-3s">
-              <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
-              <label class="form-check-label" for="customCheckc1">
-                <h5>Agree with <span>Terms & Condition.</span></h5>
-              </label>
-            </div>
+            <mat-form-field class="col-12 mb-3">
+              <mat-label>Tipo de Usuario</mat-label>
+              <mat-select matInput formControlName="tipoUsuario">
+                <mat-option value="1" selected>Cliente</mat-option>
+                <mat-option value="2">Empresa</mat-option>
+              </mat-select>
+              <mat-error customLabel *ngIf="isValidField('tipoUsuario')" [errors]="registerForm.get('tipoUsuario')?.errors"> </mat-error>
+            </mat-form-field>
             <div class="d-grid mt-4">
               <button type="submit" class="btn btn-secondary p-2" [disabled]="registerForm.invalid">Sign Up</button>
             </div>

@@ -15,6 +15,7 @@ export class RegisterPageComponent {
   private validatorsService = inject(ValidatorsService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  public hide = true;
 
   public registerForm: FormGroup = this.fb.group(
     {
@@ -29,8 +30,8 @@ export class RegisterPageComponent {
     },
     {
       validators: [
-        this.validatorsService.isFieldOneEqualFieldTwo('pass', 'pass2'),
-        this.validatorsService.isFieldOneEqualFieldTwo('mail', 'mail2')
+        this.validatorsService.isFieldOneEqualFieldTwo('password', 'password2'),
+        this.validatorsService.isFieldOneEqualFieldTwo('email', 'email2')
       ]
     }
   );
