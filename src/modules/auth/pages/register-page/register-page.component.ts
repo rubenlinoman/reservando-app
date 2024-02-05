@@ -15,7 +15,6 @@ export class RegisterPageComponent {
   private validatorsService = inject(ValidatorsService);
   private authService = inject(AuthService);
   private router = inject(Router);
-  public hide = true;
 
   public registerForm: FormGroup = this.fb.group(
     {
@@ -36,18 +35,24 @@ export class RegisterPageComponent {
     }
   );
 
-  isValidField( field: string ): boolean | null {
-    return this.validatorsService.isValidField( this.registerForm, field );
+  /**
+   * Método para comprobar si el campo es valido
+   * @param field - Campo del formulario
+   * @returns Devuelve el estado del campo
+   */
+  isValidField(field: string): boolean | null {
+    return this.validatorsService.isValidField(this.registerForm, field);
   }
 
+  /**
+   * Método para registrar un usuario
+   */
   register() {
-
-    this.authService.registerUser(this.registerForm)
-      .subscribe({
-        next: () => this.router.navigateByUrl('/dashboard/default'),
-        error: (message) => {
-          Swal.fire('Error', message, 'error')
-        }
-      });
+    this.authService.registerUser(this.registerForm).subscribe({
+      next: () => this.router.navigateByUrl('/dashboard/default'),
+      error: (message) => {
+        Swal.fire('Error', message, 'error');
+      }
+    });
   }
 }

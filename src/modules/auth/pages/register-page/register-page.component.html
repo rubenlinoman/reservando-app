@@ -11,11 +11,11 @@
               <div class="d-flex justify-content-center">
                 <div class="auth-header">
                   <h2 class="text-secondary mt-5"><b>Regístrate</b></h2>
-                  <p class="fs-4 mt-2">Introduce as túas credenciais</p>
+                  <p class="fs-4 mt-2">Introduce tus credenciais</p>
                 </div>
               </div>
             </div>
-            <h5 class="my-4 d-flex justify-content-center"> Regístrate con tu correo electrónico o con tu usuario </h5>
+            <h5 class="my-4 d-flex justify-content-center"> Regístrate con tu correo electrónico y usuario </h5>
             <mat-form-field class="col-12 mb-3">
               <mat-label>Usuario</mat-label>
               <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
@@ -64,11 +64,11 @@
               <mat-error customLabel *ngIf="isValidField('tipoUsuario')" [errors]="registerForm.get('tipoUsuario')?.errors"> </mat-error>
             </mat-form-field>
             <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-secondary p-2" [disabled]="registerForm.invalid">Sign Up</button>
+              <button type="submit" class="btn btn-secondary p-2" [disabled]="registerForm.invalid">Regístrate</button>
             </div>
             <hr />
             <h5 class="d-flex justify-content-center">
-              <a [routerLink]="['/auth/login']"> Already have an account? </a>
+              <a [routerLink]="['/auth/login']"> ¿Ya tienes una cuenta? </a>
             </h5>
           </div>
         </form>

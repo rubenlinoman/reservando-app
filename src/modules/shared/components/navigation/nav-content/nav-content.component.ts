@@ -1,10 +1,11 @@
 // Angular import
-import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnInit, Output, computed, inject } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 // project import
 import { NavigationItem } from '../navigation';
+import { AuthService } from 'src/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -14,6 +15,10 @@ import { NavigationItem } from '../navigation';
 export class NavContentComponent implements OnInit {
   // public props
   @Output() NavCollapsedMob: EventEmitter<any> = new EventEmitter();
+
+  private authService = inject(AuthService);
+
+  public user = computed(() => this.authService.currentUser());
 
   // version
   currentApplicationVersion = environment.baseUrl;
@@ -29,6 +34,7 @@ export class NavContentComponent implements OnInit {
     private locationStrategy: LocationStrategy
   ) {
     this.navigation = this.nav.get();
+    console.log('user', this.user().idTipoUsuario);
   }
 
   // Life cycle events

@@ -48,8 +48,8 @@ export class AuthService {
     const body = { email, password };
 
     return this.http.post<LoginResponse>(url, body).pipe(
-      map(({user, token}) => this.setAuthentication(user, token)),
-      catchError(err => throwError(() => err.error.message))
+      map(({ user, token }) => this.setAuthentication(user, token)),
+      catchError((err) => throwError(() => err.error.message))
     );
   }
 
@@ -57,15 +57,16 @@ export class AuthService {
     const { password2: _, email2: _a, tipoUsuario: tipoUsuarioStr, ...sendForm } = form.value;
     const tipoUsuarioInt = Number(tipoUsuarioStr);
 
-    return this.http.post<CheckTokenResponse>(`${this.apiUrl}/auth/register`, {
-      idTipoUsuario: tipoUsuarioInt,
-      ...sendForm
-    }).pipe(
-      map(({ user, token }) => this.setAuthentication(user, token)),
-      catchError(err => throwError(() => err.error.message))
-    );
+    return this.http
+      .post<CheckTokenResponse>(`${this.apiUrl}/auth/register`, {
+        idTipoUsuario: tipoUsuarioInt,
+        ...sendForm
+      })
+      .pipe(
+        map(({ user, token }) => this.setAuthentication(user, token)),
+        catchError((err) => throwError(() => err.error.message))
+      );
   }
-
 
   /**
    * Método para comprobar el estado de la autenticación
@@ -80,25 +81,57 @@ export class AuthService {
       return of(false);
     }
 
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<CheckTokenResponse>(url, {headers})
-      .pipe(
-        map(({user, token}) => this.setAuthentication(user, token)),
-        catchError(() => {
-          this._authStatus.set(AuthStatus.notAuthenticated);
-          return of(false);
-        }),
-      );
+    return this.http.get<CheckTokenResponse>(url, { headers }).pipe(
+      map(({ user, token }) => this.setAuthentication(user, token)),
+      catchError(() => {
+        this._authStatus.set(AuthStatus.notAuthenticated);
+        return of(false);
+      })
+    );
   }
 
-  /***
+  /**
    * Método para cerrar sesión
    */
   logout(): void {
     localStorage.removeItem('token');
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
+  }
+
+  /**
+   * Método para reestablecer la contraseña
+   * @param email - Email del usuario (string)
+   * @param baseUrl - Url base (string)
+   * @returns
+   */
+  passwordRecovery(email: string, baseUrl: string) {
+    const url = `${this.apiUrl}/auth/password-recovery`;
+    const passRecoveryRequest = { email: email, baseUrl: baseUrl };
+
+    return this.http.post(url, passRecoveryRequest)
+      .pipe(
+        catchError(err => throwError(() => err.error.message))
+    )
+  }
+
+  /**
+   * Método para cambiar la contraseña
+   * @param token - Token de verificación (string)
+   * @param email - Email del usuario (string)
+   * @param newPassword - Nueva contraseña (string)
+   * @returns Devuelve un Observable de tipo boolean
+   */
+  passChange(token: string, email: string, newPassword: string) {
+    const url = `${this.apiUrl}/auth/password-change`;
+
+    const passChangeRequest = { token, email, newPassword };
+
+    return this.http.patch(url, passChangeRequest)
+      .pipe(
+        catchError(err => throwError(() => err.error.message))
+    );
   }
 }

@@ -18,18 +18,18 @@ export interface Navigation extends NavigationItem {
 }
 const NavigationItems = [
   {
-    id: 'dashboard',
-    title: 'Dashboard',
-    type: 'group',
+    id: 'home',
+    title: 'Inicio',
+    type: 'home',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'default',
-        title: 'Default',
+        id: 'inicio',
+        title: 'Inicio',
         type: 'item',
         classes: 'nav-item',
-        url: '/default',
-        icon: 'ti ti-dashboard',
+        url: '/dashboard/inicio',
+        icon: 'bi bi-house-door',
         breadcrumbs: false
       }
     ]
@@ -77,7 +77,7 @@ const NavigationItems = [
         title: 'Typography',
         type: 'item',
         classes: 'nav-item',
-        url: '/typography',
+        url: '/dashboard/typography',
         icon: 'ti ti-typography'
       },
       {

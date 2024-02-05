@@ -30,11 +30,11 @@ export class AppComponent {
         return;
 
       case AuthStatus.authenticated:
-        this.router.navigateByUrl('/dashboard/default');
+        this.router.navigateByUrl('/dashboard/inicio');
         return;
 
       case AuthStatus.notAuthenticated:
-        this.router.navigateByUrl('');
+        // this.router.navigateByUrl('');
         return;
     }
   });

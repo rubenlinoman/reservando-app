@@ -44,7 +44,7 @@ export class BreadcrumbComponent {
 
   filterNavigation(activeLink: any) {
     let result: any;
-    let title = 'Welcome';
+    let title = 'Bienvenido';
     this.navigation.forEach(function (a: any) {
       if (a.type === 'item' && 'url' in a && a.url === activeLink) {
         result = [
@@ -125,6 +125,6 @@ export class BreadcrumbComponent {
       }
     });
     this.navigationList = result;
-    this.titleService.setTitle(title + ' | Berry Angular Template');
+    this.titleService.setTitle(title + ' | ReservAndo');
   }
 }
