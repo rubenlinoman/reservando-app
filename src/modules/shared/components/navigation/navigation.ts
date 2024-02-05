@@ -20,7 +20,7 @@ const NavigationItems = [
   {
     id: 'home',
     title: 'Inicio',
-    type: 'home',
+    type: 'group',
     icon: 'icon-navigation',
     children: [
       {
@@ -69,7 +69,7 @@ const NavigationItems = [
   {
     id: 'elements',
     title: 'Elements',
-    type: 'group',
+    type: 'admin',
     icon: 'icon-navigation',
     children: [
       {
