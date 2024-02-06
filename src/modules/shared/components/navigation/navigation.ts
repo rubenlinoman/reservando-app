@@ -18,14 +18,14 @@ export interface Navigation extends NavigationItem {
 }
 const NavigationItems = [
   {
-    id: 'home',
+    id: 'dashboard-home',
     title: 'Inicio',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
         id: 'inicio',
-        title: 'Inicio',
+        title: 'Mi ReservAndo',
         type: 'item',
         classes: 'nav-item',
         url: '/dashboard/inicio',
@@ -35,30 +35,62 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'page',
-    title: 'Pages',
-    type: 'group',
+    id: 'alojamientos',
+    title: 'Alojamientos',
+    type: 'propietario',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'Authentication',
-        title: 'Authentication',
+        id: 'mis-alojamientos',
+        title: 'Mis alojamientos',
         type: 'collapse',
-        icon: 'ti ti-key',
+        icon: 'bi bi-houses',
         children: [
           {
-            id: 'login',
-            title: 'Login',
+            id: 'listado-alojamientos',
+            title: 'Listado alojamiento',
             type: 'item',
-            url: '/auth/login',
+            url: '/dashboard/alojamientos/listado-alojamientos',
+            target: false,
+            breadcrumbs: false
+          },
+          {
+            id: 'nuevo-alojamiento',
+            title: 'Nuevo alojamiento',
+            type: 'item',
+            url: '/dashboard/alojamientos/nuevo-alojamiento',
+            target: false,
+            breadcrumbs: false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tarifas-disponibilidad',
+    title: 'Tarifas y disponibilidad',
+    type: 'admin',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'gestion-tarifas-disponibilidad',
+        title: 'Gestión',
+        type: 'collapse',
+        icon: 'bi bi-calendar',
+        children: [
+          {
+            id: 'calendario',
+            title: 'Calendario',
+            type: 'item',
+            url: '/dashboard/calendario',
             target: true,
             breadcrumbs: false
           },
           {
-            id: 'register',
-            title: 'Register',
+            id: 'tarifas',
+            title: 'Planes de tarifas',
             type: 'item',
-            url: '/auth/register',
+            url: '/dashboard/tarifas',
             target: true,
             breadcrumbs: false
           }
@@ -67,37 +99,19 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'elements',
-    title: 'Elements',
-    type: 'admin',
+    id: 'booking',
+    title: 'Booking',
+    type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'typography',
-        title: 'Typography',
+        id: 'reservas',
+        title: 'Reservas',
         type: 'item',
         classes: 'nav-item',
-        url: '/dashboard/typography',
-        icon: 'ti ti-typography'
+        url: '/dashboard/reservas',
+        icon: 'bi bi-list-ul'
       },
-      {
-        id: 'color',
-        title: 'Colors',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'ti ti-brush'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://tabler-icons.io/',
-        icon: 'ti ti-plant-2',
-        target: true,
-        external: true
-      }
     ]
   },
   {

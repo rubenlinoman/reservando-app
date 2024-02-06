@@ -34,7 +34,6 @@ export class NavContentComponent implements OnInit {
     private locationStrategy: LocationStrategy
   ) {
     this.navigation = this.nav.get();
-    console.log('user', this.user().idTipoUsuario);
   }
 
   // Life cycle events

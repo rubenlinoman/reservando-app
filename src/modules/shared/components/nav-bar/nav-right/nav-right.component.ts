@@ -1,5 +1,5 @@
 // Angular import
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 
 @Component({
@@ -9,6 +9,8 @@ import { AuthService } from 'src/modules/auth/services/auth.service';
 })
 export class NavRightComponent {
   private authService = inject(AuthService);
+
+  public user = computed(() => this.authService.currentUser());
 
   /**
    * Metodo que llama al logout

@@ -4,6 +4,7 @@
     <ul class="nav coded-inner-navbar" (clickOutside)="fireOutClick()" (mouseleave)="navMob()">
       <ng-container *ngFor="let item of navigation">
         <app-nav-group *ngIf="item.type == 'group'" [item]="item"></app-nav-group>
+        <app-nav-group *ngIf="item.type == 'propietario' && user().idTipoUsuario > 1" [item]="item"></app-nav-group>
         <app-nav-group *ngIf="item.type == 'admin' && user().idTipoUsuario == 3" [item]="item"></app-nav-group>
         <app-nav-collapse *ngIf="item.type == 'collapse'" [item]="item"></app-nav-collapse>
         <app-nav-item *ngIf="item.type == 'item'" [item]="item"></app-nav-item>
