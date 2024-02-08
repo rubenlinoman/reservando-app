@@ -33,6 +33,27 @@ export class AccommodationsListComponent {
       iconoTd: false,
       cell: (element: Alojamiento) => `${element.nombreAlojamiento}`,
     },
+    {
+      columnDef: 'descripcion',
+      header: 'Descripción',
+      iconoTh: false,
+      iconoTd: false,
+      cell: (element: Alojamiento) => `${element.descripcion}`,
+    },
+    {
+      columnDef: 'capacidad',
+      header: 'Capacidad',
+      iconoTh: false,
+      iconoTd: false,
+      cell: (element: Alojamiento) => `${element.capacidad}`,
+    },
+    {
+      columnDef: 'ciudad',
+      header: 'Localización',
+      iconoTh: false,
+      iconoTd: false,
+      cell: (element: Alojamiento) => `${element.ciudad}`,
+    },
   ];
 
   public displayedColumns = this.columns.map(c => c.columnDef);
@@ -42,13 +63,21 @@ export class AccommodationsListComponent {
   @ViewChild('empTbSort') empTbSort = new MatSort();
 
   constructor() {
-    this.dashboardService.getAccommodationsByUser(this.user().idUsuario).subscribe((data: any) => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.empTbSort;
+    console.log('User', this.user());
+
+    this.dashboardService.getAccommodationsByUser(this.user().idUsuario, this.user().idTipoUsuario)
+      .subscribe((accomodationslist: any) => {
+        console.log(accomodationslist);
+        this.dataSource = new MatTableDataSource(accomodationslist);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.empTbSort;
     });
   }
 
+  /**
+   * Metodo para filtrar
+   * @param event - Evento de filtro
+   */
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

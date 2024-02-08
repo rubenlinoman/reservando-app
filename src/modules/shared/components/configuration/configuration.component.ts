@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BerryConfig } from 'src/modules/dashboard/app-config';
+import { ReservAndoConfig } from 'src/modules/dashboard/reservando-config';
 
 @Component({
   selector: 'app-configuration',
@@ -13,7 +13,7 @@ export class ConfigurationComponent implements OnInit {
   setFontFamily!: string;
 
   ngOnInit(): void {
-    this.setFontFamily = BerryConfig.fontFamily;
+    this.setFontFamily = ReservAndoConfig.fontFamily;
     this.setfontFamily(this.setFontFamily);
   }
 

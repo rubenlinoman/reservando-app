@@ -28,7 +28,7 @@ export class LoginPageComponent {
   login() {
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/dashboard/default']),
+      next: () => this.router.navigate(['/dashboard/inicio']),
       error: (message) => {
         Swal.fire('Error', message, 'error');
       }

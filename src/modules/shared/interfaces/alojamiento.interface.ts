@@ -7,5 +7,4 @@ export interface Alojamiento {
   imagen: string;
   idTipoAlojamiento: number;
   idPropietario: number;
-  idEstadoAlojamiento: number;
 }

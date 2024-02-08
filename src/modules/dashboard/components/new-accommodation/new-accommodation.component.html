@@ -1,1 +1,63 @@
-<p>new-accommodation works!</p>,
+<div class="row">
+  <div class="col-12">
+    <h2 class="text-center">Nuevo Alojamiento</h2>
+    <form [formGroup]="newAccomodationForm" (ngSubmit)="newAccomodation()" autocomplete="off">
+
+      <mat-form-field class="col-12">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" required formControlName="nombreAlojamiento" />
+        <mat-error customLabel *ngIf="isValidField('nombreAlojamiento')" [errors]="newAccomodationForm.get('nombreAlojamiento')?.errors">
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion"></textarea>
+        <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="newAccomodationForm.get('descripcion')?.errors"> </mat-error>
+      </mat-form-field>
+
+      <div class="row">
+        <mat-form-field class="col-md-4">
+          <mat-label>Capacidad</mat-label>
+          <input type="number" matInput formControlName="capacidad" />
+          <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="newAccomodationForm.get('capacidad')?.errors"> </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-4">
+          <mat-label>Ciudad</mat-label>
+          <input type="text" matInput formControlName="ciudad" />
+          <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="newAccomodationForm.get('ciudad')?.errors"> </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-4">
+          <mat-label>Tipo de alojamiento</mat-label>
+          <mat-select required formControlName="tipoAlojamiento">
+            <mat-option
+              *ngFor="let type of accomodationTypes"
+              [value]="type.idTipoAlojamiento">
+                {{ type.nombreTipoAlojamiento }}
+            </mat-option>
+          </mat-select>
+          <mat-error customLabel
+            *ngIf="isValidField('tipoAlojamiento')"
+            [errors]="newAccomodationForm.get('tipoAlojamiento')?.errors"
+          >
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-6 mt-3">
+        <input type="file" formControlName="imagen" (change)="chargeImgFile($event)" required />
+      </div>
+
+      <section class="d-flex justify-content-evenly"> </section>
+
+      <div class="col-12" align="center">
+        <button mat-fab extended class="px-5" type="submit" [disabled]="newAccomodationForm.invalid" color="primary">
+          <i class="bi bi-house-add"></i>
+          Crear Alojamiento
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

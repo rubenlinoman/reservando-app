@@ -1,6 +1,6 @@
 // Angular import
 import { Component, EventEmitter, Output } from '@angular/core';
-import { BerryConfig } from '../../../dashboard/app-config';
+import { ReservAndoConfig } from '../../../dashboard/reservando-config';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,7 +18,7 @@ export class NavBarComponent {
   // Constructor
   constructor() {
     this.windowWidth = window.innerWidth;
-    this.navCollapsed = this.windowWidth >= 1025 ? BerryConfig.isCollapse_menu : false;
+    this.navCollapsed = this.windowWidth >= 1025 ? ReservAndoConfig.isCollapse_menu : false;
     this.navCollapsedMob = false;
   }
 

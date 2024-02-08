@@ -4,7 +4,7 @@ import { Location, LocationStrategy } from '@angular/common';
 
 // Project import
 import { AuthService } from '../../auth/services/auth.service';
-import { BerryConfig } from '../app-config';
+import { ReservAndoConfig } from '../reservando-config';
 
 @Component({
   selector: 'dashboard-layout',
@@ -19,7 +19,7 @@ export class DashboardLayoutComponent {
 
 
   // public props
-  berryConfig;
+  ReservAndoConfig;
   navCollapsed: boolean;
   navCollapsedMob = false;
   windowWidth: number;
@@ -30,7 +30,7 @@ export class DashboardLayoutComponent {
     private location: Location,
     private locationStrategy: LocationStrategy
   ) {
-    this.berryConfig = BerryConfig;
+    this.ReservAndoConfig = ReservAndoConfig;
 
     let current_url = this.location.path();
     const baseHref = this.locationStrategy.getBaseHref();
@@ -39,14 +39,14 @@ export class DashboardLayoutComponent {
     }
 
     if (current_url === baseHref + '/layout/theme-compact' || current_url === baseHref + '/layout/box') {
-      this.berryConfig.isCollapse_menu = true;
+      this.ReservAndoConfig.isCollapse_menu = true;
     }
 
     this.windowWidth = window.innerWidth;
-    this.navCollapsed = this.windowWidth >= 1025 ? BerryConfig.isCollapse_menu : false;
+    this.navCollapsed = this.windowWidth >= 1025 ? ReservAndoConfig.isCollapse_menu : false;
   }
 
-  // public method
+  public method
   navMobClick() {
     if (this.navCollapsedMob && !document.querySelector('app-navigation.coded-navbar')?.classList.contains('mob-open')) {
       this.navCollapsedMob = !this.navCollapsedMob;
@@ -58,7 +58,9 @@ export class DashboardLayoutComponent {
     }
   }
 
-  // onLogout() {
-  //   this.authService.logout();
+  // navMobClick() {
+  //   this.navCollapsedMob = !this.navCollapsedMob;
   // }
+
+
 }
