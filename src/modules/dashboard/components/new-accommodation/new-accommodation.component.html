@@ -1,46 +1,46 @@
 <div class="row">
   <div class="col-12">
     <h2 class="text-center">Nuevo Alojamiento</h2>
-    <form [formGroup]="newAccomodationForm" (ngSubmit)="newAccomodation()" autocomplete="off">
+    <form [formGroup]="newAccommodationForm" (ngSubmit)="newAccomodation()" autocomplete="off">
 
       <mat-form-field class="col-12">
         <mat-label>Nombre</mat-label>
         <input matInput type="text" required formControlName="nombreAlojamiento" />
-        <mat-error customLabel *ngIf="isValidField('nombreAlojamiento')" [errors]="newAccomodationForm.get('nombreAlojamiento')?.errors">
+        <mat-error customLabel *ngIf="isValidField('nombreAlojamiento')" [errors]="newAccommodationForm.get('nombreAlojamiento')?.errors">
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-12">
         <mat-label>Descripción</mat-label>
         <textarea matInput formControlName="descripcion"></textarea>
-        <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="newAccomodationForm.get('descripcion')?.errors"> </mat-error>
+        <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="newAccommodationForm.get('descripcion')?.errors"> </mat-error>
       </mat-form-field>
 
       <div class="row">
         <mat-form-field class="col-md-4">
           <mat-label>Capacidad</mat-label>
           <input type="number" matInput formControlName="capacidad" />
-          <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="newAccomodationForm.get('capacidad')?.errors"> </mat-error>
+          <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="newAccommodationForm.get('capacidad')?.errors"> </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-4">
           <mat-label>Ciudad</mat-label>
           <input type="text" matInput formControlName="ciudad" />
-          <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="newAccomodationForm.get('ciudad')?.errors"> </mat-error>
+          <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="newAccommodationForm.get('ciudad')?.errors"> </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-md-4">
           <mat-label>Tipo de alojamiento</mat-label>
-          <mat-select required formControlName="tipoAlojamiento">
+          <mat-select required formControlName="idTipoAlojamiento">
             <mat-option
-              *ngFor="let type of accomodationTypes"
+              *ngFor="let type of accommodationTypes"
               [value]="type.idTipoAlojamiento">
                 {{ type.nombreTipoAlojamiento }}
             </mat-option>
           </mat-select>
           <mat-error customLabel
-            *ngIf="isValidField('tipoAlojamiento')"
-            [errors]="newAccomodationForm.get('tipoAlojamiento')?.errors"
+            *ngIf="isValidField('idTipoAlojamiento')"
+            [errors]="newAccommodationForm.get('idTipoAlojamiento')?.errors"
           >
           </mat-error>
         </mat-form-field>
@@ -50,10 +50,10 @@
         <input type="file" formControlName="imagen" (change)="chargeImgFile($event)" required />
       </div>
 
-      <section class="d-flex justify-content-evenly"> </section>
+      <section class="d-flex justify-content-evenly"></section>
 
       <div class="col-12" align="center">
-        <button mat-fab extended class="px-5" type="submit" [disabled]="newAccomodationForm.invalid" color="primary">
+        <button mat-fab extended class="px-5" type="submit" [disabled]="newAccommodationForm.invalid" color="primary">
           <i class="bi bi-house-add"></i>
           Crear Alojamiento
         </button>

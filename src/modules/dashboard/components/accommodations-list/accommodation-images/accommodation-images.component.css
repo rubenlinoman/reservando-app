@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  z-index: 2000
+}
+
+.maxWH {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  z-index: 2000
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 99999999 !important;
+}

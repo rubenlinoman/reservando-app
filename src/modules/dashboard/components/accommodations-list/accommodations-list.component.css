@@ -1,8 +1,0 @@
-:host {
-  display: block;
-}
-
-mat-paginator{
-  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
-  background-color: rgba(0, 0, 0, 0.02);
-}

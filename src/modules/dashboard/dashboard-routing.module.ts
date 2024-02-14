@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AccommodationsListComponent } from './components/accommodations-list/accommodations-list.component';
+import { AccommodationsListComponent } from './components/accommodations-list/accommodation-list.component';
 import { AccommodationsPageComponent } from './pages/accommodations-page/accommodations-page.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout.component';
 import { DefaultComponent } from 'src/app/demo/default/default.component';
