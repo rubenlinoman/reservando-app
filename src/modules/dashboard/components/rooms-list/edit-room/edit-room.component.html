@@ -1,0 +1,78 @@
+<h1 mat-dialog-title>Editar la habitación</h1>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="editRoomForm" (ngSubmit)="editRoom()" autocomplete="off">
+        <mat-form-field class="col-12">
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" required formControlName="nombreHabitacion" />
+          <mat-error customLabel *ngIf="isValidField('nombreHabitacion')" [errors]="editRoomForm.get('nombreAlojamiento')?.errors">
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="descripcion"></textarea>
+          <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="editRoomForm.get('descripcion')?.errors"> </mat-error>
+        </mat-form-field>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>Capacidad</mat-label>
+            <input type="number" matInput formControlName="capacidad" />
+            <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="editRoomForm.get('capacidad')?.errors"> </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Precio</mat-label>
+            <input type="text" matInput formControlName="precio" />
+            <mat-error customLabel *ngIf="isValidField('precio')" [errors]="editRoomForm.get('precio')?.errors"> </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field class="col-md-6">
+            <mat-label>En oferta</mat-label>
+            <mat-select formControlName="enOferta">
+              <mat-option [value]="1">Sí</mat-option>
+              <mat-option [value]="0">No</mat-option>
+            </mat-select>
+            <mat-error customLabel *ngIf="isValidField('enOferta')" [errors]="editRoomForm.get('enOferta')?.errors"> </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Descuento</mat-label>
+            <textarea matInput formControlName="descuento"></textarea>
+            <mat-error customLabel *ngIf="isValidField('descuento')" [errors]="editRoomForm.get('descuento')?.errors"> </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="col-12">
+          <mat-label>Tipo de habitación</mat-label>
+          <mat-select required formControlName="idTipoHabitacion">
+            <mat-option
+              *ngFor="let type of roomTypes"
+              [value]="type.idTipoHabitacion">
+                {{ type.nombreTipoHabitacion }}
+            </mat-option>
+          </mat-select>
+          <mat-error customLabel
+            *ngIf="isValidField('idTipoHabitacion')"
+            [errors]="editRoomForm.get('idTipoHabitacion')?.errors"
+          >
+          </mat-error>
+        </mat-form-field>
+
+        <div class="col-12 col-md-6 mt-3">
+          <input type="file" formControlName="imagen" (change)="chargeImgFile($event)"/>
+        </div>
+
+        <section class="d-flex justify-content-evenly"></section>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cerrar</button>
+  <button mat-button [mat-dialog-close]="editRoomForm.value" [disabled]="editRoomForm.invalid" color="primary" (click)="editRoom()">Editar</button>
+</mat-dialog-actions>

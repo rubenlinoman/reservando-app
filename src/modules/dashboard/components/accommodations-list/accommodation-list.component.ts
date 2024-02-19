@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, computed, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, computed, inject } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { TableHeader } from 'src/modules/shared/interfaces/table-header.interface';
 import { Alojamiento } from 'src/modules/shared/interfaces/alojamiento.interface';
@@ -11,7 +10,7 @@ import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { AccommodationImagesComponent } from './accommodation-images/accommodation-images.component';
-import { EditAccommodationComponent } from './editAccommodation/editAccommodation.component';
+import { EditAccommodationComponent } from './edit-accommodation/edit-accommodation.component';
 import { TipoAlojamiento } from 'src/modules/shared/interfaces';
 
 @Component({
@@ -151,41 +150,59 @@ export class AccommodationsListComponent {
    * Método para confirmar la eliminación de un alojamiento
    * @param idAlojamiento - ID del alojamiento
    */
-  confirmAccomodationDelete(idAlojamiento: number) {
-    Swal.fire({
-      title: 'Confirmación',
-      text: '¿Seguro que quiere eliminar definitivamente el alojamiento?',
-      showConfirmButton: true,
-      showDenyButton: true,
-      confirmButtonText: 'Si',
-      denyButtonText: 'No'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.deleteAccommodation(idAlojamiento);
-      } else if (result.isDenied) {
+  confirmAccommodationDelete(idAlojamiento: number) {
+    // Obtener las habitaciones asociadas al alojamiento
+    this.dashboardService.getRoomsByAccommodationId(idAlojamiento).subscribe({
+      next: (rooms: any) => {
+        // Verificar si hay habitaciones asociadas
+        if (rooms && rooms.length > 0) {
+          // Si hay habitaciones asociadas, mostrar un mensaje de advertencia
+          Swal.fire('Advertencia', 'No se puede eliminar el alojamiento porque tiene habitaciones', 'warning');
+        } else {
+          // Si no hay habitaciones asociadas, mostrar la confirmación de eliminación
+          Swal.fire({
+            title: 'Confirmación',
+            text: '¿Seguro que quiere eliminar definitivamente el alojamiento?',
+            showConfirmButton: true,
+            showDenyButton: true,
+            confirmButtonText: 'Si',
+            denyButtonText: 'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Si se confirma la eliminación, llamar al método para eliminar el alojamiento
+              this.deleteAccommodation(idAlojamiento);
+            } else if (result.isDenied) {
+              // Si se niega la eliminación, no hacer nada
+            }
+          });
+        }
+      },
+      error: (error: any) => {
+        // Manejar cualquier error que ocurra al obtener las habitaciones
+        console.error('Error obteniendo las habitaciones:', error);
+        Swal.fire('Error', 'Ha ocurrido un error obteniendo las habitaciones', 'error');
       }
     });
   }
+
 
   /**
    * Método para eliminar un alojamiento
    * @param idAlojamiento - ID del alojamiento
    */
   async deleteAccommodation(idAlojamiento: number) {
-    console.log('idAlojamiento', idAlojamiento);
-
     // Eliminar de la base de datos
     await this.dashboardService.deleteAccommodation(idAlojamiento).subscribe({
       next: (confirmado: Boolean) => {
         if (confirmado) {
-          Swal.fire('Éxito', 'Exito eliminando la imagen', 'success');
+          Swal.fire('Éxito', 'Exito eliminando el alojamiento', 'success');
           this.accommodationRows.splice(
             this.accommodationRows.findIndex((element) => element.idAlojamiento == idAlojamiento),
             1
           );
           this.buildDataSource();
         } else {
-          Swal.fire('Error', 'Error eliminando la imagen de la base', 'error');
+          Swal.fire('Error', 'Error eliminando el alojamiento de la base de datos', 'error');
         }
       },
       error: (message: any) => {
@@ -210,12 +227,11 @@ export class AccommodationsListComponent {
    */
   editContent(idAlojamiento: number) {
     const dialogRef = this.dialog.open(EditAccommodationComponent, {
-      data: { idAlojamiento: idAlojamiento },
+      data: { idAlojamiento: idAlojamiento }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result !== false && result !== undefined) {
-
         // Buscar el alojamiento en la lista
         const index = this.accommodationRows.findIndex((element) => element.idAlojamiento == result.idAlojamiento);
 
@@ -226,6 +242,7 @@ export class AccommodationsListComponent {
           this.accommodationRows[index].descripcion = result.descripcion;
           this.accommodationRows[index].capacidad = result.capacidad;
           this.accommodationRows[index].ciudad = result.ciudad;
+          this.accommodationRows[index].idTipoAlojamiento = result.idTipoAlojamiento;
 
           // Si la imagen no está vacía, actualizarla
           if (result.imagen !== '') {
@@ -244,5 +261,4 @@ export class AccommodationsListComponent {
       }
     });
   }
-
 }

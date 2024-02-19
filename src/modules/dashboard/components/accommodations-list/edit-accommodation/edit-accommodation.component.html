@@ -2,18 +2,18 @@
 <mat-dialog-content>
   <mat-card>
     <mat-card-content>
-      <form [formGroup]="editAccomodationForm" (ngSubmit)="editContent()" autocomplete="off">
+      <form [formGroup]="editAccommodationForm" (ngSubmit)="editContent()" autocomplete="off">
         <mat-form-field class="col-12">
           <mat-label>Nombre</mat-label>
           <input matInput type="text" required formControlName="nombreAlojamiento" />
-          <mat-error customLabel *ngIf="isValidField('nombreAlojamiento')" [errors]="editAccomodationForm.get('nombreAlojamiento')?.errors">
+          <mat-error customLabel *ngIf="isValidField('nombreAlojamiento')" [errors]="editAccommodationForm.get('nombreAlojamiento')?.errors">
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="col-12">
           <mat-label>Descripción</mat-label>
           <textarea matInput formControlName="descripcion"></textarea>
-          <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="editAccomodationForm.get('descripcion')?.errors">
+          <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="editAccommodationForm.get('descripcion')?.errors">
           </mat-error>
         </mat-form-field>
 
@@ -21,13 +21,13 @@
           <mat-form-field class="col-md-4">
             <mat-label>Capacidad</mat-label>
             <input type="number" matInput formControlName="capacidad" />
-            <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="editAccomodationForm.get('capacidad')?.errors"> </mat-error>
+            <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="editAccommodationForm.get('capacidad')?.errors"> </mat-error>
           </mat-form-field>
 
           <mat-form-field class="col-md-4">
             <mat-label>Ciudad</mat-label>
             <input type="text" matInput formControlName="ciudad" />
-            <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="editAccomodationForm.get('ciudad')?.errors"> </mat-error>
+            <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="editAccommodationForm.get('ciudad')?.errors"> </mat-error>
           </mat-form-field>
 
           <mat-form-field class="col-md-4">
@@ -37,7 +37,7 @@
                 {{ type.nombreTipoAlojamiento }}
               </mat-option>
             </mat-select>
-            <mat-error customLabel *ngIf="isValidField('idTipoAlojamiento')" [errors]="editAccomodationForm.get('idTipoAlojamiento')?.errors">
+            <mat-error customLabel *ngIf="isValidField('idTipoAlojamiento')" [errors]="editAccommodationForm.get('idTipoAlojamiento')?.errors">
             </mat-error>
           </mat-form-field>
         </div>
@@ -53,5 +53,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Cerrar</button>
-  <button mat-button [mat-dialog-close]="editAccomodationForm.value" [disabled]="editAccomodationForm.invalid" color="primary" (click)="editContent()">Editar</button>
+  <button mat-button [mat-dialog-close]="editAccommodationForm.value" [disabled]="editAccommodationForm.invalid" color="primary" (click)="editContent()">Editar</button>
 </mat-dialog-actions>

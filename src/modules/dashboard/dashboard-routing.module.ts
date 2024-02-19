@@ -10,6 +10,9 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NewAccommodationComponent } from './components/new-accommodation/new-accommodation.component';
 import { ReservationsPageComponent } from './pages/reservations-page/reservations-page.component';
 import { TypographyComponent } from 'src/app/demo/elements/typography/typography.component';
+import { RoomsPageComponent } from './pages/rooms-page/rooms-page.component';
+import { RoomsListComponent } from './components/rooms-list/rooms-list.component';
+import { NewRoomComponent } from './components/new-room/new-room.component';
 
 const routes: Routes = [
   {
@@ -22,6 +25,11 @@ const routes: Routes = [
       { path: 'alojamientos', component: AccommodationsPageComponent, children: [
         { path: 'listado-alojamientos', component: AccommodationsListComponent},
         { path: 'nuevo-alojamiento', component: NewAccommodationComponent},
+        { path: '**', redirectTo: 'listado-alojamientos'},
+      ]},
+      { path: 'habitaciones', component: RoomsPageComponent, children: [
+        { path: 'listado-habitaciones', component: RoomsListComponent},
+        { path: 'nueva-habitacion', component: NewRoomComponent},
         { path: '**', redirectTo: 'listado-alojamientos'},
       ]},
       { path: 'reservas', component: ReservationsPageComponent},

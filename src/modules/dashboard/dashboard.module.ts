@@ -9,7 +9,11 @@ import { SharedModule } from '../shared/shared.module';
 import { AccommodationsPageComponent } from './pages/accommodations-page/accommodations-page.component';
 import { AccommodationsListComponent } from './components/accommodations-list/accommodation-list.component';
 import { NewAccommodationComponent } from './components/new-accommodation/new-accommodation.component';
-import { EditAccommodationComponent } from './components/accommodations-list/editAccommodation/editAccommodation.component';
+import { EditAccommodationComponent } from './components/accommodations-list/edit-accommodation/edit-accommodation.component';
+import { RoomsPageComponent } from './pages/rooms-page/rooms-page.component';
+import { RoomsListComponent } from './components/rooms-list/rooms-list.component';
+import { NewRoomComponent } from './components/new-room/new-room.component';
+import { EditRoomComponent } from './components/rooms-list/edit-room/edit-room.component';
 
 
 @NgModule({
@@ -18,9 +22,13 @@ import { EditAccommodationComponent } from './components/accommodations-list/edi
     AccommodationsPageComponent,
     DashboardLayoutComponent,
     EditAccommodationComponent,
+    EditRoomComponent,
     HomePageComponent,
     NewAccommodationComponent,
+    NewRoomComponent,
     ReservationsPageComponent,
+    RoomsListComponent,
+    RoomsPageComponent,
   ],
   imports: [
     CommonModule,

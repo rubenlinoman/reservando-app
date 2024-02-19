@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-12">
+    <h2 class="text-center">Nueva Habitación</h2>
+    <form [formGroup]="newRoomForm" (ngSubmit)="newRoom()" autocomplete="off">
+
+      <mat-form-field class="col-12">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" required formControlName="nombreHabitacion" />
+        <mat-error customLabel *ngIf="isValidField('nombreHabitacion')" [errors]="newRoomForm.get('nombreAlojamiento')?.errors">
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion"></textarea>
+        <mat-error customLabel *ngIf="isValidField('descripcion')" [errors]="newRoomForm.get('descripcion')?.errors"> </mat-error>
+      </mat-form-field>
+
+      <div class="row">
+        <mat-form-field class="col-md-6">
+          <mat-label>Capacidad</mat-label>
+          <input type="number" matInput formControlName="capacidad" />
+          <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="newRoomForm.get('capacidad')?.errors"> </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+          <mat-label>Precio</mat-label>
+          <input type="text" matInput formControlName="precio" />
+          <mat-error customLabel *ngIf="isValidField('precio')" [errors]="newRoomForm.get('ciudad')?.errors"> </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field class="col-md-6">
+          <mat-label>Tipo de habitación</mat-label>
+          <mat-select required formControlName="idTipoHabitacion">
+            <mat-option
+              *ngFor="let type of roomTypes"
+              [value]="type.idTipoHabitacion">
+                {{ type.nombreTipoHabitacion }}
+            </mat-option>
+          </mat-select>
+          <mat-error customLabel
+            *ngIf="isValidField('idTipoHabitacion')"
+            [errors]="newRoomForm.get('idTipoHabitacion')?.errors"
+          >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+          <mat-label>Alojamiento</mat-label>
+          <mat-select required formControlName="idAlojamiento">
+            <mat-option
+              *ngFor="let accommodation of accommodations"
+              [value]="accommodation.idAlojamiento">
+                {{ accommodation.nombreAlojamiento }}
+            </mat-option>
+          </mat-select>
+          <mat-error customLabel
+            *ngIf="isValidField('idAlojamiento')"
+            [errors]="newRoomForm.get('idAlojamiento')?.errors"
+          >
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-6 mt-3">
+        <input type="file" formControlName="imagen" (change)="chargeImgFile($event)" required />
+      </div>
+
+      <section class="d-flex justify-content-evenly"></section>
+
+      <div class="col-12" align="center">
+        <button mat-fab extended class="px-5" type="submit" [disabled]="newRoomForm.invalid" color="primary">
+          <i class="bi bi-house-add"></i>
+          Crear habitación
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

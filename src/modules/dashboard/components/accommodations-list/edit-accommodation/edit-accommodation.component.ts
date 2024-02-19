@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'dashboard-edit-accommodation',
-  templateUrl: './editAccommodation.component.html',
-  styleUrl: './editAccommodation.component.css'
+  templateUrl: './edit-accommodation.component.html',
+  styleUrl: './edit-accommodation.component.css'
 })
 export class EditAccommodationComponent {
   public fb = inject(FormBuilder);
@@ -22,7 +22,7 @@ export class EditAccommodationComponent {
   public user = this.authService.currentUser();
   public selectedFile: File | null = null;
 
-  public editAccomodationForm: FormGroup;
+  public editAccommodationForm: FormGroup;
   public accommodationTypes: TipoAlojamiento[] = [];
   public type: number | null = null;
 
@@ -33,7 +33,7 @@ export class EditAccommodationComponent {
       this.accommodation = response;
 
       // Set values sin el campo imagen
-      this.editAccomodationForm.patchValue({
+      this.editAccommodationForm.patchValue({
         idAlojamiento: this.accommodation.idAlojamiento,
         nombreAlojamiento: this.accommodation.nombreAlojamiento,
         descripcion: this.accommodation.descripcion,
@@ -44,7 +44,7 @@ export class EditAccommodationComponent {
       });
     });
 
-    this.editAccomodationForm = this.fb.group({
+    this.editAccommodationForm = this.fb.group({
       idAlojamiento: ['', [Validators.required]],
       nombreAlojamiento: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
@@ -63,7 +63,7 @@ export class EditAccommodationComponent {
 
       // Establecer el valor del mat-select si se encontró un tipo de alojamiento
       if (tipo) {
-        this.editAccomodationForm.get('idTipoAlojamiento')?.setValue(tipo.idTipoAlojamiento);
+        this.editAccommodationForm.get('idTipoAlojamiento')?.setValue(tipo.idTipoAlojamiento);
       }
     });
   }
@@ -74,7 +74,7 @@ export class EditAccommodationComponent {
    * @returns devuelve un booleano
    */
   isValidField(field: string): boolean | null {
-    return this.validatorsService.isValidField(this.editAccomodationForm, field);
+    return this.validatorsService.isValidField(this.editAccommodationForm, field);
   }
 
   /**
@@ -89,40 +89,22 @@ export class EditAccommodationComponent {
    * Metodo para editar el alojamiento
    */
   editContent() {
+    this.dashboardService.editAccommodation(this.editAccommodationForm, this.selectedFile).subscribe({
+      next: (resp: any) => {
 
-    // Verificar si se ha seleccionado una nueva imagen
-    if (this.selectedFile) {
-      this.dashboardService.editAccommodationWithImage(this.editAccomodationForm, this.selectedFile).subscribe({
-        next: (resp: any) => {
-          if (resp == 0) {
-            Swal.fire('Error', 'Se ha producido un error editando el alojamiento', 'error');
-            return;
-          }
-          if (resp == 1) {
-            Swal.fire('Éxito', 'Alojamiento editado correctamente', 'success');
-            return;
-          }
-        },
-        error: (message: any) => {
-          Swal.fire('Error', message, 'error');
+        if (resp == 0) {
+          Swal.fire('Error', 'Se ha producido un error editando el alojamiento', 'error');
+          return;
         }
-      });
-    } else {
-      this.dashboardService.editAccommodationWithoutImage(this.editAccomodationForm).subscribe({
-        next: (resp: any) => {
-          if (resp == 0) {
-            Swal.fire('Error', 'Se ha producido un error editando el alojamiento', 'error');
-            return;
-          }
-          if (resp == 1) {
-            Swal.fire('Éxito', 'Alojamiento editado correctamente', 'success');
-            return;
-          }
-        },
-        error: (message: any) => {
-          Swal.fire('Error', message, 'error');
+        if (resp == 1) {
+          Swal.fire('Éxito', 'Alojamiento editado correctamente', 'success');
+          return;
         }
-      });
-    }
+      },
+      error: (message: any) => {
+        console.error(message);
+        Swal.fire('Error', message, 'error');
+      }
+    });
   }
 }

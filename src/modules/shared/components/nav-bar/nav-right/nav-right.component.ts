@@ -18,4 +18,5 @@ export class NavRightComponent {
   onLogout() {
     this.authService.logout();
   }
+
 }

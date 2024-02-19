@@ -23,7 +23,7 @@ export class NewAccommodationComponent {
 
   public newAccommodationForm: FormGroup;
 
-  public accommodationTypes: TipoAlojamiento[] = []
+  public accommodationTypes: TipoAlojamiento[] = [];
 
   constructor() {
     this.newAccommodationForm = this.fb.group({
@@ -39,7 +39,7 @@ export class NewAccommodationComponent {
     this.dashboardService.getAccommodationTypes()
       .subscribe((types) => {
         this.accommodationTypes = types as TipoAlojamiento[];
-      })
+      });
 
   }
 

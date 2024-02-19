@@ -20,7 +20,7 @@ const NavigationItems = [
   {
     id: 'dashboard-home',
     title: 'Inicio',
-    type: 'group',
+    type: 'cliente',
     icon: 'icon-navigation',
     children: [
       {
@@ -48,7 +48,7 @@ const NavigationItems = [
         children: [
           {
             id: 'listado-alojamientos',
-            title: 'Listado alojamiento',
+            title: 'Listado alojamientos',
             type: 'item',
             url: '/dashboard/alojamientos/listado-alojamientos',
             target: false,
@@ -59,6 +59,38 @@ const NavigationItems = [
             title: 'Nuevo alojamiento',
             type: 'item',
             url: '/dashboard/alojamientos/nuevo-alojamiento',
+            target: false,
+            breadcrumbs: false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'habitaciones',
+    title: 'Habitaciones',
+    type: 'propietario',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'mis-habitaciones',
+        title: 'Mis habitaciones',
+        type: 'collapse',
+        icon: 'bi bi-door-closed',
+        children: [
+          {
+            id: 'listado-habitaciones',
+            title: 'Listado habitaciones',
+            type: 'item',
+            url: '/dashboard/habitaciones/listado-habitaciones',
+            target: false,
+            breadcrumbs: false
+          },
+          {
+            id: 'nueva-habitacion',
+            title: 'Nueva habitacion',
+            type: 'item',
+            url: '/dashboard/habitaciones/nueva-habitacion',
             target: false,
             breadcrumbs: false
           }
@@ -101,7 +133,7 @@ const NavigationItems = [
   {
     id: 'booking',
     title: 'Booking',
-    type: 'group',
+    type: 'cliente',
     icon: 'icon-navigation',
     children: [
       {
@@ -117,7 +149,7 @@ const NavigationItems = [
   {
     id: 'other',
     title: 'Other',
-    type: 'group',
+    type: 'cliente',
     icon: 'icon-navigation',
     children: [
       {

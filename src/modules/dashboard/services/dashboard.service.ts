@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TipoAlojamiento } from 'src/modules/shared/interfaces';
+import { Habitacion, TipoAlojamiento, TipoHabitacion } from 'src/modules/shared/interfaces';
 import { Alojamiento } from 'src/modules/shared/interfaces/alojamiento.interface';
 
 @Injectable({
@@ -63,18 +63,12 @@ export class DashboardService {
 
     const { imagen, ...newAccommodationForm } = form.value;
 
-    console.log('newAccommodationForm', newAccommodationForm);
-
-
     let formData = new FormData();
     formData.append('imagen', imageFile!, imageFile!.name);
 
     for (let key in newAccommodationForm) {
       formData.append(key, newAccommodationForm[key]);
     }
-
-    console.log('formData', formData);
-
 
     if (!this.token) {
       return of();
@@ -102,57 +96,101 @@ export class DashboardService {
   }
 
   /**
-   * Método para editar un alojamiento con imagen
-   * @param form - Formulario
-   * @param imageFile - Imagen (File)
-   * @returns devuelve un Observable de tipo Alojamiento
+   * Método para obtener todas las habitaciones
+   * @returns devuelve un Observable de tipo Habitacion
    */
-  editAccommodationWithImage(form: FormGroup, imageFile: any) {
-    const url = `${this.apiUrl}/alojamiento`;
-
-    const { imagen, ...editAccomodationForm } = form.value;
-
-    let formData = new FormData();
-    formData.append('imagen', imageFile!, imageFile!.name);
-
-    for (let key in editAccomodationForm) {
-      formData.append(key, editAccomodationForm[key]);
+  getAllRooms(): Observable<Habitacion[]> {
+    const url = `${this.apiUrl}/habitacion`;
+    if (!this.token) {
+      return of([]);
     }
+    return this.http.get<Habitacion[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para obtener una habitacion por ID
+   * @param idHabitacion - ID de la habitacion (number)
+   * @returns devuelve un Observable de tipo Habitacion
+   */
+  getRoomById(idHabitacion: number): Observable<Habitacion> {
+    const url = `${this.apiUrl}/habitacion/${idHabitacion}`;
 
     if (!this.token) {
       return of();
     }
 
-    return this.http.patch<Alojamiento>(url, formData, { headers: this.headers }).pipe(
-      catchError((err) => {
-        return throwError(() => err.error.message);
+    return this.http.get<Habitacion>(url, { headers: this.headers }).pipe(
+      catchError(() => {
+        return of();
       })
     );
   }
 
   /**
-   * Método para editar un alojamiento sin imagen
-   * @param form - Formulario
-   * @returns devuelve un Observable de tipo Alojamiento
+   * Método para obtener las habitaciones de un alojamiento
+   * @param idAlojamiento - ID del alojamiento (number)
+   * @returns devuelve un Observable de tipo Habitacion
    */
-  editAccommodationWithoutImage(form: FormGroup): Observable<Alojamiento | boolean> {
-    const url = `${this.apiUrl}/alojamiento`;
-
-
-    const { imagen, ...editAccomodationForm } = form.value;
-
-    let formData = new FormData();
-
-    for (let key in editAccomodationForm) {
-      formData.append(key, editAccomodationForm[key]);
-    }
+  getRoomsByAccommodationId(idAlojamiento: number): Observable<Habitacion[]> {
+    const url = `${this.apiUrl}/habitacion/alojamiento/${idAlojamiento}`;
 
     if (!this.token) {
       return of();
     }
 
+    return this.http.get<Habitacion[]>(url, { headers: this.headers }).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
+
+  /**
+   * Método para obtener los tipos de habitaciones
+   * @returns devuelve un Observable de tipo TipoHabitacion
+   */
+  getRoomTypes(): Observable<TipoHabitacion[]> {
+    const url = `${this.apiUrl}/habitacion/tipos/todos`;
+
+    if (!this.token) {
+      return of([]);
+    }
+
+    return this.http.get<TipoHabitacion[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para editar un alojamiento
+   * @param form - Formulario
+   * @param imageFile  - Imagen
+   * @returns devuelve un Observable de tipo Alojamiento
+   */
+  editAccommodation(form: FormGroup, imageFile: any) {
+    const url = `${this.apiUrl}/alojamiento`;
+
+    // Extraer la imagen del formulario
+    const imagen = form.get('imagen')?.value;
+
+    // Crear un FormData para la solicitud
+    const formData = new FormData();
+
+    // Agregar la imagen al FormData si se proporciona
+    if (imageFile && imagen) {
+      formData.append('imagen', imageFile, imageFile.name);
+    }
+
+    // Agregar los otros campos del formulario al FormData
+    const editAccommodationForm = { ...form.value };
+    delete editAccommodationForm.imagen; // Eliminar la imagen del objeto editRoomForm
+    for (const key in editAccommodationForm) {
+      formData.append(key, editAccommodationForm[key]);
+    }
+
+    // Enviar la solicitud PATCH al backend
     return this.http.patch<Alojamiento>(url, formData, { headers: this.headers }).pipe(
       catchError((err) => {
+        console.error(err);
+
         return throwError(() => err.error.message);
       })
     );
@@ -169,5 +207,88 @@ export class DashboardService {
     }
 
     return this.http.delete<boolean>(`${this.apiUrl}/alojamiento/${idAlojamiento}`, { headers: this.headers });
+  }
+
+  /**
+   * Método para crear un nuevo alojamiento
+   * @param form - Formulario
+   * @param imageFile - Imagen (File)
+   * @returns devuelve un Observable de tipo Alojamiento
+   */
+  newRoom(form: FormGroup, imageFile: any): Observable<Habitacion> {
+    const url = `${this.apiUrl}/habitacion`;
+
+    const { imagen, ...newRoomForm } = form.value;
+
+    console.log('newRoomForm', newRoomForm);
+
+    let formData = new FormData();
+    formData.append('imagen', imageFile!, imageFile!.name);
+
+    for (let key in newRoomForm) {
+      formData.append(key, newRoomForm[key]);
+    }
+
+    console.log('formData', formData);
+
+    if (!this.token) {
+      return of();
+    }
+
+    return this.http.post<Habitacion>(url, formData, { headers: this.headers }).pipe(
+      catchError((err) => {
+        return throwError(() => err.error.message);
+      })
+    );
+  }
+
+  /**
+   * Método para editar una habitación
+   * @param form - Formulario
+   * @param imageFile  - Imagen
+   * @returns devuelve un Observable de tipo Habitacion
+   */
+  editRoom(form: FormGroup, imageFile: any) {
+    const url = `${this.apiUrl}/habitacion`;
+
+    // Extraer la imagen del formulario
+    const imagen = form.get('imagen')?.value;
+
+    // Crear un FormData para la solicitud
+    const formData = new FormData();
+
+    // Agregar la imagen al FormData si se proporciona
+    if (imageFile && imagen) {
+      formData.append('imagen', imageFile, imageFile.name);
+    }
+
+    // Agregar los otros campos del formulario al FormData
+    const editRoomForm = { ...form.value };
+    delete editRoomForm.imagen; // Eliminar la imagen del objeto editRoomForm
+    for (const key in editRoomForm) {
+      formData.append(key, editRoomForm[key]);
+    }
+
+    // Enviar la solicitud PATCH al backend
+    return this.http.patch<Habitacion>(url, formData, { headers: this.headers }).pipe(
+      catchError((err) => {
+        console.error(err);
+
+        return throwError(() => err.error.message);
+      })
+    );
+  }
+
+  /**
+   * Método para eliminar una habitacion
+   * @param idHabitacion - ID de la habitacion (number)
+   * @returns devuelve un Observable de tipo Boolean
+   */
+  deleteRoom(idHabitacion: number) {
+    if (!this.token) {
+      return of(false);
+    }
+
+    return this.http.delete<boolean>(`${this.apiUrl}/habitacion/${idHabitacion}`, { headers: this.headers });
   }
 }

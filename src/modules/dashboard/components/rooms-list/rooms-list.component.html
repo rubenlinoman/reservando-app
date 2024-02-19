@@ -1,4 +1,18 @@
-<div class="row">
+<div class="row" *ngIf="user().idTipoUsuario !== 3">
+  <div class="col-12">
+    <mat-chip-listbox>
+      <mat-chip-option
+        *ngFor="let accommodation of accommodationList; let i = index"
+        [selected]="selectedChip[i]"
+        (click)="clickChip(accommodation)"
+      >
+      {{ accommodation.nombreAlojamiento }}
+    </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+</div>
+
+<div class="row mt-4">
   <div class="col-12 col-lg-4 pe-lg-0">
     <mat-form-field class="col-12 bg-white">
       <mat-label>{{ 'buscar' }}</mat-label>
@@ -16,7 +30,7 @@
   class="mat-elevation-z8"
   matSort
   #empTbSort="matSort"
-  matSortActive="id_alojamiento"
+  matSortActive="id_habitacion"
   matSortDirection="asc"
 >
   <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
@@ -32,8 +46,8 @@
         </span>
         <button
           mat-mini-fab
-          (click)="editContent(row.idAlojamiento)"
           *ngIf="column.columnDef == 'editar'"
+          (click)="editContent(row.idHabitacion)"
           color="primary"
           aria-label="Editar"
         >
@@ -42,7 +56,7 @@
         <button
           mat-mini-fab
           *ngIf="column.columnDef == 'eliminar'"
-          (click)="confirmAccommodationDelete(row.idAlojamiento)"
+          (click)="confirmRoomDelete(row.idHabitacion)"
           color="warn"
           aria-label="Eliminar"
         >
