@@ -9,4 +9,27 @@ h2 {
 mat-paginator{
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   background-color: white;
+  border-radius: 5px;
+}
+
+::ng-deep .input-blanco .mat-mdc-text-field-wrapper  {
+  background-color: white !important;
+}
+
+.accommodation-card {
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+
+/* En pantallas pequeñas, las imágenes ocuparán todo el ancho disponible */
+@media (max-width: 768px) {
+  .mat-mdc-card-xl-image {
+    width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor en pantallas pequeñas */
+    height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
+  }
+}
+
+.capacidad {
+  font-weight: bold;
+  color: black;
 }

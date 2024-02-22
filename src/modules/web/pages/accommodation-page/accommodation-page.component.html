@@ -1,28 +1,51 @@
 <div class="container pb-5">
   <h2 class="my-3" align="center">El alojamiento que estabas buscando</h2>
+  <div class="row">
+    <mat-form-field class="col-12 input-blanco">
+      <mat-label>Busca tu alojamiento...</mat-label>
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter()" style="padding-bottom: 1px !important" />
+    </mat-form-field>
+  </div>
   <mat-card
-  class="accommodation-card my-3" *ngFor="let accommodation of obs | async">
+    class="accommodation-card my-3"
+    *ngFor="let accommodation of obs | async"
+  >
     <div class="row p-3">
-      <div class="col-md-4">
+      <div class="col-lg-4 col-md-4 col-sm-12">
         <img
           mat-card-xl-image
-          class="img-fluid rounded"
+          class="rounded"
           [src]="apiUrl + '/' + 'images/' + accommodation.imagen"
-          alt="{{accommodation.nombreAlojamiento}}"
+          alt="{{ accommodation.nombreAlojamiento }}"
         />
       </div>
-      <div class="col-md-8">
+      <div class="col-lg-6 col-md-6 col-sm-12">
         <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>{{accommodation.nombreAlojamiento}}</mat-card-title>
-            <mat-card-subtitle>{{accommodation.ciudad}}</mat-card-subtitle>
-          </mat-card-title-group>
+            <mat-card-title class="p-1">{{ accommodation.nombreAlojamiento }}</mat-card-title>
+            <mat-card-subtitle>{{ accommodation.ciudad }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="my-3">
-          {{accommodation.descripcion}}
+          {{ accommodation.descripcion }}
         </mat-card-content>
       </div>
-
+      <div class="col-lg-2 col-md-12 col-sm-12">
+        <mat-card-header>
+          <mat-card-subtitle class="capacidad">Capacidad</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="mb-3">
+          <i class="bi bi-people"></i> {{ accommodation.capacidad }}
+        </mat-card-content>
+        <div class="col-lg-12 col-md-12 col-sm-12"> <!-- Contenedor adicional para el botón -->
+          <button
+            mat-raised-button
+            color="primary"
+            [routerLink]="['/detalles/',accommodation.idAlojamiento ]"
+            >
+            Mostrar
+            <i class="bi bi-house-heart"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </mat-card>
 
@@ -32,4 +55,3 @@
     </div>
   </div>
 </div>
-

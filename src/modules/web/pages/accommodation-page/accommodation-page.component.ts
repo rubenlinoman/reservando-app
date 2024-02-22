@@ -12,15 +12,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./accommodation-page.component.css']
 })
 export class AccommodationPageComponent {
-
   public accommodations: Alojamiento[] = [];
   public readonly apiUrl = environment.apiUrl;
   public dataSource: MatTableDataSource<Alojamiento>;
   public obs: Observable<any>;
+  public searchText: string = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private webService: WebService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private webService: WebService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.webService.getAllAccommodationsNoTokenCheck().subscribe((accommodations) => {
@@ -36,6 +39,18 @@ export class AccommodationPageComponent {
   ngOnDestroy() {
     if (this.dataSource) {
       this.dataSource.disconnect();
+    }
+  }
+
+  /**
+   * Metodo para filtrar
+   * @param event - Evento de filtro
+   */
+  applyFilter() {
+    this.dataSource.filter = this.searchText.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 }

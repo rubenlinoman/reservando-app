@@ -1,1 +1,27 @@
-<p>details-page works!</p>,
+<div class="container pb-5">
+  <div class="row mt-3">
+    <div class="col-6" align="center">
+      <h2>{{accommodation?.nombreAlojamiento}}</h2>
+      <mat-card-subtitle>
+        <i class="bi bi-pin-map"></i>
+        {{accommodation?.ciudad}}
+      </mat-card-subtitle>
+    </div>
+    <div class="col-6" align="center">
+      <button mat-fab extended color="primary">
+        <i class="bi bi-calendar-plus"></i>
+        Reservar ahora
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12" align="center">
+      <img
+        mat-card-xl-image
+        class="rounded"
+        [src]="apiUrl + '/' + 'images/' + accommodation?.imagen"
+        alt="{{accommodation?.nombreAlojamiento}}"
+      />
+    </div>
+  </div>
+</div>

@@ -24,4 +24,19 @@ export class WebService {
       })
     );
   }
+
+  /**
+   * Método para obtener los alojamientos por ID
+   * @param idAlojamiento - ID del alojamiento (number)
+   * @returns devuelve un Observable de tipo Alojamiento
+   */
+  getAccommodationById(idAlojamiento: number): Observable<Alojamiento> {
+    const url = `${this.apiUrl}/alojamiento/${idAlojamiento}`;
+
+    return this.http.get<Alojamiento>(url).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
 }
