@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class HomepageHeaderNavBarComponent {
   @Input() extraClasses: string = '';
   @Input() showLoginLink: boolean = true;
+  @Input() showAlojamientoLink: boolean = true;
 }

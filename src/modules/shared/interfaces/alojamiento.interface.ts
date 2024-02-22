@@ -7,4 +7,6 @@ export interface Alojamiento {
   imagen: string;
   idTipoAlojamiento: number;
   idPropietario: number;
+  precio?: string;
+  enOferta?: boolean;
 }

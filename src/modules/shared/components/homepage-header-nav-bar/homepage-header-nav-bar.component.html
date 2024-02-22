@@ -1,40 +1,60 @@
 <nav class="navbar navbar-expand-lg navbar-light" [ngClass]="extraClasses">
   <div class="container px-4 px-lg-5">
-    <a [routerLink]="['']"class="d-flex justify-content-center">
+    <a [routerLink]="['']" class="d-flex justify-content-center">
       <img src="assets/images/logo-dark.svg" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      Probando
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- Botón de alojamiento para pantallas grandes -->
+    <div class="d-none d-lg-block">
+      <a class="btn btn-outline-purple mx-4" color="white" mat-fab extended [routerLink]="['/alojamiento']">
+        <i class="bi bi-house"></i>
+        <!-- Icono de Bootstrap que representa una casa -->
+        Alojamiento
+      </a>
+    </div>
+
+    <!-- Menú desplegable para pantallas pequeñas -->
+    <div class="d-lg-none">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <!-- Opciones del menú -->
+        <button mat-menu-item [routerLink]="['/alojamientos']">
+          <i class="bi bi-house me-1"></i>
+          Alojamiento
+        </button>
+        <!-- Otras opciones del menú -->
+        <button mat-menu-item [routerLink]="['/auth/register']">
+          <i class="bi bi-person-add me-1"></i>
+          Hazte una cuenta
+        </button>
+        <button mat-menu-item [routerLink]="['/auth/login']">
+          <i class="bi bi-person me-1"></i>
+          Login
+        </button>
+      </mat-menu>
+    </div>
+
+
+
+    <!-- Menú principal para pantallas grandes -->
+    <div class="collapse navbar-collapse d-none d-lg-block" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mx-2 mb-2 mb-lg-0">
+        <!-- Otras opciones del menú -->
         <li class="nav-item" *ngIf="showLoginLink">
           <button class="btn btn-blue text-white" [routerLink]="['/auth/register']">
+            <i class="bi bi-person-add me-1"></i>
             Hazte una cuenta
           </button>
         </li>
         <li class="nav-item mx-2" *ngIf="showLoginLink">
           <button class="btn btn-purple text-white" [routerLink]="['/auth/login']">
+            <i class="bi bi-person me-1"></i>
             Login
           </button>
         </li>
       </ul>
-      <form class="d-flex">
-        <button class="btn btn-outline-purple" type="submit" *ngIf="showLoginLink">
-          <i class="bi-cart-fill me-1"></i>
-          Carro
-          <span class="badge bg-purple text-white ms-1 rounded-pill">0</span>
-        </button>
-      </form>
     </div>
   </div>
 </nav>
+

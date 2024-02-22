@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+mat-paginator{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  background-color: white;
+}

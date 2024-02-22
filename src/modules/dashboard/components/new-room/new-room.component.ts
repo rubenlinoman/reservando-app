@@ -21,6 +21,8 @@ export class NewRoomComponent {
   public user = this.authService.currentUser();
   public selectedFile: File | null = null;
 
+  public showForm: boolean = true;
+
   public newRoomForm: FormGroup;
 
   public roomTypes: TipoHabitacion[] = [];
@@ -84,8 +86,10 @@ export class NewRoomComponent {
 
         Swal.fire('Éxito', 'Nueva habitación añadida', 'success');
 
+        this.showForm = false;
         setTimeout( () => {
           this.newRoomForm.reset();
+          this.showForm = true;
         })
 
       },

@@ -21,6 +21,8 @@ export class NewAccommodationComponent {
   public user = this.authService.currentUser();
   public selectedFile: File | null = null;
 
+  public showForm: boolean = true;
+
   public newAccommodationForm: FormGroup;
 
   public accommodationTypes: TipoAlojamiento[] = [];
@@ -77,8 +79,10 @@ export class NewAccommodationComponent {
 
         Swal.fire('Éxito', 'Nuevo alojamiento añadido', 'success');
 
+        this.showForm = false;
         setTimeout( () => {
           this.newAccommodationForm.reset();
+          this.showForm = true;
         })
 
       },

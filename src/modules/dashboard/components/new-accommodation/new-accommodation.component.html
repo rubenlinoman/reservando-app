@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
     <h2 class="text-center">Nuevo Alojamiento</h2>
-    <form [formGroup]="newAccommodationForm" (ngSubmit)="newAccomodation()" autocomplete="off">
+    <form [formGroup]="newAccommodationForm" (ngSubmit)="newAccomodation()" autocomplete="off" *ngIf="showForm">
 
       <mat-form-field class="col-12">
         <mat-label>Nombre</mat-label>

@@ -18,6 +18,18 @@ export class DashboardService {
   constructor() {}
 
   /**
+   * Método para obtener todos los alojamientos
+   * @returns devuelve un Observable de tipo Alojamiento
+   */
+  getAllAccommodations(): Observable<Alojamiento[]> {
+    const url = `${this.apiUrl}/alojamiento`;
+    if (!this.token) {
+      return of([]);
+    }
+    return this.http.get<Alojamiento[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
    * Método para obtener los alojamientos por usuario
    * @param idUsuario - ID del usuario (number)
    * @param idTipoUsuario - ID del tipo de usuario (number)

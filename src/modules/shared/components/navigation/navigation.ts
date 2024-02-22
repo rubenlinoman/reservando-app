@@ -101,7 +101,7 @@ const NavigationItems = [
   {
     id: 'tarifas-disponibilidad',
     title: 'Tarifas y disponibilidad',
-    type: 'admin',
+    type: 'propietario',
     icon: 'icon-navigation',
     children: [
       {
@@ -147,31 +147,36 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'other',
-    title: 'Other',
-    type: 'cliente',
+    id: 'usuarios',
+    title: 'Usuarios',
+    type: 'admin',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'ti ti-brand-chrome'
-      },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/berry-angular/',
-        icon: 'ti ti-vocabulary',
-        target: true,
-        external: true
+        id: 'gestion-usuarios',
+        title: 'Gestión de Usuarios',
+        type: 'collapse',
+        icon: 'bi bi-people',
+        children: [
+          {
+            id: 'listado-usuarios',
+            title: 'Listado de Usuarios',
+            type: 'item',
+            url: '/dashboard/usuarios/listado',
+            icon: 'bi bi-list-ul'
+          },
+          {
+            id: 'crear-usuario',
+            title: 'Crear Usuario',
+            type: 'item',
+            url: '/dashboard/usuarios/crear',
+            icon: 'bi bi-person-plus'
+          },
+        ]
       }
     ]
   }
+
 ];
 
 @Injectable()
