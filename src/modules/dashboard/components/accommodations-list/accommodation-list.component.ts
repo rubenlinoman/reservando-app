@@ -61,8 +61,15 @@ export class AccommodationsListComponent {
       cell: (element: Alojamiento) => `${element.capacidad}`
     },
     {
+      columnDef: 'direccion',
+      header: 'Dirección',
+      iconoTh: false,
+      iconoTd: false,
+      cell: (element: Alojamiento) => `${element.direccion}`
+    },
+    {
       columnDef: 'ciudad',
-      header: 'Localización',
+      header: 'Lugar',
       iconoTh: false,
       iconoTd: false,
       cell: (element: Alojamiento) => `${element.ciudad}`
@@ -241,6 +248,7 @@ export class AccommodationsListComponent {
           this.accommodationRows[index].nombreAlojamiento = result.nombreAlojamiento;
           this.accommodationRows[index].descripcion = result.descripcion;
           this.accommodationRows[index].capacidad = result.capacidad;
+          this.accommodationRows[index].direccion = result.direccion;
           this.accommodationRows[index].ciudad = result.ciudad;
           this.accommodationRows[index].idTipoAlojamiento = result.idTipoAlojamiento;
 

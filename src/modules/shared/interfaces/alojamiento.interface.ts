@@ -3,6 +3,7 @@ export interface Alojamiento {
   nombreAlojamiento: string;
   descripcion: string;
   capacidad: number;
+  direccion: string;
   ciudad: string;
   imagen: string;
   idTipoAlojamiento: number;

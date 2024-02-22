@@ -2,7 +2,6 @@
   <div class="col-12">
     <h2 class="text-center">Nuevo Alojamiento</h2>
     <form [formGroup]="newAccommodationForm" (ngSubmit)="newAccomodation()" autocomplete="off" *ngIf="showForm">
-
       <mat-form-field class="col-12">
         <mat-label>Nombre</mat-label>
         <input matInput type="text" required formControlName="nombreAlojamiento" />
@@ -17,31 +16,33 @@
       </mat-form-field>
 
       <div class="row">
-        <mat-form-field class="col-md-4">
+        <mat-form-field class="col-md-6">
+          <mat-label>Direccion</mat-label>
+          <input type="text" matInput formControlName="direccion" />
+          <mat-error customLabel *ngIf="isValidField('direccion')" [errors]="newAccommodationForm.get('direccion')?.errors"> </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+          <mat-label>Ciudad</mat-label>
+          <input type="text" matInput formControlName="ciudad" />
+          <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="newAccommodationForm.get('ciudad')?.errors"> </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-md-6">
           <mat-label>Capacidad</mat-label>
           <input type="number" matInput formControlName="capacidad" />
           <mat-error customLabel *ngIf="isValidField('capacidad')" [errors]="newAccommodationForm.get('capacidad')?.errors"> </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-md-4">
-          <mat-label>Ciudad</mat-label>
-          <input type="text" matInput formControlName="ciudad" />
-          <mat-error customLabel *ngIf="isValidField('ciudad')" [errors]="newAccommodationForm.get('ciudad')?.errors"> </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="col-md-4">
+        <mat-form-field class="col-md-6">
           <mat-label>Tipo de alojamiento</mat-label>
           <mat-select required formControlName="idTipoAlojamiento">
-            <mat-option
-              *ngFor="let type of accommodationTypes"
-              [value]="type.idTipoAlojamiento">
-                {{ type.nombreTipoAlojamiento }}
+            <mat-option *ngFor="let type of accommodationTypes" [value]="type.idTipoAlojamiento">
+              {{ type.nombreTipoAlojamiento }}
             </mat-option>
           </mat-select>
-          <mat-error customLabel
-            *ngIf="isValidField('idTipoAlojamiento')"
-            [errors]="newAccommodationForm.get('idTipoAlojamiento')?.errors"
-          >
+          <mat-error customLabel *ngIf="isValidField('idTipoAlojamiento')" [errors]="newAccommodationForm.get('idTipoAlojamiento')?.errors">
           </mat-error>
         </mat-form-field>
       </div>

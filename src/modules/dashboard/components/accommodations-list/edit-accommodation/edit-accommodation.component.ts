@@ -38,6 +38,7 @@ export class EditAccommodationComponent {
         nombreAlojamiento: this.accommodation.nombreAlojamiento,
         descripcion: this.accommodation.descripcion,
         capacidad: this.accommodation.capacidad,
+        direccion: this.accommodation.direccion,
         ciudad: this.accommodation.ciudad,
         idTipoAlojamiento: this.accommodation.idTipoAlojamiento,
         idPropietario: this.user?.idUsuario
@@ -49,6 +50,7 @@ export class EditAccommodationComponent {
       nombreAlojamiento: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       capacidad: ['', [Validators.required]],
+      direccion: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],
       imagen: [''],
       idTipoAlojamiento: ['', [Validators.required]],

@@ -32,6 +32,7 @@ export class NewAccommodationComponent {
       nombreAlojamiento: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       capacidad: ['', [Validators.required]],
+      direccion: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],
       imagen: [''],
       idTipoAlojamiento: ['', [Validators.required]],
