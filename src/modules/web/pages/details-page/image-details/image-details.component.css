@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.maxWH {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  z-index: 2000
+}
+

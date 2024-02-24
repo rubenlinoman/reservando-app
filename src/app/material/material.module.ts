@@ -33,6 +33,7 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 @NgModule({
   exports: [
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
@@ -56,10 +57,9 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
     MatSnackBarModule,
     MatSortModule,
     MatTableModule,
-    MatToolbarModule,
-    MatBadgeModule,
-    TableVirtualScrollModule,
     MatTabsModule,
+    MatToolbarModule,
+    TableVirtualScrollModule,
   ]
 })
 export class MaterialModule { }

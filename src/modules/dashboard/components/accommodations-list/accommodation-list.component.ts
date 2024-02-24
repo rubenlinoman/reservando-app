@@ -164,7 +164,7 @@ export class AccommodationsListComponent {
         // Verificar si hay habitaciones asociadas
         if (rooms && rooms.length > 0) {
           // Si hay habitaciones asociadas, mostrar un mensaje de advertencia
-          Swal.fire('Advertencia', 'No se puede eliminar el alojamiento porque tiene habitaciones', 'warning');
+          Swal.fire('Advertencia', 'No se puede eliminar el alojamiento porque tiene habitaciones asignadas', 'warning');
         } else {
           // Si no hay habitaciones asociadas, mostrar la confirmación de eliminación
           Swal.fire({

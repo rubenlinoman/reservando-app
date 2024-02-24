@@ -99,6 +99,22 @@ const NavigationItems = [
     ]
   },
   {
+    id: 'booking',
+    title: 'Booking',
+    type: 'cliente',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'reservas',
+        title: 'Reservas',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/dashboard/reservas',
+        icon: 'bi bi-list-ul'
+      }
+    ]
+  },
+  {
     id: 'tarifas-disponibilidad',
     title: 'Tarifas y disponibilidad',
     type: 'propietario',
@@ -131,22 +147,6 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'booking',
-    title: 'Booking',
-    type: 'cliente',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'reservas',
-        title: 'Reservas',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/dashboard/reservas',
-        icon: 'bi bi-list-ul'
-      },
-    ]
-  },
-  {
     id: 'usuarios',
     title: 'Usuarios',
     type: 'admin',
@@ -171,12 +171,11 @@ const NavigationItems = [
             type: 'item',
             url: '/dashboard/usuarios/crear',
             icon: 'bi bi-person-plus'
-          },
+          }
         ]
       }
     ]
   }
-
 ];
 
 @Injectable()

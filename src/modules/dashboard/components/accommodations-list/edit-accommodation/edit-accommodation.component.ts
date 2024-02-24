@@ -41,7 +41,6 @@ export class EditAccommodationComponent {
         direccion: this.accommodation.direccion,
         ciudad: this.accommodation.ciudad,
         idTipoAlojamiento: this.accommodation.idTipoAlojamiento,
-        idPropietario: this.user?.idUsuario
       });
     });
 
@@ -54,7 +53,6 @@ export class EditAccommodationComponent {
       ciudad: ['', [Validators.required]],
       imagen: [''],
       idTipoAlojamiento: ['', [Validators.required]],
-      idPropietario: [this.user?.idUsuario]
     });
 
     // Obtener los tipos de alojamientos

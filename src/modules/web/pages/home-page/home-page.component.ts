@@ -18,7 +18,6 @@ export class HomePageComponent {
   constructor() {
     this.weService.getAllAccommodationsNoTokenCheck().subscribe((accommodations) => {
       this.accommodations = accommodations;
-      console.log('accommodations', this.accommodations);
     });
   }
 }

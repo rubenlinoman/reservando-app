@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Alojamiento } from 'src/modules/shared/interfaces';
+import { Alojamiento, Habitacion } from 'src/modules/shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +39,21 @@ export class WebService {
       })
     );
   }
+
+  /**
+   * Método para obtener las habitaciones de un alojamiento
+   * @param idAlojamiento - ID del alojamiento (number)
+   * @returns devuelve un Observable de tipo Habitacion
+   */
+  getRoomsByAccommodationId(idAlojamiento: number): Observable<Habitacion[]> {
+    const url = `${this.apiUrl}/habitacion/alojamiento/${idAlojamiento}`;
+
+    return this.http.get<Habitacion[]>(url).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
+
+
 }

@@ -1,10 +1,14 @@
 <div class="container pb-5">
   <div class="row mt-3">
     <div class="col-6" align="center">
-      <h2>{{accommodation?.nombreAlojamiento}}</h2>
+      <h2>{{ accommodation?.nombreAlojamiento }}</h2>
       <mat-card-subtitle>
         <i class="bi bi-pin-map"></i>
-        {{accommodation?.ciudad}}
+        {{ accommodation?.ciudad }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        <i class="bi bi-geo-alt"></i>
+        {{ accommodation?.direccion }}
       </mat-card-subtitle>
     </div>
     <div class="col-6" align="center">
@@ -17,11 +21,22 @@
   <div class="row mt-3">
     <div class="col-12" align="center">
       <img
-        mat-card-xl-image
-        class="rounded"
+        class="img-fluid rounded"
         [src]="apiUrl + '/' + 'images/' + accommodation?.imagen"
-        alt="{{accommodation?.nombreAlojamiento}}"
+        alt="{{ accommodation?.nombreAlojamiento }}"
       />
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col" *ngFor="let room of rooms">
+      <mat-card>
+        <img
+          class="img-thumbnail rounded cursor-pointer"
+          (click)="showImage(room?.imagen)"
+          [src]="apiUrl + '/' + 'images/' + room?.imagen"
+          alt="{{ room?.nombreHabitacion }}"
+        />
+      </mat-card>
     </div>
   </div>
 </div>
