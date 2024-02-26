@@ -26,11 +26,13 @@ import { HomepageFooterComponent } from './components/homepage-footer/homepage-f
 import { HomepageHeaderNavBarComponent } from './components/homepage-header-nav-bar/homepage-header-nav-bar.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CustomLabelDirective } from './directives/custom-label.directive';
+import { ChunkPipe } from './pipes/chunk.pipe';
 
 @NgModule({
   declarations: [
     BreadcrumbComponent,
     CardComponent,
+    ChunkPipe,
     ConfigurationComponent,
     CustomLabelDirective,
     HomepageFooterComponent,
@@ -63,6 +65,7 @@ import { CustomLabelDirective } from './directives/custom-label.directive';
   exports: [
     BreadcrumbComponent,
     CardComponent,
+    ChunkPipe,
     CommonModule,
     ConfigurationComponent,
     CustomLabelDirective,

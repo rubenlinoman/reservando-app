@@ -2,6 +2,15 @@
   display: block;
 }
 
+mat-paginator{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
 .cursor-pointer {
   cursor: pointer;
+}
+
+.bg-card {
+  background-color: #e4f4ff;
 }

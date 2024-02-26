@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Alojamiento, Habitacion } from 'src/modules/shared/interfaces';
+import { Alojamiento, Habitacion, TipoHabitacion } from 'src/modules/shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +55,36 @@ export class WebService {
     );
   }
 
+  /**
+   * Método para obtener los tipos de habitaciones de un alojamiento
+   * @param idAlojamiento - ID del alojamiento (number)
+   * @returns devuelve un Observable de tipo TipoHabitacion
+   */
+  getRoomTypesByAccommodationId(idAlojamiento: number): Observable<TipoHabitacion[]> {
+    const url = `${this.apiUrl}/alojamiento/tipos-habitacion/${idAlojamiento}`;
+
+    return this.http.get<TipoHabitacion[]>(url).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
+
+  /**
+   * Método para obtener las habitaciones disponibles
+   * @param fechaInicio - Fecha de inicio (Date)
+   * @param fechaFin - Fecha de fin (Date)
+   * @param idAlojamiento - ID del alojamiento
+   * @returns devuelve un Observable de tipo Habitacion
+   */
+  getAvailableRooms(fechaInicio: string, fechaFin: string, idAlojamiento: number): Observable<Habitacion[]> {
+    const url = `${this.apiUrl}/habitacion/disponibles/tipos/${fechaInicio}/${fechaFin}/${idAlojamiento}`;
+
+    return this.http.get<Habitacion[]>(url).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
 
 }

@@ -9,4 +9,6 @@ export interface Habitacion {
   imagen: string;
   idAlojamiento: number;
   idTipoHabitacion: number;
+  cantidadDisponible?: number;
+  nombreTipoHabitacion?: string;
 }
