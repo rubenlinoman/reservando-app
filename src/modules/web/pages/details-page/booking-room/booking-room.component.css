@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+::ng-deep .input-blanco .mat-mdc-text-field-wrapper  {
+  background-color: white !important;
+}

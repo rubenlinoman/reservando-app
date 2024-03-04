@@ -26,7 +26,7 @@ export class WebService {
   }
 
   /**
-   * Método para obtener los alojamientos por ID
+   * Método para obtener un alojamiento por ID
    * @param idAlojamiento - ID del alojamiento (number)
    * @returns devuelve un Observable de tipo Alojamiento
    */
@@ -72,8 +72,8 @@ export class WebService {
 
   /**
    * Método para obtener las habitaciones disponibles
-   * @param fechaInicio - Fecha de inicio (Date)
-   * @param fechaFin - Fecha de fin (Date)
+   * @param fechaInicio - Fecha de inicio (string)
+   * @param fechaFin - Fecha de fin (string)
    * @param idAlojamiento - ID del alojamiento
    * @returns devuelve un Observable de tipo Habitacion
    */
@@ -87,4 +87,37 @@ export class WebService {
     );
   }
 
+  /**
+   * Método para obtener las habitaciones disponibles por tipo de habitación y alojamiento
+   * @param fechaInicio - Fecha de inicio (string)
+   * @param fechaFin - Fecha de fin (string)
+   * @param idAlojamiento - ID del alojamiento
+   * @param idTipoHabitacion - ID del tipo de habitación
+   * @returns devuelve un Observable de tipo Habitacion
+   */
+  getAvailableRoomsByAccommodationAndRoomTypeId(
+    fechaInicio: string,
+    fechaFin: string,
+    idAlojamiento: number,
+    idTipoHabitacion: number
+  ): Observable<Habitacion[]> {
+    const url = `${this.apiUrl}/habitacion/disponibles/tipos/${fechaInicio}/${fechaFin}/${idAlojamiento}/${idTipoHabitacion}`;
+
+    return this.http.get<Habitacion[]>(url).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
+  }
+
+  /**
+   * Método para crear una nueva reserva
+   * @param reservaData - Datos de la reserva
+   * @returns devuelve un Observable de tipo any
+   */
+  createReservation(reservaData: any): Observable<any> {
+    console.log('Reserva:', reservaData);
+
+    return this.http.post<any>(`${this.apiUrl}/reserva`, reservaData);
+  }
 }

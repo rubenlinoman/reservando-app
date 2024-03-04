@@ -1,19 +1,20 @@
-// src/modules/web/pages/details-page/details-page.component.ts
-import { ChangeDetectorRef, Component, Renderer2, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Alojamiento, Habitacion, TipoHabitacion } from 'src/modules/shared/interfaces';
-import { WebService } from '../../services/web.service';
+import { ChangeDetectorRef, Renderer2, ViewChild, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ImageDetailsComponent } from './image-details/image-details.component';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { TableHeader } from 'src/modules/shared/interfaces/table-header.interface';
+import { WebService } from '../../services/web.service';
 
 import * as bootstrap from 'bootstrap';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { TableHeader } from 'src/modules/shared/interfaces/table-header.interface';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { DatePipe } from '@angular/common';
+
+import { BookingRoomComponent } from './booking-room/booking-room.component';
+import { ImageDetailsComponent } from './image-details/image-details.component';
 
 @Component({
   selector: 'web-details-page',
@@ -21,17 +22,22 @@ import { DatePipe } from '@angular/common';
   styleUrl: './details-page.component.css'
 })
 export class DetailsPageComponent {
-  private webService = inject(WebService);
-  private route = inject(ActivatedRoute);
-  private fb = inject(FormBuilder);
   public readonly apiUrl = environment.apiUrl;
+  private webService = inject(WebService);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
 
   public datePipe = new DatePipe('es-ES', 'GTM+2');
 
   public accommodation: Alojamiento;
   public rooms: Habitacion[] = [];
 
+  private idAlojamiento = this.route.snapshot.params['id'];
+
   public roomTypesOfAccommodation: TipoHabitacion[] = [];
+  public availableRoomTypes: Habitacion[] = [];
+  public selectedRooms: Habitacion[] = [];
 
   public availableRoomsForm: FormGroup;
 
@@ -41,32 +47,38 @@ export class DetailsPageComponent {
   public columns: TableHeader[] = [
     {
       columnDef: 'nombreTipoHabitacion',
-      header: 'Nombre',
+      header: 'Tipo de habitación',
       iconoTh: false,
       iconoTd: false,
-      cell: (element: Habitacion) => `${element.nombreTipoHabitacion}`
+      cell: (element: Habitacion) => {
+        return `<div>${element.nombreTipoHabitacion}</div>
+                <div class="text-success">
+                  <i class="bi bi-house-door"></i> ${element.cantidadDisponible} habitaciones disponibles
+                </div>`;
+      }
     },
     {
       columnDef: 'capacidad',
-      header: 'Capacidad',
+      header: 'Número de personas',
       iconoTh: false,
       iconoTd: false,
       cell: (element: Habitacion) => `${element.capacidad}`
     },
     {
       columnDef: 'precio',
-      header: 'Precio',
+      header: 'Precio de hoy',
       iconoTh: false,
       iconoTd: false,
       cell: (element: Habitacion) => `${element.precio}`
     },
     {
-      columnDef: 'cantidadDisponible',
-      header: 'Cantidad',
+      columnDef: 'seleccionarHabitaciones',
+      header: 'Seleccionar habitaciones',
       iconoTh: false,
-      iconoTd: false,
-      cell: (element: Habitacion) => `${element.cantidadDisponible}`
-    }
+      iconoTd: true,
+      cell: (element: Habitacion) => ``,
+    },
+
   ];
 
   public displayedColumns = this.columns.map((c) => c.columnDef);
@@ -76,19 +88,19 @@ export class DetailsPageComponent {
 
   constructor(
     public dialog: MatDialog,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private el: ElementRef,
   ) {
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     this.availableRoomsForm = this.fb.group({
-      fechaInicio: [tomorrow.toISOString().split('T')[0]], // Valor predeterminado: mañana
+      fechaInicio: [today.toISOString().split('T')[0]], // Valor predeterminado: mañana
       fechaFin: [tomorrow.toISOString().split('T')[0]] // Valor predeterminado: mañana
     });
 
-    const id = this.route.snapshot.params['id'];
-    this.webService.getAccommodationById(id).subscribe((accommodation) => {
+    this.webService.getAccommodationById(this.idAlojamiento).subscribe((accommodation) => {
       this.accommodation = accommodation;
     });
 
@@ -98,20 +110,21 @@ export class DetailsPageComponent {
     this._fechaFin = values.fechaFin;
 
     // Obtener las habitaciones disponibles del día actual al iniciar el componente
-    this.webService.getAvailableRooms(this._fechaInicio, this._fechaFin, id).subscribe((rooms) => {
-      this.rooms = rooms;
-      console.log('Habitaciones disponibles today:', this.rooms);
+    this.chargeRooms();
 
-      this.buildDataSource();
+    this.webService.getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, 4).subscribe((availableRoomTypes) => {
+      this.rooms.forEach(room => {
+        room.availableRoomTypes = availableRoomTypes;
+      });
     });
 
     // Obtener las habitaciones del alojamiento
-    this.webService.getRoomsByAccommodationId(id).subscribe((rooms) => {
+    this.webService.getRoomsByAccommodationId(this.idAlojamiento).subscribe((rooms) => {
       this.rooms = rooms;
     });
 
     // Obtener los tipos de habitaciones del alojamiento
-    this.webService.getRoomTypesByAccommodationId(id).subscribe((roomTypes) => {
+    this.webService.getRoomTypesByAccommodationId(this.idAlojamiento).subscribe((roomTypes) => {
       this.roomTypesOfAccommodation = roomTypes;
     });
   }
@@ -143,6 +156,32 @@ export class DetailsPageComponent {
     }
   }
 
+  chargeRooms() {
+    this.webService.getAvailableRooms(this._fechaInicio, this._fechaFin, this.idAlojamiento).subscribe((rooms) => {
+      // Mapear las habitaciones y asignarles el idTipoHabitacion adecuado
+      this.rooms = rooms.map(room => ({ ...room, idTipoHabitacion: room.idTipoHabitacion }));
+
+      // Inicializar la propiedad selectedRoom de cada habitación
+      this.rooms.forEach(room => {
+        room.selectedRoom = { quantity: 1, totalPrice: +room.precio }; // Inicializar como una habitación individual con cantidad 1
+      });
+
+      // Construir el dataSource
+      this.buildDataSource();
+
+      // Obtener las habitaciones disponibles por tipo
+      this.rooms.forEach(room => {
+        this.webService.getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, room.idTipoHabitacion).subscribe((availableRoomTypes) => {
+          room.availableRoomTypes = availableRoomTypes;
+        });
+      });
+    });
+  }
+
+
+  /**
+   * Método para construir el datasource
+   */
   buildDataSource() {
     this.dataSource = new MatTableDataSource(this.rooms);
     this.dataSource.paginator = this.paginator;
@@ -158,19 +197,61 @@ export class DetailsPageComponent {
     });
   }
 
+  /**
+   * Método para buscar las habitaciones disponibles
+   */
   searchDates() {
-    const id = this.route.snapshot.params['id'];
     const fechaInicio = this.availableRoomsForm.get('fechaInicio')?.value;
     const fechaFin = this.availableRoomsForm.get('fechaFin')?.value;
 
     // Formateamos las fechas usando el DatePipe
-    const formattedFechaInicio = this.datePipe.transform(fechaInicio, 'yyyy-MM-dd');
-    const formattedFechaFin = this.datePipe.transform(fechaFin, 'yyyy-MM-dd');
+    this._fechaInicio = this.datePipe.transform(fechaInicio, 'yyyy-MM-dd');
+    this._fechaFin = this.datePipe.transform(fechaFin, 'yyyy-MM-dd');
 
-    this.webService.getAvailableRooms(formattedFechaInicio, formattedFechaFin, id).subscribe((rooms) => {
-      this.rooms = rooms;
-      console.log('Habitaciones disponibles selección:', this.rooms);
-      this.buildDataSource();
+    if (this._fechaInicio && this._fechaFin) {
+      console.log('Fecha de inicio:', this._fechaInicio);
+      console.log('Fecha de fin:', this._fechaFin);
+
+      this.chargeRooms();
+    }
+
+    // this.chargeRooms();
+  }
+
+  /**
+   * Método para agregar la habitación seleccionada a la lista de habitaciones seleccionadas
+   * @param room - Habitación seleccionada
+   */
+  roomSelected(room: Habitacion, $event: any) {
+    const quantity = $event.quantity;
+    const totalPrice = $event.totalPrice;
+    room.selectedRoom = { quantity, totalPrice };
+
+    // Agregar la habitación seleccionada al array selectedRooms
+    this.selectedRooms.push(room);
+  }
+
+  /**
+   * Método para redirigir a la página de reservas
+   */
+  bookingRoom() {
+    this.router.navigate(['/reservar'], {
+      state: {
+        fechaInicio: this._fechaInicio,
+        fechaFin: this._fechaFin,
+        idAlojamiento: this.idAlojamiento,
+        selectedRooms: this.selectedRooms
+      }
     });
+  }
+
+  /**
+   * Método para hacer scroll a la sección de reservas
+   */
+  scrollToReservas() {
+    const reservasElement = this.el.nativeElement.querySelector('#reservas');
+    if (reservasElement) {
+      reservasElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

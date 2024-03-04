@@ -6,18 +6,20 @@
         <i class="bi bi-pin-map"></i>
         {{ accommodation?.ciudad }}
       </mat-card-subtitle>
-      <br>
+      <br />
       <mat-card-subtitle>
         <i class="bi bi-geo-alt"></i>
         {{ accommodation?.direccion }}
       </mat-card-subtitle>
     </div>
     <div class="col-6" align="center">
-      <button mat-fab extended color="primary">
+      <button mat-fab extended class="bg-button-blue" (click)="scrollToReservas()">
         <i class="bi bi-calendar-plus"></i>
         Reservar ahora
       </button>
     </div>
+
+
   </div>
   <div class="row mt-3">
     <div class="col-12" align="center">
@@ -33,14 +35,15 @@
   <div class="d-md-none">
     <div class="row mt-3">
       <div class="col-12" align="center">
-        <div id="carouselRoom" class="carousel slide" style="max-width: 500px;">
+        <div id="carouselRoom" class="carousel slide" style="max-width: 500px">
           <div class="carousel-inner">
             <div *ngFor="let room of rooms; let i = index" class="carousel-item" [class.active]="i === 0">
               <img
                 class="d-block w-100 cursor-pointer"
                 [src]="apiUrl + '/images/' + room.imagen"
                 [alt]="room.nombreHabitacion"
-                (click)="showImage(room.imagen)"/>
+                (click)="showImage(room.imagen)"
+              />
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselRoom" data-bs-slide="prev">
@@ -73,7 +76,8 @@
                       class="d-block w-100 cursor-pointer"
                       [src]="apiUrl + '/images/' + room.imagen"
                       [alt]="room.nombreHabitacion"
-                      (click)="showImage(room.imagen)"/>
+                      (click)="showImage(room.imagen)"
+                    />
                   </div>
                 </div>
               </div>
@@ -92,7 +96,7 @@
     </div>
   </div>
 
-  <div class="row mt-3">
+  <div class="row mt-3" id="reservas">
     <div class="col-6" align="center">
       <p>{{ accommodation?.descripcion }}</p>
     </div>
@@ -113,13 +117,11 @@
   <div class="row mt-5">
     <form [formGroup]="availableRoomsForm" class="row" (ngSubmit)="searchDates()">
       <div class="col-6" align="center">
-        <mat-form-field class="example-form-field">
+        <mat-form-field class="input-blanco">
           <mat-label>Disponibilidad</mat-label>
-          <mat-date-range-input
-            [formGroup]="availableRoomsForm"
-            [rangePicker]="campaignOnePicker">
-            <input matStartDate placeholder="Fecha de inicio" formControlName="fechaInicio">
-            <input matEndDate placeholder="Fecha de fin" formControlName="fechaFin">
+          <mat-date-range-input [formGroup]="availableRoomsForm" [rangePicker]="campaignOnePicker">
+            <input matStartDate placeholder="Fecha de inicio" formControlName="fechaInicio" />
+            <input matEndDate placeholder="Fecha de fin" formControlName="fechaFin" />
           </mat-date-range-input>
           <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
@@ -127,7 +129,7 @@
         </mat-form-field>
       </div>
       <div class="col-6">
-        <button mat-fab extended [disabled]="availableRoomsForm.invalid" color="primary">
+        <button mat-fab extended class="bg-button-purple" [disabled]="availableRoomsForm.invalid">
           <i class="bi bi-search"></i>
           Realizar búsqueda
         </button>
@@ -141,26 +143,40 @@
         class="border-b"
         [pageSizeOptions]="[10, 25, 50, 100]"
         showFirstLastButtons
-        aria-label="Select page of periodic elements">
+        aria-label="Select page of periodic elements"
+      >
       </mat-paginator>
-      <div class="bg-white" style="height: 24px;">&nbsp;</div>
+      <div class="bg-white" style="height: 24px">&nbsp;</div>
     </div>
   </div>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort #empTbSort="matSort" matSortActive="" matSortDirection="asc">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef" >
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{column.header }}
+        {{ column.header }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <span *ngIf="!column.iconoTd">
-            {{column.cell(row)}}
+          <div [innerHTML]="column.cell(row)"></div>
+        </span>
+        <span *ngIf="column.iconoTd">
+          <mat-form-field appearance="fill">
+            <mat-label>Seleccionar habitación</mat-label>
+            <mat-select (selectionChange)="roomSelected(row, $event.value)">
+              <mat-option *ngFor="let roomType of row.availableRoomTypes; let i = index" [value]="{ quantity: i + 1, totalPrice: (i + 1) * row.precio }">
+                {{ i + 1 }} - {{ (i + 1) * row.precio }}€
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </span>
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
-
-
+  <div class="row mt-4">
+    <div class="col-12" align="center">
+      <button mat-raised-button color="primary" (click)="bookingRoom()">Finalizar Reserva</button>
+    </div>
+  </div>
 </div>

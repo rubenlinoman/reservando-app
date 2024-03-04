@@ -69,6 +69,26 @@ export class AuthService {
   }
 
   /**
+   * Método para registrar un usuario en el componente de reservas
+   * @param form - Formulario
+   * @returns devuelve un Observable de tipo CheckTokenResponse
+   */
+  registerUserInReservation(form: FormGroup): Observable<CheckTokenResponse> {
+    const { password2: _, email2: _a, tipoUsuario: tipoUsuarioStr, ...sendForm } = form.value;
+    const tipoUsuarioInt = Number(tipoUsuarioStr);
+
+    return this.http
+      .post<CheckTokenResponse>(`${this.apiUrl}/auth/register`, {
+        idTipoUsuario: tipoUsuarioInt,
+        ...sendForm
+      })
+      .pipe(
+        catchError((err) => throwError(() => err.error.message))
+      );
+  }
+
+
+  /**
    * Método para comprobar el estado de la autenticación
    * @returns devuelve un Observable de tipo boolean
    */

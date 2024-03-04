@@ -12,5 +12,21 @@ mat-paginator{
 }
 
 .bg-card {
-  background-color: #e4f4ff;
+  background-color: #ffffff;
+}
+
+::ng-deep .input-blanco .mat-mdc-text-field-wrapper  {
+  background-color: white !important;
+}
+
+.bg-button-purple {
+  background-color: #542ca7;
+}
+
+.bg-button-blue {
+  background-color: #1c76da;
+}
+
+.txt-purple {
+  color: #542ca7;
 }

@@ -5,6 +5,7 @@ import { AccommodationPageComponent } from './pages/accommodation-page/accommoda
 import { DetailsPageComponent } from './pages/details-page/details-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
+import { BookingRoomComponent } from './pages/details-page/booking-room/booking-room.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: '', component: HomePageComponent },
       { path: 'alojamiento', component: AccommodationPageComponent },
       { path: 'detalles/:id', component: DetailsPageComponent },
+      { path: 'reservar', component: BookingRoomComponent },
       { path: '**', redirectTo: '' }
     ]
   }

@@ -1,0 +1,122 @@
+<div class="container pb-5">
+  <div class="row mt-3">
+    <div class="col-6">
+      <mat-card>
+        <mat-card-header class="mb-3">
+          <mat-card-title>{{ alojamiento?.nombreAlojamiento }}</mat-card-title>
+          <mat-card-subtitle>
+            <i class="bi bi-geo-alt"></i>
+            {{ alojamiento?.direccion }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ alojamiento?.descripcion }}</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mt-3">
+        <mat-card-header>
+          <mat-card-title>Los datos de tu reserva</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-6">
+              <mat-card-subtitle>
+                Entrada
+              </mat-card-subtitle>
+              <span>{{ getFormattedDate(fechaInicio) }}</span>
+            </div>
+            <div class="col-6">
+              <mat-card-subtitle>
+                Salida
+              </mat-card-subtitle>
+              <span>{{ getFormattedDate(fechaFin) }}</span>
+            </div>
+          </div>
+          <div class="my-2">
+            <mat-card-subtitle>
+              Duración de la estancia
+            </mat-card-subtitle>
+            <span>{{ duracionEstancia }} {{ getDuracionEstanciaText() }}</span>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="my-2">
+            <mat-card-subtitle>
+              Total habitaciones seleccionadas
+            </mat-card-subtitle>
+            <div *ngFor="let roomDetail of getSelectedRoomsDetails()">
+              <span>{{ roomDetail }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mt-3">
+        <mat-card-header>
+          <mat-card-title>Desglose de precio</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let roomPriceDetail of getTotalPriceDetails().details">
+            <span>{{ roomPriceDetail }}</span>
+          </div>
+          <mat-card-title>
+            <span class="text-black">Total: {{ getTotalPriceDetails().totalPrice | currency : 'EUR' }}</span>
+          </mat-card-title>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-6" align="center">
+      <div class="auth-main">
+        <div class="card">
+          <form [formGroup]="registerForm" (ngSubmit)="checkUserAndMakeReservation()" *ngIf="showForm">
+            <div class="card-body">
+              <h3 class="my-4 d-flex justify-content-center"> Introduce tus datos </h3>
+              <mat-form-field class="col-12 mb-3">
+                <mat-label>Usuario</mat-label>
+                <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
+                <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
+              </mat-form-field>
+              <div class="row">
+                <mat-form-field class="col-md-6 mb-3">
+                  <mat-label>Nombre</mat-label>
+                  <input type="text" matInput formControlName="nombre" placeholder="Nombre..." />
+                  <mat-error customLabel *ngIf="isValidField('nombre')" [errors]="registerForm.get('nombre')?.errors"></mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-6 mb-3">
+                  <mat-label>Apellidos</mat-label>
+                  <input type="text" matInput formControlName="apellidos" placeholder="Apellidos..." />
+                  <mat-error customLabel *ngIf="isValidField('apellidos')" [errors]="registerForm.get('apellidos')?.errors"></mat-error>
+                </mat-form-field>
+              </div>
+              <mat-form-field class="col-12 mb-3">
+                <mat-label>Correo electrónico</mat-label>
+                <input type="email" matInput formControlName="email" placeholder="name@example.com" />
+                <mat-error customLabel *ngIf="isValidField('email')" [errors]="registerForm.get('email')?.errors"></mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-12 mb-3">
+                <mat-label>Confirmar correo electrónico</mat-label>
+                <input type="email" matInput formControlName="email2" placeholder="name@example.com" />
+                <mat-error customLabel *ngIf="isValidField('email2')" [errors]="registerForm.get('email2')?.errors"></mat-error>
+              </mat-form-field>
+              <div class="row">
+                <mat-form-field class="col-md-6 mb-3">
+                  <mat-label>password</mat-label>
+                  <input type="password" matInput formControlName="password" placeholder="Contraseña..." />
+                  <mat-error customLabel *ngIf="isValidField('password')" [errors]="registerForm.get('password')?.errors"> </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-6 mb-3">
+                  <mat-label>Confirmar password</mat-label>
+                  <input type="password" matInput formControlName="password2" placeholder="Contraseña..." />
+                  <mat-error customLabel *ngIf="isValidField('password2')" [errors]="registerForm.get('password2')?.errors"> </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-secondary p-2" >Reservar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
