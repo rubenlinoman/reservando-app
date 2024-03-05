@@ -105,12 +105,28 @@ const NavigationItems = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'reservas',
-        title: 'Reservas',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/dashboard/reservas',
-        icon: 'bi bi-list-ul'
+        id: 'mis-reservas',
+        title: 'Mis reservas',
+        type: 'collapse',
+        icon: 'bi bi-calendar-check',
+        children: [
+          {
+            id: 'listado-reservas',
+            title: 'Listado reservas',
+            type: 'item',
+            url: '/dashboard/reservas/listado-reservas',
+            target: false,
+            breadcrumbs: false
+          },
+          {
+            id: 'nueva-reserva',
+            title: 'Nueva reserva',
+            type: 'item',
+            url: '/dashboard/reservas/nueva-reserva',
+            target: false,
+            breadcrumbs: false
+          }
+        ]
       }
     ]
   },

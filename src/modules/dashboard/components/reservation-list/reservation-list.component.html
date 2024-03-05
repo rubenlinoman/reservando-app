@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-12 col-lg-4 pe-lg-0">
+    <mat-form-field class="col-12 bg-white">
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input style="padding-bottom: 1px !important" />
+    </mat-form-field>
+  </div>
+  <div class="col-12 col-lg-8 ps-lg-0">
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+    <div class="bg-white" style="height: 22px">&nbsp;</div>
+  </div>
+</div>
+<mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  matSort
+  #empTbSort="matSort"
+  matSortActive="idReserva"
+  matSortDirection="asc"
+>
+<ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+  <mat-header-cell *matHeaderCellDef mat-sort-header>
+    <span *ngIf="!column.iconoTh">
+      {{ column.header }}
+    </span>
+  </mat-header-cell>
+  <mat-cell *matCellDef="let row" [ngClass]="{
+    'justify-content-end': column.columnDef == 'editar' || column.columnDef == 'eliminar',
+    'reserva-cancelada': row.idEstadoReserva == 3
+  }">
+    <span *ngIf="!column.iconoTd">
+      <span *ngIf="column.columnDef != 'eliminar'">
+        {{ column.cell(row) }}
+      </span>
+      <button
+        mat-mini-fab
+        *ngIf="column.columnDef == 'editar'"
+        (click)="editReservation(row.idReserva)"
+        color="primary"
+        aria-label="Editar"
+      >
+        <mat-icon>edit_note</mat-icon>
+      </button>
+    </span>
+  </mat-cell>
+</ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

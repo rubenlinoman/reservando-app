@@ -30,7 +30,7 @@
   class="mat-elevation-z8"
   matSort
   #empTbSort="matSort"
-  matSortActive="id_habitacion"
+  matSortActive="idHabitacion"
   matSortDirection="asc"
 >
   <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
@@ -47,7 +47,7 @@
         <button
           mat-mini-fab
           *ngIf="column.columnDef == 'editar'"
-          (click)="editContent(row.idHabitacion)"
+          (click)="editRoom(row.idHabitacion)"
           color="primary"
           aria-label="Editar"
         >

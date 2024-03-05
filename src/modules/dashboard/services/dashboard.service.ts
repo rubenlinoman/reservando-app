@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Habitacion, TipoAlojamiento, TipoHabitacion } from 'src/modules/shared/interfaces';
+import { EstadoReserva, Habitacion, Reserva, TipoAlojamiento, TipoHabitacion } from 'src/modules/shared/interfaces';
 import { Alojamiento } from 'src/modules/shared/interfaces/alojamiento.interface';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class DashboardService {
   }
 
   /**
-   * Método para obtener los alojamientos por usuario
+   * Método para obtener los alojamientos por usuario (o todos si es admin)
    * @param idUsuario - ID del usuario (number)
    * @param idTipoUsuario - ID del tipo de usuario (number)
    * @returns devuelve un Observable de tipo Alojamiento
@@ -302,5 +302,56 @@ export class DashboardService {
     }
 
     return this.http.delete<boolean>(`${this.apiUrl}/habitacion/${idHabitacion}`, { headers: this.headers });
+  }
+
+  /**
+   * Método para obtener las reservas de un propietario (o todas si es admin)
+   * @param idPropietario - ID del propietario
+   * @param idTipoUsuario - ID del tipo de usuario
+   * @returns devuelve un Observable de tipo Reserva
+   */
+  getReservationsByOwner(idPropietario: number, idTipoUsuario: number): Observable<Reserva[]> {
+    console.log('getReservationsByOwner', idPropietario, idTipoUsuario);
+
+    const url = `${this.apiUrl}/reserva/${idPropietario}/${idTipoUsuario}`;
+
+    if (!this.token) {
+      return of([]);
+    }
+
+    return this.http.get<Reserva[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para obtener todas las reservas
+   * @returns - Observable de tipo EstadoReserva
+   */
+  getReservationStatus(): Observable<EstadoReserva[]> {
+    const url = `${this.apiUrl}/reserva/estados`;
+
+    if (!this.token) {
+      return of([]);
+    }
+
+    return this.http.get<EstadoReserva[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para obtener una reserva
+   * @param idReserva - ID de la reserva
+   * @returns devuelve un Observable de tipo Reserva
+   */
+  getReservationById(idReserva: number): Observable<Reserva> {
+    const url = `${this.apiUrl}/alojamiento/${idReserva}`;
+
+    if (!this.token) {
+      return of();
+    }
+
+    return this.http.get<Reserva>(url, { headers: this.headers }).pipe(
+      catchError(() => {
+        return of();
+      })
+    );
   }
 }

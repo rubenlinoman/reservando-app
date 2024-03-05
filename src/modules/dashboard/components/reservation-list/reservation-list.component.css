@@ -29,3 +29,11 @@ mat-table{
 .cursor-pointer {
   cursor: pointer;
 }
+
+.mat-column-idReserva, .mat-column-editar, .mat-column-eliminar, .mat-column-editar, .mat-column-fechaInicio, .mat-column-fechaFin {
+  max-width: 10% !important;
+}
+
+.reserva-cancelada {
+  background-color: #f8d7da; /* Por ejemplo, un color de fondo rojo claro */
+}

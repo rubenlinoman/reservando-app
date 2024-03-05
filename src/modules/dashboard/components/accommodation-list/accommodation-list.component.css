@@ -29,3 +29,6 @@ mat-table{
 .cursor-pointer {
   cursor: pointer;
 }
+.mat-column-idAlojamiento, .mat-column-capacidad, .mat-column-eliminar, .mat-column-editar {
+  max-width: 10% !important;
+}

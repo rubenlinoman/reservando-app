@@ -14,11 +14,11 @@ import { RoomImagesComponent } from './room-images/room-images.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
 
 @Component({
-  selector: 'dashboard-rooms-list',
-  templateUrl: './rooms-list.component.html',
-  styleUrl: './rooms-list.component.css'
+  selector: 'dashboard-room-list',
+  templateUrl: './room-list.component.html',
+  styleUrl: './room-list.component.css'
 })
-export class RoomsListComponent {
+export class RoomListComponent {
   private dashboardService = inject(DashboardService);
   private authService = inject(AuthService);
 
@@ -233,7 +233,7 @@ export class RoomsListComponent {
      * Método para editar el contenido de una habitación
      * @param idHabitacion - ID de la habitación
      */
-    editContent(idHabitacion: number) {
+    editRoom(idHabitacion: number) {
       const dialogRef = this.dialog.open(EditRoomComponent, {
         data: { idHabitacion: idHabitacion },
       });

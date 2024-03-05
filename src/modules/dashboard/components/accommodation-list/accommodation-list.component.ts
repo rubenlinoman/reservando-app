@@ -14,11 +14,11 @@ import { EditAccommodationComponent } from './edit-accommodation/edit-accommodat
 import { TipoAlojamiento } from 'src/modules/shared/interfaces';
 
 @Component({
-  selector: 'dashboard-accommodations-list',
+  selector: 'dashboard-accommodation-list',
   templateUrl: './accommodation-list.component.html',
   styleUrl: './accommodation-list.component.css'
 })
-export class AccommodationsListComponent {
+export class AccommodationListComponent {
   private dashboardService = inject(DashboardService);
   private authService = inject(AuthService);
 
@@ -232,7 +232,7 @@ export class AccommodationsListComponent {
    * Método para editar un alojamiento
    * @param idAlojamiento - ID del alojamiento (number)
    */
-  editContent(idAlojamiento: number) {
+  editAccommodation(idAlojamiento: number) {
     const dialogRef = this.dialog.open(EditAccommodationComponent, {
       data: { idAlojamiento: idAlojamiento }
     });
