@@ -209,6 +209,21 @@ export class DashboardService {
   }
 
   /**
+   * Método para editar una reserva
+   * @param form - Formulario
+   * @returns devuelve un Observable de tipo Reserva
+   */
+  editReservation(form: FormGroup) {
+    const url = `${this.apiUrl}/reserva`;
+    return this.http.patch<Reserva>(url, form.value, { headers: this.headers }).pipe(
+      catchError((err) => {
+        console.error(err);
+        return throwError(() => err.error.message);
+      })
+    );
+  }
+
+  /**
    * Método para eliminar un alojamiento
    * @param idAlojamiento - ID del alojamiento (number)
    * @returns devuelve un Observable de tipo Boolean
@@ -311,9 +326,25 @@ export class DashboardService {
    * @returns devuelve un Observable de tipo Reserva
    */
   getReservationsByOwner(idPropietario: number, idTipoUsuario: number): Observable<Reserva[]> {
-    console.log('getReservationsByOwner', idPropietario, idTipoUsuario);
 
     const url = `${this.apiUrl}/reserva/${idPropietario}/${idTipoUsuario}`;
+
+    if (!this.token) {
+      return of([]);
+    }
+
+    return this.http.get<Reserva[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para obtener las reservas de un usuario (cliente)
+   * @param idUsuario - ID del usuario
+   * @returns devuelve un Observable de tipo Reserva
+   */
+  getReservationsByUser(idUsuario: number): Observable<Reserva[]> {
+    console.log('getReservationsByUser', idUsuario);
+
+    const url = `${this.apiUrl}/reserva/${idUsuario}`;
 
     if (!this.token) {
       return of([]);
@@ -342,7 +373,7 @@ export class DashboardService {
    * @returns devuelve un Observable de tipo Reserva
    */
   getReservationById(idReserva: number): Observable<Reserva> {
-    const url = `${this.apiUrl}/alojamiento/${idReserva}`;
+    const url = `${this.apiUrl}/reserva/${idReserva}`;
 
     if (!this.token) {
       return of();

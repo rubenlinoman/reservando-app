@@ -35,7 +35,7 @@
       </span>
       <button
         mat-mini-fab
-        *ngIf="column.columnDef == 'editar'"
+        *ngIf="column.columnDef == 'editar' && user()?.idTipoUsuario && user().idTipoUsuario > 1"
         (click)="editReservation(row.idReserva)"
         color="primary"
         aria-label="Editar"

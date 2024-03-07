@@ -15,7 +15,7 @@ import { EditReservationComponent } from './edit-reservation/edit-reservation.co
 @Component({
   selector: 'dashboard-reservation-list',
   templateUrl: './reservation-list.component.html',
-  styleUrl: './reservation-list.component.css',
+  styleUrl: './reservation-list.component.css'
 })
 export class ReservationListComponent {
   private dashboardService = inject(DashboardService);
@@ -68,14 +68,14 @@ export class ReservationListComponent {
     },
     {
       columnDef: 'fechaInicio',
-      header: 'Fecha inicio',
+      header: 'Fecha entrada',
       iconoTh: false,
       iconoTd: false,
       cell: (element: Reserva) => `${this.datePipe.transform(element.fechaInicio, 'shortDate')}`
     },
     {
       columnDef: 'fechaFin',
-      header: 'Fecha fin',
+      header: 'Fecha salida',
       iconoTh: false,
       iconoTd: false,
       cell: (element: Reserva) => `${this.datePipe.transform(element.fechaFin, 'shortDate')}`
@@ -84,7 +84,7 @@ export class ReservationListComponent {
       columnDef: 'editar',
       header: '',
       cell: (element: Reserva) => ``
-    },
+    }
   ];
 
   public displayedColumns = this.columns.map((c) => c.columnDef);
@@ -97,50 +97,75 @@ export class ReservationListComponent {
     this.dataSource = new MatTableDataSource();
     this.dashboardService.getReservationStatus().subscribe((status) => {
       this.reservationStatus = status as EstadoReserva[];
-      console.log('reservationStatus', this.reservationStatus);
-
-    })
-  }
-
-  ngAfterViewInit() {
-    this.dashboardService.getReservationsByOwner(this.user().idUsuario, this.user().idTipoUsuario).subscribe((reservations) => {
-      console.log('reservations', reservations);
-      this.dataSource = new MatTableDataSource(reservations);
-      this.dataSource.paginator = this.paginator;
-      this.empTbSort.disableClear = true;
-      this.dataSource.sort = this.empTbSort;
-      this.reservationRows = reservations;
-
     });
   }
 
-    /**
+  ngAfterViewInit() {
+    console.log('this.user().idTipoUsuario', this.user().idTipoUsuario);
+
+    if (this.user().idTipoUsuario > 1) {
+      this.dashboardService.getReservationsByOwner(this.user().idUsuario, this.user().idTipoUsuario).subscribe((reservations) => {
+        console.log('reservations', reservations);
+        this.dataSource = new MatTableDataSource(reservations);
+        this.dataSource.paginator = this.paginator;
+        this.empTbSort.disableClear = true;
+        this.dataSource.sort = this.empTbSort;
+        this.reservationRows = reservations;
+      });
+    } else {
+      this.dashboardService.getReservationsByUser(this.user().idUsuario).subscribe((reservations) => {
+        this.dataSource = new MatTableDataSource(reservations);
+        this.dataSource.paginator = this.paginator;
+        this.empTbSort.disableClear = true;
+        this.dataSource.sort = this.empTbSort;
+        this.reservationRows = reservations;
+      });
+    }
+  }
+
+  /**
    * Metodo para filtrar
    * @param event - Evento de filtro
    */
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  /**
+   * Método para construir el datasource
+   */
+  buildDataSource() {
+    this.dataSource = new MatTableDataSource(this.reservationRows);
+    this.dataSource.paginator = this.paginator;
+    this.empTbSort.disableClear = true;
+    this.dataSource.sort = this.empTbSort;
+  }
+
+  editReservation(idReserva: number) {
+    const dialogRef = this.dialog.open(EditReservationComponent, {
+      data: { idReserva: idReserva }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== false && result !== undefined) {
+        // Buscar el alojamiento en la lista
+        const index = this.reservationRows.findIndex((element) => element.idReserva == result.idReserva);
+
+        // Verificar si se encontro
+        if (index !== -1) {
+          // Actualizar solo los campos modificados
+          this.reservationRows[index].fechaInicio = result.fechaInicio;
+          this.reservationRows[index].fechaFin = result.fechaFin;
+          this.reservationRows[index].idEstadoReserva = result.idEstadoReserva;
+
+          this.buildDataSource();
+        }
       }
-    }
-
-    /**
-     * Método para construir el datasource
-     */
-    buildDataSource() {
-      this.dataSource = new MatTableDataSource(this.reservationRows);
-      this.dataSource.paginator = this.paginator;
-      this.empTbSort.disableClear = true;
-      this.dataSource.sort = this.empTbSort;
-    }
-
-    editReservation(idReserva: number) {
-      const dialogRef = this.dialog.open(EditReservationComponent, {
-        data: { idReserva: idReserva }
-      });
-    }
+    });
+  }
 }
-

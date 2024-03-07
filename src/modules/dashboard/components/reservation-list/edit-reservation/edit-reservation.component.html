@@ -1,1 +1,67 @@
-<p>edit-reservation works!</p>,
+<h1 mat-dialog-title>Editar la reserva</h1>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="editReservationForm" (ngSubmit)="editReservation()" autocomplete="off">
+
+        <div class="row">
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Fecha de entrada</mat-label>
+            <input
+              matInput
+              [matDatepicker]="pickerInicio"
+              required
+              formControlName="fechaInicio"
+            >
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+            <mat-datepicker #pickerInicio></mat-datepicker>
+            <mat-error customLabel
+              *ngIf="isValidField('fechaInicio')"
+              [errors]="editReservationForm.get('fechaInicio')?.errors"
+            >
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-6">
+            <mat-label>Fecha de salida</mat-label>
+            <input
+              matInput
+              [matDatepicker]="pickerFin"
+              required
+              formControlName="fechaFin"
+            >
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFin></mat-datepicker>
+            <mat-error customLabel
+              *ngIf="isValidField('fechaFin')"
+              [errors]="editReservationForm.get('fechaFin')?.errors"
+            >
+            </mat-error>
+          </mat-form-field>
+
+
+        </div>
+
+        <mat-form-field class="col-12">
+          <mat-label>Estado de la reserva</mat-label>
+          <mat-select required formControlName="idEstadoReserva">
+            <mat-option *ngFor="let status of reservationStatus" [value]="status.idEstadoReserva">
+              {{ status.nombreEstadoReserva }}
+            </mat-option>
+          </mat-select>
+          <mat-error customLabel *ngIf="isValidField('idEstadoReserva')" [errors]="editReservationForm.get('idEstadoReserva')?.errors">
+          </mat-error>
+        </mat-form-field>
+
+        <section class="d-flex justify-content-evenly"></section>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cerrar</button>
+  <button mat-button [mat-dialog-close]="editReservationForm.value" [disabled]="editReservationForm.invalid" color="primary" (click)="editReservation()">Editar</button>
+</mat-dialog-actions>
