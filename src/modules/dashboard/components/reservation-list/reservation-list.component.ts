@@ -84,6 +84,11 @@ export class ReservationListComponent {
       columnDef: 'editar',
       header: '',
       cell: (element: Reserva) => ``
+    },
+    {
+      columnDef: 'ver',
+      header: '',
+      cell: (element: Reserva) => ``
     }
   ];
 
@@ -101,11 +106,8 @@ export class ReservationListComponent {
   }
 
   ngAfterViewInit() {
-    console.log('this.user().idTipoUsuario', this.user().idTipoUsuario);
-
     if (this.user().idTipoUsuario > 1) {
       this.dashboardService.getReservationsByOwner(this.user().idUsuario, this.user().idTipoUsuario).subscribe((reservations) => {
-        console.log('reservations', reservations);
         this.dataSource = new MatTableDataSource(reservations);
         this.dataSource.paginator = this.paginator;
         this.empTbSort.disableClear = true;
@@ -146,6 +148,10 @@ export class ReservationListComponent {
     this.dataSource.sort = this.empTbSort;
   }
 
+  /**
+   * Método que lanza el componente de edición de reserva
+   * @param idReserva - ID de la reserva
+   */
   editReservation(idReserva: number) {
     const dialogRef = this.dialog.open(EditReservationComponent, {
       data: { idReserva: idReserva }

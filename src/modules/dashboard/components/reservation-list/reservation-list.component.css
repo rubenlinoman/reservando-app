@@ -37,3 +37,8 @@ mat-table{
 .reserva-cancelada {
   background-color: #f8d7da; /* Por ejemplo, un color de fondo rojo claro */
 }
+
+.reserva-pendiente {
+  background-color: #fff3cd; /* Color suave en amarillo */
+}
+

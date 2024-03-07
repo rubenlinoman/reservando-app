@@ -11,41 +11,46 @@
     <div class="bg-white" style="height: 22px">&nbsp;</div>
   </div>
 </div>
-<mat-table
-  [dataSource]="dataSource"
-  class="mat-elevation-z8"
-  matSort
-  #empTbSort="matSort"
-  matSortActive="idReserva"
-  matSortDirection="asc"
->
-<ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-  <mat-header-cell *matHeaderCellDef mat-sort-header>
-    <span *ngIf="!column.iconoTh">
-      {{ column.header }}
-    </span>
-  </mat-header-cell>
-  <mat-cell *matCellDef="let row" [ngClass]="{
-    'justify-content-end': column.columnDef == 'editar' || column.columnDef == 'eliminar',
-    'reserva-cancelada': row.idEstadoReserva == 3
-  }">
-    <span *ngIf="!column.iconoTd">
-      <span *ngIf="column.columnDef != 'eliminar'">
-        {{ column.cell(row) }}
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort #empTbSort="matSort" matSortActive="idReserva" matSortDirection="asc">
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span *ngIf="!column.iconoTh">
+        {{ column.header }}
       </span>
-      <button
-        mat-mini-fab
-        *ngIf="column.columnDef == 'editar' && user()?.idTipoUsuario && user().idTipoUsuario > 1"
-        (click)="editReservation(row.idReserva)"
-        color="primary"
-        aria-label="Editar"
-      >
-        <mat-icon>edit_note</mat-icon>
-      </button>
-    </span>
-  </mat-cell>
-</ng-container>
-
+    </mat-header-cell>
+    <mat-cell
+      *matCellDef="let row"
+      [ngClass]="{
+        'justify-content-end': column.columnDef == 'editar' || column.columnDef == 'eliminar',
+        'reserva-cancelada': row.idEstadoReserva == 3,
+        'reserva-pendiente': row.idEstadoReserva == 1
+      }"
+    >
+      <span *ngIf="!column.iconoTd">
+        <span *ngIf="column.columnDef != 'eliminar'">
+          {{ column.cell(row) }}
+        </span>
+        <button
+          mat-mini-fab
+          *ngIf="column.columnDef == 'editar' && user()?.idTipoUsuario && user().idTipoUsuario > 1"
+          (click)="editReservation(row.idReserva)"
+          color="primary"
+          aria-label="Editar"
+        >
+          <mat-icon>edit_note</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          *ngIf="column.columnDef == 'ver'"
+          [routerLink]="['/dashboard/reservas/detalle-reserva', row.idReserva]"
+          class="bg-success"
+          aria-label="Editar"
+        >
+        <mat-icon>visibility</mat-icon>
+        </button>
+      </span>
+    </mat-cell>
+  </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>

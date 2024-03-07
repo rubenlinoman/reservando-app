@@ -327,7 +327,7 @@ export class DashboardService {
    */
   getReservationsByOwner(idPropietario: number, idTipoUsuario: number): Observable<Reserva[]> {
 
-    const url = `${this.apiUrl}/reserva/${idPropietario}/${idTipoUsuario}`;
+    const url = `${this.apiUrl}/reserva/propietario/${idPropietario}/${idTipoUsuario}`;
 
     if (!this.token) {
       return of([]);
@@ -342,9 +342,7 @@ export class DashboardService {
    * @returns devuelve un Observable de tipo Reserva
    */
   getReservationsByUser(idUsuario: number): Observable<Reserva[]> {
-    console.log('getReservationsByUser', idUsuario);
-
-    const url = `${this.apiUrl}/reserva/${idUsuario}`;
+    const url = `${this.apiUrl}/reserva/usuario/${idUsuario}`;
 
     if (!this.token) {
       return of([]);
