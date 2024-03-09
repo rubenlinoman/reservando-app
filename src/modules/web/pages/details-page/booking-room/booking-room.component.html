@@ -1,4 +1,5 @@
 <div class="container pb-5">
+
   <div class="row mt-3">
     <div class="col-6">
       <mat-card>
@@ -20,29 +21,21 @@
         <mat-card-content>
           <div class="row">
             <div class="col-6">
-              <mat-card-subtitle>
-                Entrada
-              </mat-card-subtitle>
+              <mat-card-subtitle> Entrada </mat-card-subtitle>
               <span>{{ getFormattedDate(fechaInicio) }}</span>
             </div>
             <div class="col-6">
-              <mat-card-subtitle>
-                Salida
-              </mat-card-subtitle>
+              <mat-card-subtitle> Salida </mat-card-subtitle>
               <span>{{ getFormattedDate(fechaFin) }}</span>
             </div>
           </div>
           <div class="my-2">
-            <mat-card-subtitle>
-              Duración de la estancia
-            </mat-card-subtitle>
+            <mat-card-subtitle> Duración de la estancia </mat-card-subtitle>
             <span>{{ duracionEstancia }} {{ getDuracionEstanciaText() }}</span>
           </div>
           <mat-divider></mat-divider>
           <div class="my-2">
-            <mat-card-subtitle>
-              Total habitaciones seleccionadas
-            </mat-card-subtitle>
+            <mat-card-subtitle> Total habitaciones seleccionadas </mat-card-subtitle>
             <div *ngFor="let roomDetail of getSelectedRoomsDetails()">
               <span>{{ roomDetail }}</span>
             </div>
@@ -58,16 +51,20 @@
             <span>{{ roomPriceDetail }}</span>
           </div>
           <mat-card-title>
-            <span class="text-black">Total: {{ getTotalPriceDetails().totalPrice | currency : 'EUR' }}</span>
+            <span class="text-black">Total: {{ getTotalPriceDetails().totalPrice | currency: 'EUR' }}</span>
           </mat-card-title>
-
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-6" align="center">
-      <div class="auth-main">
+
+    <div class="col-6 spinner-overlay" align="center">
+      <!-- Aquí colocamos el mat-spinner en lugar del formulario de registro de usuario -->
+      <div *ngIf="isMakingReservation">
+        <mat-spinner class="spinner"></mat-spinner>
+      </div>
+      <div class="auth-main" *ngIf="!isMakingReservation">
         <div class="card">
-          <form [formGroup]="registerForm" (ngSubmit)="checkUserAndMakeReservation()" *ngIf="showForm">
+          <form [formGroup]="registerForm" (ngSubmit)="checkUserAndMakeReservation()">
             <div class="card-body">
               <h3 class="my-4 d-flex justify-content-center"> Introduce tus datos </h3>
               <mat-form-field class="col-12 mb-3">
@@ -99,24 +96,23 @@
               </mat-form-field>
               <div class="row">
                 <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>password</mat-label>
+                  <mat-label>Contraseña</mat-label>
                   <input type="password" matInput formControlName="password" placeholder="Contraseña..." />
                   <mat-error customLabel *ngIf="isValidField('password')" [errors]="registerForm.get('password')?.errors"> </mat-error>
                 </mat-form-field>
                 <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>Confirmar password</mat-label>
+                  <mat-label>Confirmar contraseña</mat-label>
                   <input type="password" matInput formControlName="password2" placeholder="Contraseña..." />
                   <mat-error customLabel *ngIf="isValidField('password2')" [errors]="registerForm.get('password2')?.errors"> </mat-error>
                 </mat-form-field>
               </div>
               <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-secondary p-2" >Reservar</button>
+                <button type="submit" class="btn btn-secondary p-2">Reservar</button>
               </div>
             </div>
           </form>
         </div>
       </div>
-
     </div>
   </div>
 </div>

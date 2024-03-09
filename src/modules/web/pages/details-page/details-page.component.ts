@@ -15,6 +15,7 @@ import * as bootstrap from 'bootstrap';
 
 import { BookingRoomComponent } from './booking-room/booking-room.component';
 import { ImageDetailsComponent } from './image-details/image-details.component';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'web-details-page',
@@ -76,20 +77,20 @@ export class DetailsPageComponent {
       header: 'Seleccionar habitaciones',
       iconoTh: false,
       iconoTd: true,
-      cell: (element: Habitacion) => ``,
-    },
-
+      cell: (element: Habitacion) => ``
+    }
   ];
 
   public displayedColumns = this.columns.map((c) => c.columnDef);
   public dataSource: MatTableDataSource<Habitacion>;
+  @ViewChild('roomSelect') roomSelect: MatSelect;
 
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
 
   constructor(
     public dialog: MatDialog,
     private renderer: Renderer2,
-    private el: ElementRef,
+    private el: ElementRef
   ) {
     const today = new Date();
     const tomorrow = new Date();
@@ -112,11 +113,13 @@ export class DetailsPageComponent {
     // Obtener las habitaciones disponibles del día actual al iniciar el componente
     this.chargeRooms();
 
-    this.webService.getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, 4).subscribe((availableRoomTypes) => {
-      this.rooms.forEach(room => {
-        room.availableRoomTypes = availableRoomTypes;
+    this.webService
+      .getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, 4)
+      .subscribe((availableRoomTypes) => {
+        this.rooms.forEach((room) => {
+          room.availableRoomTypes = availableRoomTypes;
+        });
       });
-    });
 
     // Obtener las habitaciones del alojamiento
     this.webService.getRoomsByAccommodationId(this.idAlojamiento).subscribe((rooms) => {
@@ -159,10 +162,10 @@ export class DetailsPageComponent {
   chargeRooms() {
     this.webService.getAvailableRooms(this._fechaInicio, this._fechaFin, this.idAlojamiento).subscribe((rooms) => {
       // Mapear las habitaciones y asignarles el idTipoHabitacion adecuado
-      this.rooms = rooms.map(room => ({ ...room, idTipoHabitacion: room.idTipoHabitacion }));
+      this.rooms = rooms.map((room) => ({ ...room, idTipoHabitacion: room.idTipoHabitacion }));
 
       // Inicializar la propiedad selectedRoom de cada habitación
-      this.rooms.forEach(room => {
+      this.rooms.forEach((room) => {
         room.selectedRoom = { quantity: 1, totalPrice: +room.precio }; // Inicializar como una habitación individual con cantidad 1
       });
 
@@ -170,14 +173,15 @@ export class DetailsPageComponent {
       this.buildDataSource();
 
       // Obtener las habitaciones disponibles por tipo
-      this.rooms.forEach(room => {
-        this.webService.getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, room.idTipoHabitacion).subscribe((availableRoomTypes) => {
-          room.availableRoomTypes = availableRoomTypes;
-        });
+      this.rooms.forEach((room) => {
+        this.webService
+          .getAvailableRoomsByAccommodationAndRoomTypeId(this._fechaInicio, this._fechaFin, this.idAlojamiento, room.idTipoHabitacion)
+          .subscribe((availableRoomTypes) => {
+            room.availableRoomTypes = availableRoomTypes;
+          });
       });
     });
   }
-
 
   /**
    * Método para construir el datasource
@@ -219,16 +223,35 @@ export class DetailsPageComponent {
   }
 
   /**
-   * Método para agregar la habitación seleccionada a la lista de habitaciones seleccionadas
-   * @param room - Habitación seleccionada
+   * Método para seleccionar una habitación
+   * @param room - Habitación
+   * @param $event - Evento
    */
   roomSelected(room: Habitacion, $event: any) {
-    const quantity = $event.quantity;
-    const totalPrice = $event.totalPrice;
-    room.selectedRoom = { quantity, totalPrice };
+    if ($event !== null && $event !== undefined) {
+      const quantity = $event.quantity;
 
-    // Agregar la habitación seleccionada al array selectedRooms
-    this.selectedRooms.push(room);
+      const totalPrice = $event.totalPrice;
+
+      const existingRoomIndex = this.selectedRooms.findIndex((selectedRoom) => selectedRoom.idTipoHabitacion === room.idTipoHabitacion);
+
+      if (existingRoomIndex !== -1) {
+        // Si la habitación ya está en selectedRooms, actualiza su cantidad
+        this.selectedRooms[existingRoomIndex].selectedRoom = { quantity, totalPrice };
+      } else {
+        // Si la habitación no está en selectedRooms, agrégala
+        room.selectedRoom = { quantity, totalPrice };
+
+        this.selectedRooms.push(room);
+      }
+    } else {
+      // Buscar y eliminar la habitación previamente seleccionada
+      const index = this.selectedRooms.findIndex((selectedRoom) => selectedRoom.idTipoHabitacion === room.idTipoHabitacion);
+
+      if (index !== -1) {
+        this.selectedRooms.splice(index, 1);
+      }
+    }
   }
 
   /**

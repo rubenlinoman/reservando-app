@@ -27,6 +27,7 @@ export class BookingRoomComponent {
   public alojamiento: Alojamiento;
   public selectedRooms: Habitacion[];
   duracionEstancia: number; // Variable para almacenar la duración de la estancia en días
+  isMakingReservation: boolean = false;
 
   public user = computed(() => this.authService.currentUser());
 
@@ -186,7 +187,7 @@ export class BookingRoomComponent {
 
     if (!this.user()) {
       if (this.registerForm.invalid) {
-        Swal.fire('Error', 'Por favor, rellene todos los campos', 'error');
+        Swal.fire('Warning', 'Por favor, rellene todos los campos', 'warning');
         this.showForm = false;
         setTimeout(() => {
           this.showForm = true;
@@ -197,7 +198,6 @@ export class BookingRoomComponent {
           next: (response) => {
             // Una vez registrado, obtenemos el idUsuario de la respuesta
             const userId = response.user.idUsuario;
-            console.log('ID de usuario:', userId);
 
             // Hacemos la reserva con el idUsuario obtenido
             this.makeReservation(userId);
@@ -227,40 +227,51 @@ export class BookingRoomComponent {
    * Método para hacer la reserva
    * @param userId - ID del usuario
    */
-  makeReservation(userId: number): void {
-    // Creamos una reserva para cada habitación seleccionada
+  makeReservation(idUsuario: number): void {
+    this.isMakingReservation = true; // Mostrar el spinner
+
+    let successfulReservations = 0;
+    const totalRooms = this.selectedRooms.reduce((total, room) => total + room.selectedRoom.quantity, 0);
+
     for (const room of this.selectedRooms) {
-      // Recorrer todas las habitaciones hasta la cantidad seleccionada
       for (let i = 0; i < room.selectedRoom.quantity; i++) {
         const reservaData: ReservaData = {
-          idUsuario: userId,
+          idUsuario: idUsuario,
           idAlojamiento: this.idAlojamiento,
           idHabitacion: room.availableRoomTypes[i].idHabitacion,
           fechaInicio: this.fechaInicio,
           fechaFin: this.fechaFin,
           idEstadoReserva: 1
         };
-        console.log('reservaData:', reservaData);
 
-        // Creamos una reserva para cada habitación seleccionada
         this.webService.createReservation(reservaData).subscribe({
           next: (response) => {
-            console.log('Respuesta de reserva:', response);
-
-            // Muestra un mensaje de éxito al hacer la reserva
-            Swal.fire('Éxito', 'Reserva realizada correctamente', 'success');
-            this.showForm = false;
-            setTimeout(() => {
-              this.registerForm.reset();
-              this.showForm = true;
-            });
+            successfulReservations++;
+            if (successfulReservations === totalRooms) {
+              Swal.fire('Éxito', 'Reservas realizadas correctamente', 'success');
+              this.showForm = false;
+              setTimeout(() => {
+                this.registerForm.reset();
+                this.showForm = true;
+                this.isMakingReservation = false; // Ocultar el spinner cuando se complete el proceso
+              });
+            }
           },
-          error: (message) => {
-            console.error('Error al hacer la reserva:', message);
-            Swal.fire('Error', message.message, 'error');
+          error: (error) => {
+            console.error('Error al hacer la reserva:', error);
+
+            if (error.error.message.includes('Ya existe una reserva para esta habitación en las fechas especificadas')) {
+              Swal.fire('Error', 'Ya existe una reserva para esta habitación en las fechas especificadas.', 'error');
+            } else {
+              Swal.fire('Error', 'Ocurrió un error al realizar la reserva. Por favor, inténtelo de nuevo más tarde.', 'error');
+            }
+
+            this.isMakingReservation = false; // Asegurarse de ocultar el spinner en caso de error
           }
         });
       }
     }
   }
+
+
 }

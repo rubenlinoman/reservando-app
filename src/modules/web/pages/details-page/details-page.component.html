@@ -161,11 +161,16 @@
         <span *ngIf="column.iconoTd">
           <mat-form-field appearance="fill">
             <mat-label>Seleccionar habitación</mat-label>
-            <mat-select (selectionChange)="roomSelected(row, $event.value)">
+            <mat-select #roomSelect (selectionChange)="roomSelected(row, $event.value)">
+              <!-- Agrega una opción de deselección -->
+              <mat-option [value]="null">Seleccionar habitación</mat-option>
+
+              <!-- Resto de las opciones -->
               <mat-option *ngFor="let roomType of row.availableRoomTypes; let i = index" [value]="{ quantity: i + 1, totalPrice: (i + 1) * row.precio }">
                 {{ i + 1 }} - {{ (i + 1) * row.precio }}€
               </mat-option>
             </mat-select>
+
           </mat-form-field>
         </span>
       </mat-cell>

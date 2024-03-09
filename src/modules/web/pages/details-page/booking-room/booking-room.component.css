@@ -5,3 +5,14 @@
 ::ng-deep .input-blanco .mat-mdc-text-field-wrapper  {
   background-color: white !important;
 }
+
+.col-6 {
+  position: relative; /* Asegúrate de que el div tenga posición relativa */
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
