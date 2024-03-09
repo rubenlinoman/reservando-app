@@ -202,9 +202,6 @@ export class BookingRoomComponent {
             // Hacemos la reserva con el idUsuario obtenido
             this.makeReservation(userId);
 
-            // Muestra un mensaje de éxito al registrar el usuario
-            Swal.fire('Éxito', 'Usuario registrado correctamente', 'success');
-
             this.showForm = false;
             setTimeout(() => {
               this.registerForm.reset();
@@ -248,7 +245,11 @@ export class BookingRoomComponent {
           next: (response) => {
             successfulReservations++;
             if (successfulReservations === totalRooms) {
-              Swal.fire('Éxito', 'Reservas realizadas correctamente', 'success');
+              Swal.fire('Éxito', 'Reserva realizada correctamente', 'success').then(() => {
+                // Redirigir a la página de inicio o a la ruta deseada
+                window.location.href = '/';
+              });
+
               this.showForm = false;
               setTimeout(() => {
                 this.registerForm.reset();
@@ -258,8 +259,6 @@ export class BookingRoomComponent {
             }
           },
           error: (error) => {
-            console.error('Error al hacer la reserva:', error);
-
             if (error.error.message.includes('Ya existe una reserva para esta habitación en las fechas especificadas')) {
               Swal.fire('Error', 'Ya existe una reserva para esta habitación en las fechas especificadas.', 'error');
             } else {
@@ -272,6 +271,4 @@ export class BookingRoomComponent {
       }
     }
   }
-
-
 }

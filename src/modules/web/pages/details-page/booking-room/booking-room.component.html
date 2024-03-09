@@ -1,5 +1,4 @@
 <div class="container pb-5">
-
   <div class="row mt-3">
     <div class="col-6">
       <mat-card>
@@ -66,45 +65,60 @@
         <div class="card">
           <form [formGroup]="registerForm" (ngSubmit)="checkUserAndMakeReservation()">
             <div class="card-body">
-              <h3 class="my-4 d-flex justify-content-center"> Introduce tus datos </h3>
-              <mat-form-field class="col-12 mb-3">
-                <mat-label>Usuario</mat-label>
-                <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
-                <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
-              </mat-form-field>
-              <div class="row">
-                <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>Nombre</mat-label>
-                  <input type="text" matInput formControlName="nombre" placeholder="Nombre..." />
-                  <mat-error customLabel *ngIf="isValidField('nombre')" [errors]="registerForm.get('nombre')?.errors"></mat-error>
+              <div *ngIf="!user()">
+                <h3 class="my-4 d-flex justify-content-center"> Introduce tus datos </h3>
+                <mat-form-field class="col-12 mb-3">
+                  <mat-label>Usuario</mat-label>
+                  <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
+                  <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
                 </mat-form-field>
-                <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>Apellidos</mat-label>
-                  <input type="text" matInput formControlName="apellidos" placeholder="Apellidos..." />
-                  <mat-error customLabel *ngIf="isValidField('apellidos')" [errors]="registerForm.get('apellidos')?.errors"></mat-error>
+                <div class="row">
+                  <mat-form-field class="col-md-6 mb-3">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput formControlName="nombre" placeholder="Nombre..." />
+                    <mat-error customLabel *ngIf="isValidField('nombre')" [errors]="registerForm.get('nombre')?.errors"></mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col-md-6 mb-3">
+                    <mat-label>Apellidos</mat-label>
+                    <input type="text" matInput formControlName="apellidos" placeholder="Apellidos..." />
+                    <mat-error customLabel *ngIf="isValidField('apellidos')" [errors]="registerForm.get('apellidos')?.errors"></mat-error>
+                  </mat-form-field>
+                </div>
+                <mat-form-field class="col-12 mb-3">
+                  <mat-label>Correo electrónico</mat-label>
+                  <input type="email" matInput formControlName="email" placeholder="name@example.com" />
+                  <mat-error customLabel *ngIf="isValidField('email')" [errors]="registerForm.get('email')?.errors"></mat-error>
                 </mat-form-field>
+                <mat-form-field class="col-12 mb-3">
+                  <mat-label>Confirmar correo electrónico</mat-label>
+                  <input type="email" matInput formControlName="email2" placeholder="name@example.com" />
+                  <mat-error customLabel *ngIf="isValidField('email2')" [errors]="registerForm.get('email2')?.errors"></mat-error>
+                </mat-form-field>
+                <div class="row">
+                  <mat-form-field class="col-md-6 mb-3">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput formControlName="password" placeholder="Contraseña..." />
+                    <mat-error customLabel *ngIf="isValidField('password')" [errors]="registerForm.get('password')?.errors"> </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col-md-6 mb-3">
+                    <mat-label>Confirmar contraseña</mat-label>
+                    <input type="password" matInput formControlName="password2" placeholder="Contraseña..." />
+                    <mat-error customLabel *ngIf="isValidField('password2')" [errors]="registerForm.get('password2')?.errors"> </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
-              <mat-form-field class="col-12 mb-3">
-                <mat-label>Correo electrónico</mat-label>
-                <input type="email" matInput formControlName="email" placeholder="name@example.com" />
-                <mat-error customLabel *ngIf="isValidField('email')" [errors]="registerForm.get('email')?.errors"></mat-error>
-              </mat-form-field>
-              <mat-form-field class="col-12 mb-3">
-                <mat-label>Confirmar correo electrónico</mat-label>
-                <input type="email" matInput formControlName="email2" placeholder="name@example.com" />
-                <mat-error customLabel *ngIf="isValidField('email2')" [errors]="registerForm.get('email2')?.errors"></mat-error>
-              </mat-form-field>
-              <div class="row">
-                <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>Contraseña</mat-label>
-                  <input type="password" matInput formControlName="password" placeholder="Contraseña..." />
-                  <mat-error customLabel *ngIf="isValidField('password')" [errors]="registerForm.get('password')?.errors"> </mat-error>
-                </mat-form-field>
-                <mat-form-field class="col-md-6 mb-3">
-                  <mat-label>Confirmar contraseña</mat-label>
-                  <input type="password" matInput formControlName="password2" placeholder="Contraseña..." />
-                  <mat-error customLabel *ngIf="isValidField('password2')" [errors]="registerForm.get('password2')?.errors"> </mat-error>
-                </mat-form-field>
+              <div *ngIf="user()">
+                <!-- Logo de la empresa -->
+                <a href="javascript:" class="d-flex justify-content-center my-3" [routerLink]="['/']">
+                  <img src="assets/images/logo-dark.svg" />
+                </a>
+
+                <!-- Mensaje descriptivo -->
+                <p class="card-text">
+                  Estás a punto de realizar una reserva en {{ alojamiento?.nombreAlojamiento }}. ¡Bienvenido de vuelta, {{ user().nombre }}!
+                </p>
+                <!-- Imagen "graciosa" -->
+                <div class="bg-login-image"></div>
               </div>
               <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-secondary p-2">Reservar</button>

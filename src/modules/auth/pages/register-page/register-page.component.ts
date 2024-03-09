@@ -49,7 +49,7 @@ export class RegisterPageComponent {
    */
   register() {
     this.authService.registerUser(this.registerForm).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard/default'),
+      next: () => this.router.navigateByUrl('/dashboard/inicio'),
       error: (message) => {
         Swal.fire('Error', message, 'error');
       }
