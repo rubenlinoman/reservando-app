@@ -1,5 +1,6 @@
 // Angular import
 import { Component, computed, inject } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from 'src/modules/auth/services/auth.service';
 })
 export class NavRightComponent {
   private authService = inject(AuthService);
+  public readonly apiUrl = environment.apiUrl;
 
   public user = computed(() => this.authService.currentUser());
 

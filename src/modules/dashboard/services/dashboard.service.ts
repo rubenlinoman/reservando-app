@@ -326,7 +326,6 @@ export class DashboardService {
    * @returns devuelve un Observable de tipo Reserva
    */
   getReservationsByOwner(idPropietario: number, idTipoUsuario: number): Observable<Reserva[]> {
-
     const url = `${this.apiUrl}/reserva/propietario/${idPropietario}/${idTipoUsuario}`;
 
     if (!this.token) {
@@ -380,6 +379,42 @@ export class DashboardService {
     return this.http.get<Reserva>(url, { headers: this.headers }).pipe(
       catchError(() => {
         return of();
+      })
+    );
+  }
+
+  //Cargar la imagen del usuario
+  chargeImage(imagen: any): Observable<any> {
+    const url = `${this.apiUrl}/usuario/imagen`;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    let formData = new FormData();
+    console.log('imagen', imagen);
+
+    formData.append('imagen', imagen!, imagen!.name);
+    console.log('formData', formData);
+
+
+    return this.http.post(url, formData, { headers }).pipe(
+      catchError((error) => {
+        return throwError(() => error.error.message);
+      })
+    );
+  }
+
+  //Actualizar datos del perfil de usuario
+  updateProfileInfo(actualizar: object, idUsuario: number): Observable<any> {
+    const url = `${this.apiUrl}/usuario`;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    console.log('actualizar', actualizar);
+
+
+    return this.http.patch(url, { ...actualizar, idUsuario }, { headers }).pipe(
+      catchError((err) => {
+        return throwError(() => err.error.message);
       })
     );
   }

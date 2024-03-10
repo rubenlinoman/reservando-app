@@ -27,6 +27,10 @@ import { HomepageHeaderNavBarComponent } from './components/homepage-header-nav-
 import { MaterialModule } from 'src/app/material/material.module';
 import { CustomLabelDirective } from './directives/custom-label.directive';
 import { ChunkPipe } from './pipes/chunk.pipe';
+import { DropzoneCdkModule } from '@ngx-dropzone/cdk';
+import { DropzoneMaterialModule } from '@ngx-dropzone/material';
+import { ImageUserPipe } from './pipes/image-user.pipe';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +42,7 @@ import { ChunkPipe } from './pipes/chunk.pipe';
     HomepageFooterComponent,
     HomepageHeaderComponent,
     HomepageHeaderNavBarComponent,
+    ImageUserPipe,
     NavBarComponent,
     NavCollapseComponent,
     NavContentComponent,
@@ -51,6 +56,8 @@ import { ChunkPipe } from './pipes/chunk.pipe';
   ],
   imports: [
     CommonModule,
+    DropzoneCdkModule,
+    DropzoneMaterialModule,
     FormsModule,
     MaterialModule,
     NgbCollapseModule,
@@ -69,10 +76,13 @@ import { ChunkPipe } from './pipes/chunk.pipe';
     CommonModule,
     ConfigurationComponent,
     CustomLabelDirective,
+    DropzoneCdkModule,
+    DropzoneMaterialModule,
     FormsModule,
     HomepageFooterComponent,
     HomepageHeaderComponent,
     HomepageHeaderNavBarComponent,
+    ImageUserPipe,
     MaterialModule,
     NavBarComponent,
     NavCollapseComponent,

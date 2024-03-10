@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.profile-image {
+  max-width: 100%; /* Establecer un ancho máximo */
+}

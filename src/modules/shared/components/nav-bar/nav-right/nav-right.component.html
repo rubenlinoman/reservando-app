@@ -32,7 +32,7 @@
                 <a class="list-group-item list-group-item-action">
                   <div class="d-flex">
                     <div class="flex-shrink-0">
-                      <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+                      <img [src]="this.user()?.imagen | imageUser" alt="{{this.user()?.nombre}}" class="user-avtar" />
                     </div>
                     <div class="flex-grow-1 ms-1">
                       <span class="float-end text-muted">2 min ago</span>
@@ -116,7 +116,7 @@
           href="javascript:"
           ngbDropdownToggle
         >
-          <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+          <img [src]="this.user()?.imagen | imageUser" alt="user-image" class="user-avtar" />
           <span>
             <i class="ti ti-settings"></i>
           </span>
@@ -152,7 +152,7 @@
                 </div>
               </div>
               <hr />
-              <a [routerLink]="['/auth/register']" class="dropdown-item">
+              <a [routerLink]="['/dashboard/perfil']" class="dropdown-item">
                 <i class="ti ti-settings"></i>
                 <span>Account Profile</span>
               </a>
@@ -162,7 +162,7 @@
               </a>
               <button
                 (click)="onLogout()"
-                [routerLink]="['/auth/login']"
+                [routerLink]="['/']"
                 class="dropdown-item">
                 <i class="ti ti-logout"></i>
                 <span>Logout</span>

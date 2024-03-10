@@ -16,11 +16,6 @@
               </div>
             </div>
             <h5 class="my-4 d-flex justify-content-center"> Regístrate con tu correo electrónico y usuario </h5>
-            <mat-form-field class="col-12 mb-3">
-              <mat-label>Usuario</mat-label>
-              <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
-              <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
-            </mat-form-field>
             <div class="row">
               <mat-form-field class="col-md-6 mb-3">
                 <mat-label>Nombre</mat-label>

@@ -18,6 +18,7 @@ import { ReservationListComponent } from './components/reservation-list/reservat
 import { ReservationPageComponent } from './pages/reservation-page/reservation-page.component';
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { RoomPageComponent } from './pages/room-page/room-page.component';
+import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { RoomPageComponent } from './pages/room-page/room-page.component';
     ReservationPageComponent,
     RoomListComponent,
     RoomPageComponent,
+    UserProfilePageComponent,
   ],
   imports: [
     CommonModule,

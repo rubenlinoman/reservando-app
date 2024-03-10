@@ -1,0 +1,65 @@
+<div class="container mt-4">
+  <form [formGroup]="profileForm">
+    <div class="row">
+      <!-- Card de la imagen de usuario -->
+      <div class="col-md-4 mb-4">
+        <div class="card profile-card">
+          <div class="card-header">
+            <h5 class="card-title text-center">{{this.user()?.nombre + ' ' + this.user()?.apellidos}}</h5>
+          </div>
+          <div class="card-body">
+            <!-- Aquí mostrar la imagen de perfil -->
+            <input type="hidden" formControlName="imagen">
+            <img *ngIf="subirFoto" class="profile-image rounded-circle img-fluid" [src]="imagenPerfil | imageUser">
+            <!-- Botón para cambiar la imagen -->
+            <mat-form-field appearance="outline" *ngIf="!subirFoto" class="col-12">
+              <mat-label>Arrastra o selecciona una imagen...</mat-label>
+              <ngx-mat-dropzone>
+                <input type="file" fileInput formControlName="imagenSubida" (ngModelChange)="chargeImage($event)" accept="image/*" />
+              </ngx-mat-dropzone>
+              <mat-error>¡Debes seleccionar una imagen!</mat-error>
+            </mat-form-field>
+            <mat-divider class="m-2"></mat-divider>
+            <div class="d-flex justify-content-around mb-2">
+              <button mat-mini-fab color="warn" aria-label="Delete" (click)="deleteImage()">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-mini-fab color="primary" (click)="subirFoto ? (subirFoto = false) : (subirFoto = true)" aria-label="Upload">
+                <mat-icon>upload</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card del formulario de actualización de perfil -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="my-4 d-flex justify-content-center"> Datos del usuario </h2>
+            <div class="row">
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" required formControlName="nombre" (blur)="updateProfileInfo($event)" />
+                <mat-error customLabel *ngIf="isValidField('nombre')" [errors]="profileForm.get('nombre')?.errors"></mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-md-6 mb-3">
+                <mat-label>Apellidos</mat-label>
+                <input matInput type="text" required formControlName="apellidos" (blur)="updateProfileInfo($event)" />
+                <mat-error customLabel *ngIf="isValidField('apellidos')" [errors]="profileForm.get('apellidos')?.errors"></mat-error>
+              </mat-form-field>
+            </div>
+            <mat-form-field class="col-12 mb-3">
+              <mat-label>Correo electrónico</mat-label>
+              <input type="email" matInput formControlName="email" placeholder="name@example.com" />
+              <mat-error customLabel *ngIf="isValidField('email')" [errors]="profileForm.get('email')?.errors"></mat-error>
+            </mat-form-field>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-secondary p-2" [routerLink]="['/dashboard']">Restablecer contraseña</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
