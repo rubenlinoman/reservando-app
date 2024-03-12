@@ -44,7 +44,7 @@ export class PasswordChangeComponent {
   /**
    * Metodo para cambiar la contraseña
    */
-  passChange(): void {
+  async passChange(): Promise<void> {
     // Extraer el email del token
     const emailFromToken = this.getEmailFromToken(this.token);
 
@@ -53,13 +53,24 @@ export class PasswordChangeComponent {
 
     // Verificar si el email se extrajo correctamente
     if (emailFromToken) {
-      // Enviar solicitud al backend para cambiar la contraseña con el token y el correo electrónico
-      this.authService.passChange(this.token, emailFromToken, newPassword).subscribe({
-        next: () => this.router.navigate(['/auth/login']),
-        error: (message) => {
-          Swal.fire('Error', message, 'error');
-        }
-      });
+      try {
+        // Enviar solicitud al backend para cambiar la contraseña con el token y el correo electrónico
+        await this.authService.passChange(this.token, emailFromToken, newPassword).toPromise();
+
+        // Mostrar el SweetAlert de éxito
+        await Swal.fire({
+          icon: 'success',
+          title: 'Contraseña cambiada con éxito',
+          text: '¡Tu contraseña ha sido cambiada con éxito!',
+          confirmButtonText: 'Ir al inicio de sesión',
+          allowOutsideClick: false, // Evita que se cierre haciendo clic fuera del SweetAlert
+        });
+
+        // Después de hacer clic en "Ir al inicio de sesión", redirigir al login
+        this.router.navigate(['/auth/login']);
+      } catch (error) {
+        Swal.fire('Error', error.message || 'Error al cambiar la contraseña', 'error');
+      }
     } else {
       console.error('Error al extraer el email del token.');
     }

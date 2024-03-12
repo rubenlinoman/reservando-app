@@ -1,30 +1,33 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { AfterViewInit, Component, computed, inject } from '@angular/core';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 import { DashboardService } from '../../services/dashboard.service';
+import { Reserva } from 'src/modules/shared/interfaces';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'dasboard-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css',
+  styleUrls: ['./home-page.component.css'],
 })
-export class HomePageComponent {
+export class HomePageComponent implements AfterViewInit {
   private authService = inject(AuthService);
   public user = computed(() => this.authService.currentUser());
-  private dashboardService = inject(DashboardService)
-  public totalReservations: number = 0
+  private dashboardService = inject(DashboardService);
+  public totalReservations: Reserva[] = [];
+
   constructor() {}
 
-  ngOnInit() {
-    if (this.user().idTipoUsuario > 1) {
-      this.dashboardService.getReservationsByOwner(this.user().idUsuario, this.user().idTipoUsuario).subscribe((reservations) => {
-        this.totalReservations = reservations.length
-      });
-    } else {
-      this.dashboardService.getReservationsByUser(this.user().idUsuario).subscribe((reservations) => {
-        this.totalReservations = reservations.length
-      });
+  async ngAfterViewInit() {
+    try {
+      if (this.user().idTipoUsuario > 1) {
+        const reservations = await firstValueFrom(this.dashboardService.getReservationsByOwner(this.user().idUsuario, this.user().idTipoUsuario));
+        this.totalReservations = reservations;
+      } else {
+        const reservations = await firstValueFrom(this.dashboardService.getReservationsByUser(this.user().idUsuario));
+        this.totalReservations = reservations;
+      }
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
     }
   }
-
 }

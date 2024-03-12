@@ -15,6 +15,10 @@ import { ReservationListComponent } from './components/reservation-list/reservat
 import { ReservationDetailsComponent } from './components/reservation-list/reservation-details/reservation-details.component';
 import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
 
+import { ProfileComponent } from './components/profile/profile.component';
+import { ResetPasswordComponent } from './components/profile/reset-password/reset-password.component';
+import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -36,8 +40,11 @@ const routes: Routes = [
         { path: 'detalle-reserva/:idReserva', component: ReservationDetailsComponent},
         { path: '**', redirectTo: 'listado-reservas'},
       ]},
-      { path: 'perfil', component: UserProfilePageComponent},
-
+      { path: 'perfil', component: UserProfilePageComponent, children: [
+        { path: 'datos-personales', component: ProfileComponent },
+        { path: 'restablecer-password', component: ResetPasswordComponent },
+      ]},
+      { path: 'calendario', component: CalendarPageComponent },
       { path: 'typography', component: TypographyComponent },
     ]
   },

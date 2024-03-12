@@ -148,6 +148,7 @@ export class AuthService {
     const url = `${this.apiUrl}/auth/password-change`;
 
     const passChangeRequest = { token, email, newPassword };
+    console.log('passChangeRequest:', passChangeRequest);
 
     return this.http.patch(url, passChangeRequest)
       .pipe(

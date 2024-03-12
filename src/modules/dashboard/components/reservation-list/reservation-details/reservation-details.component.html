@@ -9,7 +9,7 @@
               class="card-img-top"
               [src]="apiUrl + '/' + 'images/' + this.accommodation.imagen"
               class="cursor-pointer"
-              alt="{{ this.accommodation.nombreAlojamiento }}"
+              alt="{{ accommodation.nombreAlojamiento }}"
               style="width: 100%"
             />
           </div>
@@ -59,7 +59,7 @@
           <div class="col-12 col-md-6">
             <!-- Aquí cambiamos col-6 por col-12 col-md-6 -->
             <h5 class="card-title">{{ this.room.nombreHabitacion }}</h5>
-            <p class="card-text"><strong>Nombre del cliente: </strong> {{ this.user()?.nombre + ' ' + this.user()?.apellidos }}</p>
+            <p class="card-text"><strong>Nombre del cliente: </strong> {{ this.client?.nombre + ' ' + this.client?.apellidos }}</p>
             <p class="card-text mb-2"><strong>Descripción: </strong> {{ this.room.descripcion }}</p>
           </div>
           <div class="col-12 col-md-6">
@@ -68,7 +68,7 @@
               class="card-img-top"
               [src]="apiUrl + '/' + 'images/' + this.room.imagen"
               class="cursor-pointer"
-              alt="{{ this.room.nombreHabitacion }}"
+              alt="{{ room.nombreHabitacion }}"
               style="width: 100%"
             />
           </div>

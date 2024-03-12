@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Usuario } from 'src/modules/auth/interfaces';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 import { DashboardService } from 'src/modules/dashboard/services/dashboard.service';
 import { Alojamiento, Habitacion, Reserva } from 'src/modules/shared/interfaces';
@@ -20,10 +21,22 @@ export class ReservationDetailsComponent {
   public accommodation: Alojamiento = {} as Alojamiento;
   public room: Habitacion = {} as Habitacion;
 
+  public client: Usuario;
+
   constructor(private route: ActivatedRoute) {
     const idReserva = this.route.snapshot.paramMap.get('idReserva');
     this.dashboardService.getReservationById(+idReserva).subscribe((reserva) => {
       this.reservation = reserva;
+      console.log('reservation', this.reservation);
+
+      const idUsuario = this.reservation.idUsuario;
+      console.log('idUsuario', idUsuario);
+
+      this.dashboardService.getUserById(idUsuario).subscribe((usuario) => {
+        this.client = usuario;
+        console.log('client', this.client);
+
+      });
 
       const idAlojamiento = this.reservation.idAlojamiento;
       this.dashboardService.getAccommodationById(idAlojamiento).subscribe((alojamiento) => {
@@ -35,6 +48,9 @@ export class ReservationDetailsComponent {
         });
       });
     })
+  }
+
+  ngAfterViewInit() {
   }
 
   /**

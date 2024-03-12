@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Usuario } from 'src/modules/auth/interfaces';
 import { EstadoReserva, Habitacion, Reserva, TipoAlojamiento, TipoHabitacion } from 'src/modules/shared/interfaces';
 import { Alojamiento } from 'src/modules/shared/interfaces/alojamiento.interface';
 
@@ -247,16 +248,12 @@ export class DashboardService {
 
     const { imagen, ...newRoomForm } = form.value;
 
-    console.log('newRoomForm', newRoomForm);
-
     let formData = new FormData();
     formData.append('imagen', imageFile!, imageFile!.name);
 
     for (let key in newRoomForm) {
       formData.append(key, newRoomForm[key]);
     }
-
-    console.log('formData', formData);
 
     if (!this.token) {
       return of();
@@ -383,18 +380,38 @@ export class DashboardService {
     );
   }
 
-  //Cargar la imagen del usuario
+    /**
+   * Método para obtener un usuario
+   * @param idUsuario - ID del usuario
+   * @returns devuelve un Observable de tipo Usuario
+   */
+    getUserById(idUsuario: number): Observable<Usuario> {
+      const url = `${this.apiUrl}/usuario/${idUsuario}`;
+
+      if (!this.token) {
+        return of();
+      }
+
+      return this.http.get<Usuario>(url, { headers: this.headers }).pipe(
+        catchError(() => {
+          return of();
+        })
+      );
+    }
+
+  /**
+   * Método para cargar una imagen
+   * @param imagen - Imagen
+   * @returns devuelve un Observable de tipo any
+   */
   chargeImage(imagen: any): Observable<any> {
     const url = `${this.apiUrl}/usuario/imagen`;
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     let formData = new FormData();
-    console.log('imagen', imagen);
 
     formData.append('imagen', imagen!, imagen!.name);
-    console.log('formData', formData);
-
 
     return this.http.post(url, formData, { headers }).pipe(
       catchError((error) => {
@@ -403,7 +420,12 @@ export class DashboardService {
     );
   }
 
-  //Actualizar datos del perfil de usuario
+  /**
+   * Método para actualizar la información del usuario
+   * @param actualizar - Objeto con los datos a actualizar
+   * @param idUsuario - ID del usuario
+   * @returns devuelve un Observable de tipo any
+   */
   updateProfileInfo(actualizar: object, idUsuario: number): Observable<any> {
     const url = `${this.apiUrl}/usuario`;
     const token = localStorage.getItem('token');
@@ -416,6 +438,23 @@ export class DashboardService {
       catchError((err) => {
         return throwError(() => err.error.message);
       })
+    );
+  }
+
+  /**
+   * Método para cambiar la contraseña
+   * @param email - Email del usuario
+   * @param newPassword - Nueva contraseña
+   * @returns devuelve un Observable de tipo boolean
+   */
+  resetPassword(email: string, newPassword: string) {
+    const url = `${this.apiUrl}/usuario/reset-password`;
+
+    const passChangeRequest = { email, newPassword };
+
+    return this.http.patch(url, passChangeRequest)
+      .pipe(
+        catchError(err => throwError(() => err.error.message))
     );
   }
 }
