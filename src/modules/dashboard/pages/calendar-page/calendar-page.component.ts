@@ -1,12 +1,11 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid'; // Importa el complemento dayGridPlugin
-import { DashboardService } from '../../services/dashboard.service';
 import { AuthService } from 'src/modules/auth/services/auth.service';
+import { Calendar } from '@fullcalendar/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
+import { DashboardService } from '../../services/dashboard.service';
 import { Reserva } from 'src/modules/shared/interfaces';
-import { DatePipe } from '@angular/common';
-import { end } from '@popperjs/core';
 import { Router } from '@angular/router';
+import dayGridPlugin from '@fullcalendar/daygrid'; // Importa el complemento dayGridPlugin
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-calendar-page',
@@ -40,9 +39,13 @@ export class CalendarPageComponent implements OnInit {
         initialView: 'dayGridMonth',
         displayEventTime: false,
         editable: true,
+        eventColor: '#1c76da',
+        locale: esLocale, // Establece el idioma a español
+        firstDay: 1, // Establece el primer día de la semana como lunes
         events: this.getEventArray(reservations), // Convierte las reservas en un arreglo de eventos y las pasa a FullCalendar
-        eventClick: this.handleEventClick
+        eventClick: this.handleEventClick,
       });
+
 
       calendar.render();
     });
@@ -51,16 +54,16 @@ export class CalendarPageComponent implements OnInit {
   // Convierte las reservas en un arreglo de eventos para FullCalendar
   getEventArray(reservations: Reserva[]): any[] {
     return reservations.map((reserva) => {
-      // Ajustar la fecha de fin para que sea el día siguiente al último día del evento
-      // let fechaFin = new Date(reserva.fechaFin);
-      // fechaFin.setDate(fechaFin.getDate() + 1);
+      // Genera un color aleatorio en formato hexadecimal
+      const color = '#' + Math.floor(Math.random()*16777215).toString(16);
 
       return {
         id: reserva.idReserva, // Asegúrate de incluir el ID de la reserva como el campo 'id'
         displayEventTime: false,
-        title: reserva.nombreAlojamiento + ' - ' + reserva.idReserva + ' - ' + 'ID Reserva' + ' - ' + reserva.nombreHabitacion,
+        title: 'ID ' +  reserva.idReserva + ' - ' + reserva.nombreAlojamiento +  ': ' + reserva.nombreHabitacion + ' -> Cliente: ' + reserva.idUsuario,
         start: reserva.fechaInicio,
-        end: reserva.fechaFin // Utilizar la fecha de fin ajustada
+        end: reserva.fechaFin, // Utilizar la fecha de fin ajustada
+        color: color // Asigna el color aleatorio al evento
       };
     });
   }

@@ -1,0 +1,57 @@
+<div class="p-4">
+  <h2 mat-dialog-title>Cambio de contraseña</h2>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="passChangeForm" (ngSubmit)="passChange()" autocomplete="off" class="row">
+
+          <mat-form-field class="col-6">
+            <mat-label>Usuario</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              formControlName="email"
+            >
+            <mat-error customLabel
+              *ngIf="isValidField('email')"
+              [errors]="passChangeForm.get('email')?.errors"
+            >
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6">
+            <mat-label>Nueva contraseña</mat-label>
+            <input
+              matInput
+              placeholder="Contraseña"
+              [type]="hide ? 'password' : 'text'"
+              required
+              formControlName="password"
+            >
+            <mat-icon matSuffix (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            <mat-error customLabel
+              *ngIf="isValidField('password')"
+              [errors]="passChangeForm.get('password')?.errors"
+            >
+            </mat-error>
+          </mat-form-field>
+
+          <button class="d-none" type="submit" [disabled]="passChangeForm.invalid" mat-flat-button color="primary">
+            Cambiar
+          </button>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-content-end" cdkTrapFocus>
+    <button mat-button [mat-dialog-close]="false">Cerrar</button>
+    <div *ngIf="passChangeForm.valid; else disabledButton">
+      <button mat-flat-button color="primary" [mat-dialog-close]="passChangeForm.value" cdkFocusInitial (click)="passChange()">Cambiar</button>
+    </div>
+    <ng-template #disabledButton>
+      <button mat-flat-button color="primary" [mat-dialog-close]="passChangeForm.value" [disabled]="true">Cambiar</button>
+    </ng-template>
+  </mat-dialog-actions>
+</div>

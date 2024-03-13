@@ -16,6 +16,8 @@ import * as bootstrap from 'bootstrap';
 import { BookingRoomComponent } from './booking-room/booking-room.component';
 import { ImageDetailsComponent } from './image-details/image-details.component';
 import { MatSelect } from '@angular/material/select';
+import Swal from 'sweetalert2';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'web-details-page',
@@ -90,8 +92,11 @@ export class DetailsPageComponent {
   constructor(
     public dialog: MatDialog,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    date: DateAdapter<Date>
   ) {
+    // devuelve 1 como primer día de la semana
+    date.getFirstDayOfWeek = () => 1;
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -258,6 +263,10 @@ export class DetailsPageComponent {
    * Método para redirigir a la página de reservas
    */
   bookingRoom() {
+    if (this.selectedRooms.length === 0) {
+      Swal.fire('¡Cuidado!', 'Debes seleccionar por lo menos una habitación', 'warning');
+      return;
+    }
     this.router.navigate(['/reservar'], {
       state: {
         fechaInicio: this._fechaInicio,

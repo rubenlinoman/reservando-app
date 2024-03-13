@@ -67,11 +67,6 @@
             <div class="card-body">
               <div *ngIf="!user()">
                 <h3 class="my-4 d-flex justify-content-center"> Introduce tus datos </h3>
-                <mat-form-field class="col-12 mb-3">
-                  <mat-label>Usuario</mat-label>
-                  <input type="text" matInput formControlName="usuario" placeholder="Nombre..." />
-                  <mat-error customLabel *ngIf="isValidField('usuario')" [errors]="registerForm.get('usuario')?.errors"></mat-error>
-                </mat-form-field>
                 <div class="row">
                   <mat-form-field class="col-md-6 mb-3">
                     <mat-label>Nombre</mat-label>
@@ -109,8 +104,8 @@
               </div>
               <div *ngIf="user()">
                 <!-- Logo de la empresa -->
-                <a href="javascript:" class="d-flex justify-content-center my-3" [routerLink]="['/']">
-                  <img src="assets/images/logo-dark.svg" />
+                <a href="javascript:" class="d-flex justify-content-center mb-3" [routerLink]="['/']">
+                  <img src="assets/images/ReservAndo.png" width="135" height="135" />
                 </a>
 
                 <!-- Mensaje descriptivo -->

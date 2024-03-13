@@ -457,4 +457,54 @@ export class DashboardService {
         catchError(err => throwError(() => err.error.message))
     );
   }
+
+  /**
+   * Método para obtener todos los usuarios
+   * @returns devuelve un Observable de tipo Usuario
+   */
+  getAllUsers(): Observable<Usuario[]> {
+    const url = `${this.apiUrl}/usuario`;
+    if (!this.token) {
+      return of([]);
+    }
+    return this.http.get<Usuario[]>(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+   * Método para borrar un usuario
+   * @param id - ID del usuario
+   * @returns devuelve un Observable de tipo any
+   */
+  deleteUser(id: number) {
+    const url = `${this.apiUrl}/usuario/${id}`;
+    if (!this.token) {
+      return of([]);
+    }
+    return this.http.delete(url, { headers: this.headers }).pipe(catchError((error) => of(undefined)));
+  }
+
+  /**
+ * Método para actualizar el campo Pass en el _admin de Usuarios
+ * @param idUsuario - ID del usuario
+ * @param mail - Mail del usuario
+ * @param password - Nueva contraseña
+ * @returns Observable que emite un valor 1 indicando si se ha actualizado correctamente
+ */
+  updateUserPass( idUsuario: number, email: string, password: string ): Observable<any> {
+    const url = `${ this.apiUrl }/usuario/editarPass`;
+
+    if( !this.token ) {
+      return of(false);
+    };
+
+    const updateUserPass = { idUsuario: idUsuario, email: email, password: password };
+    console.log(updateUserPass);
+
+    return this.http.patch(url, updateUserPass , { headers: this.headers } )
+      .pipe(
+        catchError(err => {
+          return throwError(() => err.error.message)
+        })
+      );
+  }
 }

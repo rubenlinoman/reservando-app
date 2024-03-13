@@ -116,34 +116,19 @@ const NavigationItems = [
     ]
   },
   {
-    id: 'tarifas-disponibilidad',
-    title: 'Tarifas y disponibilidad',
+    id: 'disponibilidad',
+    title: 'Disponibilidad',
     type: 'propietario',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'gestion-tarifas-disponibilidad',
-        title: 'Gestión',
-        type: 'collapse',
-        icon: 'bi bi-calendar',
-        children: [
-          {
-            id: 'calendario',
-            title: 'Calendario',
-            type: 'item',
-            url: '/dashboard/calendario',
-            target: true,
-            breadcrumbs: false
-          },
-          {
-            id: 'tarifas',
-            title: 'Planes de tarifas',
-            type: 'item',
-            url: '/dashboard/tarifas',
-            target: true,
-            breadcrumbs: false
-          }
-        ]
+        id: 'calendario',
+        title: 'Calendario',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/dashboard/calendario',
+        icon: 'bi bi-calendar3',
+        breadcrumbs: false
       }
     ]
   },
@@ -154,26 +139,13 @@ const NavigationItems = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'gestion-usuarios',
-        title: 'Gestión de Usuarios',
-        type: 'collapse',
+        id: 'listado-usuarios',
+        title: 'Listado de Usuarios',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/dashboard/usuarios',
         icon: 'bi bi-people',
-        children: [
-          {
-            id: 'listado-usuarios',
-            title: 'Listado de Usuarios',
-            type: 'item',
-            url: '/dashboard/usuarios/listado',
-            icon: 'bi bi-list-ul'
-          },
-          {
-            id: 'crear-usuario',
-            title: 'Crear Usuario',
-            type: 'item',
-            url: '/dashboard/usuarios/crear',
-            icon: 'bi bi-person-plus'
-          }
-        ]
+        breadcrumbs: false
       }
     ]
   }

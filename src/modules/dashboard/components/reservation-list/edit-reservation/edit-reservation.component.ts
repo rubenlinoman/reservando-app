@@ -1,5 +1,6 @@
 import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 import { DashboardService } from 'src/modules/dashboard/services/dashboard.service';
@@ -24,7 +25,8 @@ export class EditReservationComponent {
   public reservationStatus: EstadoReserva[] = [];
   public reservation: Reserva | null = null;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dateAdapter: DateAdapter<Date>) {
+    this.dateAdapter.getFirstDayOfWeek = () => 1;
     console.log('idReserva', data.idReserva);
     this.dashboardService.getReservationById(data.idReserva).subscribe(async (response) => {
       console.log('response', response);

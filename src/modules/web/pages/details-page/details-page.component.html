@@ -1,6 +1,6 @@
 <div class="container pb-5">
   <div class="row mt-3">
-    <div class="col-6" align="center">
+    <div class="col-md-6 col-12 mt-2" align="center">
       <h2>{{ accommodation?.nombreAlojamiento }}</h2>
       <mat-card-subtitle>
         <i class="bi bi-pin-map"></i>
@@ -12,7 +12,7 @@
         {{ accommodation?.direccion }}
       </mat-card-subtitle>
     </div>
-    <div class="col-6" align="center">
+    <div class="col-md-6 col-12 mt-2" align="center">
       <button mat-fab extended class="bg-button-blue" (click)="scrollToReservas()">
         <i class="bi bi-calendar-plus"></i>
         Reservar ahora
@@ -97,10 +97,10 @@
   </div>
 
   <div class="row mt-3" id="reservas">
-    <div class="col-6" align="center">
+    <div class="col-md-6 col-12 mt-2" align="center">
       <p>{{ accommodation?.descripcion }}</p>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-12 mt-2">
       <mat-card class="bg-card">
         <mat-card-header>
           <mat-card-title class="p-1">Tipos de habitaciones</mat-card-title>
@@ -116,7 +116,7 @@
 
   <div class="row mt-5">
     <form [formGroup]="availableRoomsForm" class="row" (ngSubmit)="searchDates()">
-      <div class="col-6" align="center">
+      <div class="col-md-6 col-12 mt-2" align="center">
         <mat-form-field class="input-blanco">
           <mat-label>Disponibilidad</mat-label>
           <mat-date-range-input [formGroup]="availableRoomsForm" [rangePicker]="campaignOnePicker">
@@ -128,7 +128,7 @@
           <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
         </mat-form-field>
       </div>
-      <div class="col-6">
+      <div class="col-md-6 col-12 mt-2" align="center">
         <button mat-fab extended class="bg-button-purple" [disabled]="availableRoomsForm.invalid">
           <i class="bi bi-search"></i>
           Realizar búsqueda
@@ -149,36 +149,39 @@
       <div class="bg-white" style="height: 24px">&nbsp;</div>
     </div>
   </div>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort #empTbSort="matSort" matSortActive="" matSortDirection="asc">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ column.header }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <span *ngIf="!column.iconoTd">
-          <div [innerHTML]="column.cell(row)"></div>
-        </span>
-        <span *ngIf="column.iconoTd">
-          <mat-form-field appearance="fill">
-            <mat-label>Seleccionar habitación</mat-label>
-            <mat-select #roomSelect (selectionChange)="roomSelected(row, $event.value)">
-              <!-- Agrega una opción de deselección -->
-              <mat-option [value]="null">Seleccionar habitación</mat-option>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort #empTbSort="matSort" matSortActive="" matSortDirection="asc">
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column.header }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span *ngIf="!column.iconoTd">
+            <div [innerHTML]="column.cell(row)"></div>
+          </span>
+          <span *ngIf="column.iconoTd">
+            <mat-form-field subscriptSizing="dynamic" class="input-blanco">
+              <mat-label>Seleccionar habitación</mat-label>
+              <mat-select #roomSelect (selectionChange)="roomSelected(row, $event.value)">
+                <!-- Agrega una opción de deselección -->
+                <mat-option [value]="null">Seleccionar habitación</mat-option>
 
-              <!-- Resto de las opciones -->
-              <mat-option *ngFor="let roomType of row.availableRoomTypes; let i = index" [value]="{ quantity: i + 1, totalPrice: (i + 1) * row.precio }">
-                {{ i + 1 }} - {{ (i + 1) * row.precio }}€
-              </mat-option>
-            </mat-select>
+                <!-- Resto de las opciones -->
+                <mat-option *ngFor="let roomType of row.availableRoomTypes; let i = index" [value]="{ quantity: i + 1, totalPrice: (i + 1) * row.precio }">
+                  {{ i + 1 }} - {{ (i + 1) * row.precio }}€
+                </mat-option>
+              </mat-select>
 
-          </mat-form-field>
-        </span>
-      </mat-cell>
-    </ng-container>
+            </mat-form-field>
+          </span>
+        </mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
+
   <div class="row mt-4">
     <div class="col-12" align="center">
       <button mat-raised-button color="primary" (click)="bookingRoom()">Finalizar Reserva</button>

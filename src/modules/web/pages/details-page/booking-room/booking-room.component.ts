@@ -34,7 +34,6 @@ export class BookingRoomComponent {
   public showForm: boolean = true;
   public registerForm: FormGroup = this.fb.group(
     {
-      usuario: ['', Validators.required],
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

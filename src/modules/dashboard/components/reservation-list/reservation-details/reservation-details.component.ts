@@ -25,30 +25,32 @@ export class ReservationDetailsComponent {
 
   constructor(private route: ActivatedRoute) {
     const idReserva = this.route.snapshot.paramMap.get('idReserva');
-    this.dashboardService.getReservationById(+idReserva).subscribe((reserva) => {
-      this.reservation = reserva;
-      console.log('reservation', this.reservation);
+    setTimeout(() => {
+        this.dashboardService.getReservationById(+idReserva).subscribe((reserva) => {
+            this.reservation = reserva;
+            console.log('reservation', this.reservation);
 
-      const idUsuario = this.reservation.idUsuario;
-      console.log('idUsuario', idUsuario);
+            const idUsuario = this.reservation.idUsuario;
+            console.log('idUsuario', idUsuario);
 
-      this.dashboardService.getUserById(idUsuario).subscribe((usuario) => {
-        this.client = usuario;
-        console.log('client', this.client);
+            this.dashboardService.getUserById(idUsuario).subscribe((usuario) => {
+                this.client = usuario;
+                console.log('client', this.client);
+            });
 
-      });
+            const idAlojamiento = this.reservation.idAlojamiento;
+            this.dashboardService.getAccommodationById(idAlojamiento).subscribe((alojamiento) => {
+                this.accommodation = alojamiento;
 
-      const idAlojamiento = this.reservation.idAlojamiento;
-      this.dashboardService.getAccommodationById(idAlojamiento).subscribe((alojamiento) => {
-        this.accommodation = alojamiento;
-
-        const idHabitacion = this.reservation.idHabitacion;
-        this.dashboardService.getRoomById(idHabitacion).subscribe((habitacion) => {
-          this.room = habitacion;
+                const idHabitacion = this.reservation.idHabitacion;
+                this.dashboardService.getRoomById(idHabitacion).subscribe((habitacion) => {
+                    this.room = habitacion;
+                });
+            });
         });
-      });
-    })
-  }
+    }, 0);
+}
+
 
   ngAfterViewInit() {
   }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/modules/auth/services/auth.service';
 import { ValidatorsService } from 'src/modules/shared/services/validators.service';
-import { DashboardService } from '../../services/dashboard.service';
+import { DashboardService } from '../../../services/dashboard.service';
 import Swal from 'sweetalert2';
 
 @Component({

@@ -13,11 +13,12 @@ import { RoomListComponent } from './components/room-list/room-list.component';
 import { NewRoomComponent } from './components/new-room/new-room.component';
 import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
 import { ReservationDetailsComponent } from './components/reservation-list/reservation-details/reservation-details.component';
-import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
+import { UserProfilePageComponent } from './pages/user-page/user-profile-page/user-profile-page.component';
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { ResetPasswordComponent } from './components/profile/reset-password/reset-password.component';
 import { CalendarPageComponent } from './pages/calendar-page/calendar-page.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
         { path: 'datos-personales', component: ProfileComponent },
         { path: 'restablecer-password', component: ResetPasswordComponent },
       ]},
+      { path: 'usuarios', component: UserPageComponent},
       { path: 'calendario', component: CalendarPageComponent },
       { path: 'typography', component: TypographyComponent },
     ]
