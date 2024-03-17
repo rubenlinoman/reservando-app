@@ -10,7 +10,7 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { EditUserPassComponent } from '../../edit-user-pass/edit-user-pass.component';
+import { EditUserPassComponent } from '../../components/edit-user-pass/edit-user-pass.component';
 import { forkJoin } from 'rxjs';
 
 @Component({

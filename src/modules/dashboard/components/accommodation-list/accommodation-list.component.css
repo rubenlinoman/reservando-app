@@ -29,6 +29,14 @@ mat-table{
 .cursor-pointer {
   cursor: pointer;
 }
+
 .mat-column-idAlojamiento, .mat-column-capacidad, .mat-column-eliminar, .mat-column-editar {
-  max-width: 10% !important;
+  max-width: 8% !important;
+}
+
+
+/* Ancho específico para la columna de descripción */
+.mat-column-descripcion {
+  min-width: 200px; /* Establecer un ancho mínimo */
+  max-width: 400px; /* Establecer un ancho máximo */
 }

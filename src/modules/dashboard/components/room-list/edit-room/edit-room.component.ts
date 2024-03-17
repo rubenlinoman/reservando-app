@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/modules/auth/services/auth.service';
@@ -74,6 +73,7 @@ export class EditRoomComponent {
       if (tipo) {
         this.editRoomForm.get('idTipoHabitacion')?.setValue(tipo.idTipoHabitacion);
       }
+
     });
   }
 

@@ -12,7 +12,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { EditAccommodationComponent } from './components/accommodation-list/edit-accommodation/edit-accommodation.component';
 import { EditReservationComponent } from './components/reservation-list/edit-reservation/edit-reservation.component';
 import { EditRoomComponent } from './components/room-list/edit-room/edit-room.component';
-import { EditUserPassComponent } from './edit-user-pass/edit-user-pass.component';
+import { EditUserPassComponent } from './components/edit-user-pass/edit-user-pass.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { NewAccommodationComponent } from './components/new-accommodation/new-accommodation.component';
 import { NewRoomComponent } from './components/new-room/new-room.component';

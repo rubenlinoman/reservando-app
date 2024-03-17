@@ -251,6 +251,8 @@ export class RoomListComponent {
             this.roomRows[index].descripcion = result.descripcion;
             this.roomRows[index].capacidad = result.capacidad;
             this.roomRows[index].precio = result.precio;
+            this.roomRows[index].enOferta = result.enOferta;
+            this.roomRows[index].descuento = result.descuento;
             this.roomRows[index].idTipoHabitacion = result.idTipoHabitacion;
 
             // Si la imagen no está vacía, actualizarla
